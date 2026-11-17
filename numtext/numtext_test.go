@@ -84,7 +84,6 @@ func TestDecimalAccepted(t *testing.T) {
 		"123456789012345678901234567890":   0,
 		"1234567890123456789012345.12345":  5,
 		"-1234567890123456789012345.12345": 5,
-		"0.000000000000000000000000000001": 30,
 	}
 	for text, places := range cases {
 		value := accepted(t, Decimal, text)
@@ -98,6 +97,15 @@ func TestDecimalAccepted(t *testing.T) {
 			t.Errorf("%q: places %d, want %d", text, value.Decimal.Scale(), places)
 		}
 	}
+}
+
+func TestADecimalOfThirtyDigitsInAllIsTheLimit(t *testing.T) {
+	atLimit := "0." + strings.Repeat("0", 28) + "1"
+	value := accepted(t, Decimal, atLimit)
+	if value.Decimal.Scale() != 29 || value.Decimal.String() != atLimit {
+		t.Fatalf("got %q with %d places", value.Decimal.String(), value.Decimal.Scale())
+	}
+	refused(t, Decimal, "0."+strings.Repeat("0", 29)+"1", ReasonTooManyDigits)
 }
 
 func TestDecimalRefused(t *testing.T) {
