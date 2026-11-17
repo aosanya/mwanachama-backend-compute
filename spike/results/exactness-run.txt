@@ -1,0 +1,339 @@
+$ go test -v ./measure/
+=== RUN   TestBatchRowsAreDeterministic
+--- PASS: TestBatchRowsAreDeterministic (0.00s)
+=== RUN   TestBatchRunsAgreeAcrossEngines
+--- PASS: TestBatchRunsAgreeAcrossEngines (0.01s)
+=== RUN   TestRunDoesNotChangeItsInputs
+=== RUN   TestRunDoesNotChangeItsInputs/cel-go
+=== RUN   TestRunDoesNotChangeItsInputs/expr-lang
+=== RUN   TestRunDoesNotChangeItsInputs/own
+--- PASS: TestRunDoesNotChangeItsInputs (0.00s)
+    --- PASS: TestRunDoesNotChangeItsInputs/cel-go (0.00s)
+    --- PASS: TestRunDoesNotChangeItsInputs/expr-lang (0.00s)
+    --- PASS: TestRunDoesNotChangeItsInputs/own (0.00s)
+=== RUN   TestOneProgramFromManyGoroutines
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f03
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f05
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f06
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f07
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f08
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f15
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f03
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f05
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f06
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f07
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f08
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f15
+=== RUN   TestOneProgramFromManyGoroutines/own/f03
+=== RUN   TestOneProgramFromManyGoroutines/own/f05
+=== RUN   TestOneProgramFromManyGoroutines/own/f06
+=== RUN   TestOneProgramFromManyGoroutines/own/f07
+=== RUN   TestOneProgramFromManyGoroutines/own/f08
+=== RUN   TestOneProgramFromManyGoroutines/own/f15
+--- PASS: TestOneProgramFromManyGoroutines (2.48s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f03 (0.32s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f05 (0.07s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f06 (0.29s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f07 (0.06s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f08 (0.11s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f15 (0.18s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f03 (0.23s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f05 (0.05s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f06 (0.23s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f07 (0.05s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f08 (0.10s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f15 (0.15s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f03 (0.20s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f05 (0.04s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f06 (0.13s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f07 (0.06s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f08 (0.08s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f15 (0.14s)
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/cel-go
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/expr-lang
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/own
+--- PASS: TestSharedLibraryProgramsFromManyGoroutines (1.93s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/cel-go (0.56s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/expr-lang (0.51s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/own (0.87s)
+=== RUN   TestFloatBaselineIsInexact
+    exactness_test.go:62: float64 0.1 + 0.2 = 0.30000000000000004, which is not 0.3
+--- PASS: TestFloatBaselineIsInexact (0.00s)
+=== RUN   TestTenthsAddExactly
+=== RUN   TestTenthsAddExactly/cel-go
+=== RUN   TestTenthsAddExactly/expr-lang
+=== RUN   TestTenthsAddExactly/own
+--- PASS: TestTenthsAddExactly (0.00s)
+    --- PASS: TestTenthsAddExactly/cel-go (0.00s)
+    --- PASS: TestTenthsAddExactly/expr-lang (0.00s)
+    --- PASS: TestTenthsAddExactly/own (0.00s)
+=== RUN   TestRoundingHalfAwayFromZero
+=== RUN   TestRoundingHalfAwayFromZero/cel-go
+=== RUN   TestRoundingHalfAwayFromZero/expr-lang
+=== RUN   TestRoundingHalfAwayFromZero/own
+--- PASS: TestRoundingHalfAwayFromZero (0.00s)
+    --- PASS: TestRoundingHalfAwayFromZero/cel-go (0.00s)
+    --- PASS: TestRoundingHalfAwayFromZero/expr-lang (0.00s)
+    --- PASS: TestRoundingHalfAwayFromZero/own (0.00s)
+=== RUN   TestDivisionThenRound
+=== RUN   TestDivisionThenRound/cel-go
+    exactness_test.go:127: cel-go: 10.00 / 3 = 3.333333333333333333 (18 places)
+=== RUN   TestDivisionThenRound/expr-lang
+    exactness_test.go:127: expr-lang: 10.00 / 3 = 3.333333333333333333 (18 places)
+=== RUN   TestDivisionThenRound/own
+    exactness_test.go:127: own: 10.00 / 3 = 3.333333333333333333 (18 places)
+--- PASS: TestDivisionThenRound (0.00s)
+    --- PASS: TestDivisionThenRound/cel-go (0.00s)
+    --- PASS: TestDivisionThenRound/expr-lang (0.00s)
+    --- PASS: TestDivisionThenRound/own (0.00s)
+=== RUN   TestDecimalAndFloatNeverMix
+=== RUN   TestDecimalAndFloatNeverMix/cel-go
+    exactness_test.go:146: cel-go refuses "a + f": ERROR: <input>:1:3: found no matching overload for '_+_' applied to '(decimal, double)' |  | a + f |  | ..^
+    exactness_test.go:146: cel-go refuses "a > f": ERROR: <input>:1:3: found no matching overload for '_>_' applied to '(decimal, double)' |  | a > f |  | ..^
+=== RUN   TestDecimalAndFloatNeverMix/expr-lang
+    exactness_test.go:146: expr-lang refuses "a + f": invalid operation: + (mismatched types numeric.Decimal and float64) (1:3) |  | a + f |  | ..^
+    exactness_test.go:146: expr-lang refuses "a > f": invalid operation: > (mismatched types numeric.Decimal and float64) (1:3) |  | a > f |  | ..^
+=== RUN   TestDecimalAndFloatNeverMix/own
+    exactness_test.go:146: own refuses "a + f": The formula cannot be used: a decimal and a float cannot be combined, convert one with to_float or to_decimal at line 1, column 3.
+    exactness_test.go:146: own refuses "a > f": The formula cannot be used: a decimal and a float cannot be combined, convert one with to_float or to_decimal at line 1, column 3.
+--- PASS: TestDecimalAndFloatNeverMix (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/cel-go (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/expr-lang (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/own (0.00s)
+=== RUN   TestExplicitConversionsWork
+=== RUN   TestExplicitConversionsWork/cel-go
+=== RUN   TestExplicitConversionsWork/expr-lang
+=== RUN   TestExplicitConversionsWork/own
+--- PASS: TestExplicitConversionsWork (0.00s)
+    --- PASS: TestExplicitConversionsWork/cel-go (0.00s)
+    --- PASS: TestExplicitConversionsWork/expr-lang (0.00s)
+    --- PASS: TestExplicitConversionsWork/own (0.00s)
+=== RUN   TestFastPathOverflowStaysExact
+=== RUN   TestFastPathOverflowStaysExact/cel-go
+=== RUN   TestFastPathOverflowStaysExact/cel-go/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/cel-go/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/cel-go/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/cel-go/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/cel-go/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/cel-go/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/cel-go/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/cel-go/mean_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/expr-lang
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/mean_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/own
+=== RUN   TestFastPathOverflowStaysExact/own/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/own/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/own/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/own/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/own/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/own/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/own/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/own/mean_of_twenty_large_values
+--- PASS: TestFastPathOverflowStaysExact (0.00s)
+    --- PASS: TestFastPathOverflowStaysExact/cel-go (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/mean_of_twenty_large_values (0.00s)
+    --- PASS: TestFastPathOverflowStaysExact/expr-lang (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/mean_of_twenty_large_values (0.00s)
+    --- PASS: TestFastPathOverflowStaysExact/own (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/mean_of_twenty_large_values (0.00s)
+PASS
+ok  	github.com/aosanya/mwanachama-backend-compute/spike/measure	4.649s
+
+$ go test -race -v ./measure/
+=== RUN   TestBatchRowsAreDeterministic
+--- PASS: TestBatchRowsAreDeterministic (0.00s)
+=== RUN   TestBatchRunsAgreeAcrossEngines
+--- PASS: TestBatchRunsAgreeAcrossEngines (0.09s)
+=== RUN   TestRunDoesNotChangeItsInputs
+=== RUN   TestRunDoesNotChangeItsInputs/cel-go
+=== RUN   TestRunDoesNotChangeItsInputs/expr-lang
+=== RUN   TestRunDoesNotChangeItsInputs/own
+--- PASS: TestRunDoesNotChangeItsInputs (0.01s)
+    --- PASS: TestRunDoesNotChangeItsInputs/cel-go (0.00s)
+    --- PASS: TestRunDoesNotChangeItsInputs/expr-lang (0.00s)
+    --- PASS: TestRunDoesNotChangeItsInputs/own (0.00s)
+=== RUN   TestOneProgramFromManyGoroutines
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f03
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f05
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f06
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f07
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f08
+=== RUN   TestOneProgramFromManyGoroutines/cel-go/f15
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f03
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f05
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f06
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f07
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f08
+=== RUN   TestOneProgramFromManyGoroutines/expr-lang/f15
+=== RUN   TestOneProgramFromManyGoroutines/own/f03
+=== RUN   TestOneProgramFromManyGoroutines/own/f05
+=== RUN   TestOneProgramFromManyGoroutines/own/f06
+=== RUN   TestOneProgramFromManyGoroutines/own/f07
+=== RUN   TestOneProgramFromManyGoroutines/own/f08
+=== RUN   TestOneProgramFromManyGoroutines/own/f15
+--- PASS: TestOneProgramFromManyGoroutines (47.27s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f03 (7.14s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f05 (1.06s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f06 (7.03s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f07 (1.26s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f08 (1.63s)
+    --- PASS: TestOneProgramFromManyGoroutines/cel-go/f15 (2.85s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f03 (3.15s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f05 (0.71s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f06 (4.99s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f07 (1.39s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f08 (2.94s)
+    --- PASS: TestOneProgramFromManyGoroutines/expr-lang/f15 (3.44s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f03 (4.56s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f05 (0.46s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f06 (1.28s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f07 (0.72s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f08 (0.83s)
+    --- PASS: TestOneProgramFromManyGoroutines/own/f15 (1.80s)
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/cel-go
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/expr-lang
+=== RUN   TestSharedLibraryProgramsFromManyGoroutines/own
+--- PASS: TestSharedLibraryProgramsFromManyGoroutines (25.47s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/cel-go (8.42s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/expr-lang (12.15s)
+    --- PASS: TestSharedLibraryProgramsFromManyGoroutines/own (4.90s)
+=== RUN   TestFloatBaselineIsInexact
+    exactness_test.go:62: float64 0.1 + 0.2 = 0.30000000000000004, which is not 0.3
+--- PASS: TestFloatBaselineIsInexact (0.00s)
+=== RUN   TestTenthsAddExactly
+=== RUN   TestTenthsAddExactly/cel-go
+=== RUN   TestTenthsAddExactly/expr-lang
+=== RUN   TestTenthsAddExactly/own
+--- PASS: TestTenthsAddExactly (0.01s)
+    --- PASS: TestTenthsAddExactly/cel-go (0.01s)
+    --- PASS: TestTenthsAddExactly/expr-lang (0.01s)
+    --- PASS: TestTenthsAddExactly/own (0.00s)
+=== RUN   TestRoundingHalfAwayFromZero
+=== RUN   TestRoundingHalfAwayFromZero/cel-go
+=== RUN   TestRoundingHalfAwayFromZero/expr-lang
+=== RUN   TestRoundingHalfAwayFromZero/own
+--- PASS: TestRoundingHalfAwayFromZero (0.03s)
+    --- PASS: TestRoundingHalfAwayFromZero/cel-go (0.02s)
+    --- PASS: TestRoundingHalfAwayFromZero/expr-lang (0.00s)
+    --- PASS: TestRoundingHalfAwayFromZero/own (0.00s)
+=== RUN   TestDivisionThenRound
+=== RUN   TestDivisionThenRound/cel-go
+    exactness_test.go:127: cel-go: 10.00 / 3 = 3.333333333333333333 (18 places)
+=== RUN   TestDivisionThenRound/expr-lang
+    exactness_test.go:127: expr-lang: 10.00 / 3 = 3.333333333333333333 (18 places)
+=== RUN   TestDivisionThenRound/own
+    exactness_test.go:127: own: 10.00 / 3 = 3.333333333333333333 (18 places)
+--- PASS: TestDivisionThenRound (0.01s)
+    --- PASS: TestDivisionThenRound/cel-go (0.00s)
+    --- PASS: TestDivisionThenRound/expr-lang (0.00s)
+    --- PASS: TestDivisionThenRound/own (0.00s)
+=== RUN   TestDecimalAndFloatNeverMix
+=== RUN   TestDecimalAndFloatNeverMix/cel-go
+    exactness_test.go:146: cel-go refuses "a + f": ERROR: <input>:1:3: found no matching overload for '_+_' applied to '(decimal, double)' |  | a + f |  | ..^
+    exactness_test.go:146: cel-go refuses "a > f": ERROR: <input>:1:3: found no matching overload for '_>_' applied to '(decimal, double)' |  | a > f |  | ..^
+=== RUN   TestDecimalAndFloatNeverMix/expr-lang
+    exactness_test.go:146: expr-lang refuses "a + f": invalid operation: + (mismatched types numeric.Decimal and float64) (1:3) |  | a + f |  | ..^
+    exactness_test.go:146: expr-lang refuses "a > f": invalid operation: > (mismatched types numeric.Decimal and float64) (1:3) |  | a > f |  | ..^
+=== RUN   TestDecimalAndFloatNeverMix/own
+    exactness_test.go:146: own refuses "a + f": The formula cannot be used: a decimal and a float cannot be combined, convert one with to_float or to_decimal at line 1, column 3.
+    exactness_test.go:146: own refuses "a > f": The formula cannot be used: a decimal and a float cannot be combined, convert one with to_float or to_decimal at line 1, column 3.
+--- PASS: TestDecimalAndFloatNeverMix (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/cel-go (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/expr-lang (0.00s)
+    --- PASS: TestDecimalAndFloatNeverMix/own (0.00s)
+=== RUN   TestExplicitConversionsWork
+=== RUN   TestExplicitConversionsWork/cel-go
+=== RUN   TestExplicitConversionsWork/expr-lang
+=== RUN   TestExplicitConversionsWork/own
+--- PASS: TestExplicitConversionsWork (0.00s)
+    --- PASS: TestExplicitConversionsWork/cel-go (0.00s)
+    --- PASS: TestExplicitConversionsWork/expr-lang (0.00s)
+    --- PASS: TestExplicitConversionsWork/own (0.00s)
+=== RUN   TestFastPathOverflowStaysExact
+=== RUN   TestFastPathOverflowStaysExact/cel-go
+=== RUN   TestFastPathOverflowStaysExact/cel-go/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/cel-go/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/cel-go/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/cel-go/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/cel-go/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/cel-go/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/cel-go/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/cel-go/mean_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/expr-lang
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/expr-lang/mean_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/own
+=== RUN   TestFastPathOverflowStaysExact/own/product_leaves_int64
+=== RUN   TestFastPathOverflowStaysExact/own/product_and_back_down
+=== RUN   TestFastPathOverflowStaysExact/own/int64_maximum_plus_one
+=== RUN   TestFastPathOverflowStaysExact/own/negating_the_int64_minimum
+=== RUN   TestFastPathOverflowStaysExact/own/square_of_a_large_integer
+=== RUN   TestFastPathOverflowStaysExact/own/sum_of_twenty_large_values
+=== RUN   TestFastPathOverflowStaysExact/own/sum_chain_back_to_a_small_result
+=== RUN   TestFastPathOverflowStaysExact/own/mean_of_twenty_large_values
+--- PASS: TestFastPathOverflowStaysExact (0.01s)
+    --- PASS: TestFastPathOverflowStaysExact/cel-go (0.01s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/cel-go/mean_of_twenty_large_values (0.00s)
+    --- PASS: TestFastPathOverflowStaysExact/expr-lang (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/expr-lang/mean_of_twenty_large_values (0.00s)
+    --- PASS: TestFastPathOverflowStaysExact/own (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/product_leaves_int64 (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/product_and_back_down (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/int64_maximum_plus_one (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/negating_the_int64_minimum (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/square_of_a_large_integer (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/sum_of_twenty_large_values (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/sum_chain_back_to_a_small_result (0.00s)
+        --- PASS: TestFastPathOverflowStaysExact/own/mean_of_twenty_large_values (0.00s)
+PASS
+ok  	github.com/aosanya/mwanachama-backend-compute/spike/measure	74.187s
