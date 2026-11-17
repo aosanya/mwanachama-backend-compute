@@ -15,9 +15,10 @@ It is written against [batch evaluation](../2.%20design/batch-evaluation.md) and
 | Chunk k | rows (k-1) x `ChunkSize` + 1 to the smaller of k x `ChunkSize` and the row count; only the last chunk may be shorter |
 | `ChunkSize` | default 100 (0 gives the default); 1 to 10,000 |
 | `Workers` | default 1 (0 gives the default); 1 to 64 |
-| Rows per call | at most 10,000; more is refused with `too-many-rows` |
+| Rows per call | at most the agency's setting (decision 16), proposed default 10,000; more is refused whole with `too-many-rows` before any row is worked out |
 | Row number | position in the list plus 1 |
 | Answer of a row | exactly one of a value or a non-empty problem list, with the stage `validate`, `calculate` or `batch` |
+| Stages of a bulk run | a calculation batch that finishes as a whole, then an actualization batch that posts or releases the results. The library does only the calculation stage (decision 17); every case here is a calculation batch |
 
 ## How a case is read
 
@@ -207,7 +208,7 @@ BR-55, average as two pushed inputs. Provisional: average is a pushed sum and a 
 
 BR-56, the limit stated on the batch page. The library cannot check that the total covers the same rows. Formula F with only the rows 250.00 and 500.00, total 1,000.00, payout 400.00: answers 100.00 and 200.00 and no problem. The test's own check finds the rows sum to 750.00, not 1,000.00; matching them is the host's duty.
 
-BR-57, held. 100.00 among 7 members of equal contribution, total 700.00, payout 100.00. Each share is 14.2857..., so the figure depends on the rounding mode: rounding down gives 14.28, 7 shares of 99.96 and a left-over of 0.04 (EM-31 on [exact money](exact-money.md)); rounding to the nearest cent gives 14.29, 7 shares of 100.03, which pays out more than the payout. Not run until the owner answers open question 2.
+BR-57, a split that does not divide evenly. 100.00 among 7 members of equal contribution, total 700.00, payout 100.00. Each share is 14.2857..., and by decision 13 each share is cut down to the smallest unit: 14.28 on every row. The 7 shares add to 99.96, which is the payout, and the left-over 0.04 stays in the account the payout came from (EM-31 on [exact money](exact-money.md)). Rounding to the nearest cent would give 14.29 and 7 shares of 100.03, more than the payout, so a split never does that.
 
 ## 7. Whole-batch limits
 
@@ -223,9 +224,9 @@ The call returns an error, no row is calculated and no result list comes back.
 | BR-63 | 3 rows, `ChunkSize` -1; and 3 rows, `Workers` -1 | `bad-chunk-size`; `bad-workers` | 10,000; 64 | -1; -1 |
 | BR-64 | 10,001 rows and `Workers` 65 | `too-many-rows` | 10,000 | 10,001 |
 
-Provisional: the limits are the batch page's proposals, and the Limit and Got of BR-63 and the choice of error in BR-64 are proposals (open question 6). A batch of exactly 10,000 rows is accepted (BR-09).
+Provisional: the row limit is the agency's setting (decision 16) and not a constant of the library; these cases run with an agency setting of 10,000, which is the proposed default, and a call over the setting is refused whole before any row is worked out. The chunk-size and worker limits are the batch page's proposals, and the Limit and Got of BR-63 and the choice of error in BR-64 are proposals (open question 6). A batch of exactly the agency's limit is accepted (BR-09). A case with a smaller agency setting is held until the owner names the ceiling (open question 11).
 
-### Cost or time limit of the whole batch
+### Cost limit of the whole batch
 
 Provisional: all of BR-65 to BR-69 wait for the limits, which the engine choice sets. The case uses a batch cost limit of 250 x c, where c is the cost of one row of formula M read from a single run, so the cases do not depend on the engine's units. Rows are by rule R1, 450 rows, 1 worker, so which rows are left unstarted is the same on every run.
 
@@ -242,13 +243,13 @@ In BR-65 the third chunk starts at 200c, below the limit, and runs to 300c; the 
 
 BR-69, a bad row inside the done rows and one in the rows left. As BR-65, but rows 120 and 350 have a negative balance. Row 120 is in a started chunk and carries `balance (-1,200.00) no-negatives` at stage `validate`. Row 350 is never started and carries `batch-limit-reached` at stage `batch`, not a validation problem, because it was never looked at. Valued 299 with a sum of 2,251.50, Stopped 1, NotRun 150. This holds whether or not a row stopped at validate spends any of the limit: chunk 3 starts with at least 199c spent, below the limit, and chunk 4 does not start because the 299 valued rows alone spend 299c.
 
-BR-70, a time limit. Provisional: the same 450 rows with a batch time limit and with 1 and 4 workers. Which rows are left is not repeatable, so the test does not ask for any particular rows. It asserts: no error; Valued + Stopped + NotRun equals 450; every row either equals its single run or carries `batch-limit-reached` at stage `batch`; no row carries both a value and a problem.
+BR-70, a cost limit with more than 1 worker. Provisional: the same 450 rows with the batch cost limit and 4 workers (there is no time limit, decision 19). Which rows are left is not repeatable with more than 1 worker, so the test does not ask for any particular rows. It asserts: no error; Valued + Stopped + NotRun equals 450; every row either equals its single run or carries `batch-limit-reached` at stage `batch`; no row carries both a value and a problem.
 
-BR-71, a row over its own limit. Provisional: group B of [hostile formulas](hostile-formulas.md), B01 to B05, read as the batch page reads them: one formula, many rows, the hostile row being the hostile input. B01: 100 rows, one hostile at row 57; the other 99 rows carry what they carry alone, row 57 carries its own refusal sentence, the call returns no error, the batch time is bounded. B03: the hostile row is row 1. B04 and B05: one and two rows over the time limit in the middle, each carrying "This formula goes over the time limit of {value}."; the rows around them carry values. The formula and the hostile input are those of the hostile page (for example C02); nothing is invented here.
+BR-71, a row over its own limit. Provisional: group B of [hostile formulas](hostile-formulas.md), B01 to B05, read as the batch page reads them: one formula, many rows, the hostile row being the hostile input. B01: 100 rows, one hostile at row 57; the other 99 rows carry what they carry alone, row 57 carries its own refusal sentence, the call returns no error, the batch work is bounded. B03: the hostile row is row 1. B04 and B05: one and two rows over the cost limit at run time in the middle, each carrying "This formula goes over the cost limit of {value}." at stage `calculate`; the rows around them carry values. The formula and the hostile input are those of the hostile page (for example C02); nothing is invented here.
 
 ## 8. Cancel and restart
 
-The library keeps no state between calls, so "restart" is the host calling again. Provisional: a context cancel or deadline counts as the batch time limit, rows not started carry `batch-cancelled` at stage `batch`, and the call returns no error. The test cancels in a fixed place with a test-only hook (open question 7). Rows by rule R1, 450 rows, `ChunkSize` 100, 1 worker.
+The library keeps no state between calls, so "restart" is the host calling again. Provisional: whether and how the library honours a host's own cancel or deadline is open (decision 19; open question 8). If it does, a cancel stops the batch at the next chunk edge, rows not started carry `batch-cancelled` at stage `batch`, and the call returns no error. BR-72 to BR-77 follow that proposal and wait for the owner's answer. The test cancels in a fixed place with a test-only hook (open question 7). Rows by rule R1, 450 rows, `ChunkSize` 100, 1 worker.
 
 BR-72, cancelled before the call. Every one of the 450 rows carries `batch-cancelled`. Valued 0, NotRun 450. Called again with a live context, the 450 rows give 0.05 x i, summing to 5,073.75, exactly as a call never preceded by a cancel.
 
@@ -293,15 +294,16 @@ Neither the chunk size nor the number of workers may change the answer of a row 
 The owner has not decided any of these. Each has a proposed answer.
 
 1. When a run is stopped halfway, are the rows already done kept and named, and does the restart run only the rows left? Proposed: yes; the library keeps no state, the host keeps each finished row once and posts it once, and restarts with the rows that carry `batch-cancelled` or `batch-limit-reached`. This is the rule the owner reviews with the treasurer's month-end moment (todo TD-2988); BR-72 to BR-77 follow this proposal and wait for it.
-2. Which rounding mode do splits use, so that the shares never add to more than the payout? Proposed: round down for the shares of a split, which gives 14.28 in BR-57 and leaves 0.04 in the account. Rounding to the nearest cent would pay 100.03 out of 100.00.
+2. Settled by decision 13: the shares of a split are cut down to the smallest unit and the left-over stays in the account the payout came from. BR-57 is run on that rule. The number is kept so the other references hold.
 3. [Laws](laws.md) draws 1 to 200 rows per batch for the random run, and this page uses 10,000. Raised by the batch page, not settled here. Proposed: keep 200 for the random run and use the fixed cases at 10,000 and 10,001 on this page.
 4. The hostile page describes a batch as rows each holding a formula; the batch page runs one formula over many rows. Raised by the batch page, not settled here. This page uses the batch page's reading (BR-71).
 5. Does "the limit has been reached" mean spent is at least the limit? Proposed: yes, as BR-65 and BR-68 assume. If it means more than the limit, one more chunk starts in each.
 6. Which Limit and Got does a refused call report for a value below the range (BR-63), and which error wins when two are wrong at once (BR-64)? Proposed: the upper limit and the number received; rows first, then chunk size, then workers.
 7. May the test build have hooks to hold a chunk, cancel at a chunk edge, count rows in work and read the cost of one row? Proposed: yes, compiled only into tests, never into the library a host imports.
-8. The batch page lets a started chunk finish after a cancel; the hostile page (L09) says the engine returns at once when the host's deadline passes. Proposed: a started chunk finishes its rows, each bound by its own limits, as the batch page says.
-9. What stage does a row that goes over its own cost or time limit carry? Proposed: `calculate`.
+8. Is a host's own cancel or deadline honoured at all? Decision 19 leaves it open. The batch page lets a started chunk finish after a cancel; the hostile page (L09) waits on the same answer. Proposed: yes, and a started chunk finishes its rows, each bound by its own cost limit, as the batch page says.
+9. What stage does a row that goes over its own cost limit at run time carry? Proposed: `calculate`, and it follows the step's failure choice (decision 19).
 10. Are 32 MiB beyond the rows and results for 10,000 rows, and 1 MiB of drift over 100 calls, the right memory limits? Proposed: yes as a start; the engine choice sets the real figures.
+11. What is the ceiling above which no agency may set its rows per batch, and who cuts a run larger than the agency's limit into several calculation batches, the platform or the builder? (decisions 16 and 17; the agency steps decision 11). Proposed for the ceiling: 10,000, the batch page's proposed default. No proposal is made for who cuts the run.
 
 ## How the figures were checked
 
