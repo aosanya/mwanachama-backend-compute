@@ -93,10 +93,21 @@ Example: a formula holds `fin.pmt@7(12000, 0.01, 24)`, but the library has versi
 
 > Error: `fin.pmt@7` does not exist. Latest is `fin.pmt@2`. Publish refused.
 
+## 8. Stopping a version found unsafe
+
+Decided by the owner on 2026-11-17 (decision 11 on `1. requirements/decisions.md`):
+
+- A known-wrong version keeps running. The builder sees a loud notice and a one-step upgrade, as in section 6.
+- Only the platform owner may stop a version found unsafe. The stop is for every agency at once. Each step that calls the stopped version then follows its own failure choice (the calculating step's choice of going to a named step or stopping and telling the person).
+- No version is stopped automatically after a set time. There is no clock in this page's rules.
+- A builder or an agency cannot stop a version for itself or for others; it moves to a newer version instead.
+
 ## Open for the owner
 
-Open question: can a known-wrong version ever be made to stop running (for example when a result is unsafe), and who may decide that?
+Still open, with no proposal made here:
 
-This is not decided on this page. Until it is decided, a known-wrong version keeps running and only warns.
+- What counts as unsafe.
+- How a stop and its reason are recorded.
+- What people see when a step cannot run because its version is stopped.
 
 This section needs the owner's answer before the page is final.
