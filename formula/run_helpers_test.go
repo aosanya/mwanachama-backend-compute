@@ -219,7 +219,10 @@ func runPayment(args []Value) (Value, *Problem) {
 
 func runPlanAndRun(t *testing.T, formula string, text string, runtime Runtime) (Value, []Problem, *Problem) {
 	t.Helper()
-	tree := mustParse(t, formula)
+	tree, parseProblems := Parse(formula)
+	if len(parseProblems) != 0 {
+		return Value{}, parseProblems, nil
+	}
 	list := runInputsOf(t, text)
 	program, problems := Plan(tree, runDeclared(list), runtime, DefaultOptions())
 	if len(problems) != 0 {
