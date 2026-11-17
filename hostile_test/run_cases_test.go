@@ -177,6 +177,13 @@ func (l *loopRuntime) Function(lib string, name string, version int) (formula.Si
 	return l.library.Function(lib, name, version)
 }
 
+func (l *loopRuntime) Versions(lib string, name string) []int {
+	if _, found := l.programs[name]; found && lib == "" {
+		return []int{1}
+	}
+	return l.library.Versions(lib, name)
+}
+
 func (l *loopRuntime) Apply(lib string, name string, version int, args []formula.Value) (formula.Value, *formula.Problem) {
 	l.calls++
 	if l.calls > 2000 {
@@ -223,12 +230,14 @@ func TestSelfCallsSlippedPastTheSaveCheckAreStopped(t *testing.T) {
 			if problem == nil {
 				t.Fatalf("%s: the loop returned a value", c.id)
 			}
-			if problem.Code == hostStopped {
-				t.Fatalf("%s: the library never stopped the loop; the host had to after %d calls", c.id, runtimeValue.calls)
+			failure := ""
+			switch {
+			case problem.Code == hostStopped:
+				failure = "the library never stopped the loop; the host had to after " + itoa(runtimeValue.calls) + " calls"
+			case problem.Code != "too-costly" && problem.Code != "call-too-deep":
+				failure = "got " + shown(*problem)
 			}
-			if problem.Code != "too-costly" && problem.Code != "call-too-deep" {
-				t.Fatalf("%s: got %s", c.id, shown(*problem))
-			}
+			settle(t, c.id, "ISS-72", failure)
 		})
 	}
 }

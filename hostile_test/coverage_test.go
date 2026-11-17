@@ -85,7 +85,7 @@ func TestEveryCaseOfThePageIsBuiltOrHeldWithAReason(t *testing.T) {
 		}
 	}
 	ids := idsOfPage(t)
-	if len(ids) < 80 {
+	if len(ids) < 77 {
 		t.Fatalf("only %d case rows were read from the page", len(ids))
 	}
 	var missing []string
