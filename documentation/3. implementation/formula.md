@@ -57,6 +57,7 @@ None of these is in the language page. All are proposed and tested.
 - The second argument of `round` and `to_decimal` must be an integer written in the formula from 0 to 10, otherwise `wrong-argument-type`.
 - `bad-tree` words follow the set on the language page. `the value {value} is not a {type}` keeps the page's article, so it reads `is not a integer`.
 - A call has at most 8 arguments through the signature of its callee, so a ninth is `wrong-argument-count`.
+- A carriage return that is not followed by a line feed is refused by Parse as an unexpected control character at its column (ISS-73). A line feed and a carriage return with a line feed are blanks. The language page says a carriage return is a blank, and the hostile page (P14) says it is refused; this follows the hostile page, and the owner has not decided.
 
 ## Ideas taken from the two libraries
 
