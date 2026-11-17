@@ -98,8 +98,8 @@ func TestEveryRecordedCaseGivesTheRecordedAnswerThroughTheRegistry(t *testing.T)
 	if err != nil {
 		t.Fatalf("the recorded cases cannot be read: %v", err)
 	}
-	if len(versions) != 10 {
-		t.Fatalf("10 functions are recorded and %d data files were read", len(versions))
+	if len(versions) != len(functions.All()) {
+		t.Fatalf("%d functions are in the library and %d data files were read", len(functions.All()), len(versions))
 	}
 	run, skipped := 0, 0
 	for _, key := range functions.SortedKeys(versions) {
