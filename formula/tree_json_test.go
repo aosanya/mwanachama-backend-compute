@@ -99,7 +99,7 @@ func TestTextIsKeptWhateverItHolds(t *testing.T) {
 	for _, value := range []string{`a<b>&c`, `say "hi" \ now`, "café   end", ``, `  spaced  `} {
 		tree := Tree{Root: Binary{Op: "==", Left: Name{Name: "label"}, Right: Literal{Type: TypeText, Value: value}}}
 		data := TreeToJSON(tree)
-		if strings.Contains(string(data), `<`) || strings.Contains(string(data), `&`) {
+		if strings.Contains(string(data), escaped("003c")) || strings.Contains(string(data), escaped("0026")) {
 			t.Errorf("markup characters are escaped in %s", data)
 		}
 		back, problems := TreeFromJSON(data)
@@ -241,4 +241,8 @@ func TestATreeReadFromJSONGivesTheSameCheckProblemsAsItsText(t *testing.T) {
 	if !reflect.DeepEqual(Check(back, known, testLibrary()), Check(tree, known, testLibrary())) {
 		t.Fatalf("Check differs between the tree and its JSON round trip")
 	}
+}
+
+func escaped(code string) string {
+	return "\\u" + code
 }
