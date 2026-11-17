@@ -6,7 +6,7 @@ Status: the owner has not yet reviewed this page. Every number marked "proposed"
 
 Hand-picked examples show that the engine works on the cases someone thought of. The laws below must hold on every input, so each one is tested on generated inputs. This repo computes values and agencies pin to release tags, so a broken law is a broken promise to every agency that pinned the version.
 
-Terms used on this page. The meanings of Check and Validate are proposed; the owner has not confirmed them:
+Terms used on this page. The meanings of Check and Validate are decision 18; the other meanings are proposed:
 
 | Term | Meaning |
 |---|---|
@@ -20,8 +20,8 @@ Terms used on this page. The meanings of Check and Validate are proposed; the ow
 
 The formula generator produces random trees within the language's limits. Every tree it produces passes Check.
 
-- Proposed limits: depth at most 6, at most 40 nodes, at most 8 inputs per formula.
-- Proposed batch size: 1 to 200 rows per batch run.
+- Limits, equal to the language page's proposed limits so that every generated tree passes Check: depth at most 12, at most 100 nodes, at most 8 inputs per formula, cost at most 20000, formula text at most 500 characters.
+- Proposed batch size: 1 to 200 rows per batch run. An agency sets its own row limit (decision 16), which is larger; the fixed cases at the limit and one over it are on the bulk runs page.
 - Each case has a fixed seed. A failure prints the seed, and running that seed again produces the same tree and the same failure.
 - A failing tree is shrunk to the smallest tree that still fails, and the shrunk tree is what the report shows.
 - The nightly run logs its seed at the start, so any night can be replayed.
@@ -163,8 +163,8 @@ All counts are proposed.
 
 The owner has not decided:
 
-1. The final generator limits (depth, nodes, inputs, rows per batch). They must equal the language's limits once that page fixes them.
+1. The final generator limits. Depth, nodes, inputs, cost and text length now equal the language page's proposed values and move with it. The random batch size of 1 to 200 rows stays a test choice; the agency's limit and its ceiling are open on the batch page.
 2. The case counts of a normal run and a nightly run.
 3. How many past library versions laws 5 and 6 replay.
 4. The hash function for law 3.
-5. What Check and Validate each cover. This page reads Check as testing a tree against the language's limits and Validate as testing a row of inputs; the owner has not confirmed that split.
+5. Settled by decision 18: Check reads the formula text alone and covers everything about it, and Validate covers only the values given when the formula runs. The number is kept so the other references hold.
