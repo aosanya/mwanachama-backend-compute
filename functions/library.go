@@ -29,7 +29,10 @@ func (f Function) ParamOrder() []string {
 }
 
 func All() []Function {
-	return nil
+	return []Function{
+		balanceAfterPayment, equalShare, lateDays, flatInstalment, prorateFee,
+		straightLineValue, coverageRatio, proportionalShare, spread, remainder,
+	}
 }
 
 func Find(key string) (Function, bool) {
