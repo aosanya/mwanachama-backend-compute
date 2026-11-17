@@ -333,18 +333,22 @@ func (p *parser) group() (Node, *syntaxFailure) {
 }
 
 func (p *parser) list() (Node, *syntaxFailure) {
-	items, failure := p.sequence("]")
+	items, failure := p.sequence("]", false)
 	if failure != nil {
 		return nil, failure
 	}
 	return List{Items: items}, nil
 }
 
-func (p *parser) sequence(closing string) ([]Node, *syntaxFailure) {
+func (p *parser) sequence(closing string, mayBeEmpty bool) ([]Node, *syntaxFailure) {
 	if failure := p.open(); failure != nil {
 		return nil, failure
 	}
-	var items []Node
+	items := []Node{}
+	if mayBeEmpty && p.isSymbol(closing) {
+		p.brackets--
+		return items, p.advance()
+	}
 	for {
 		item, failure := p.conditional()
 		if failure != nil {
@@ -416,7 +420,7 @@ func (p *parser) nameOrCall() (Node, *syntaxFailure) {
 		}
 		return Name{Name: name}, nil
 	}
-	args, failure := p.sequence(")")
+	args, failure := p.sequence(")", true)
 	if failure != nil {
 		return nil, failure
 	}

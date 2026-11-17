@@ -96,8 +96,8 @@ var sizeCases = []saveCase{
 
 var reachCases = []saveCase{
 	{id: "O01", text: `read_file("/etc/passwd")`, code: "unknown-function", sentence: unknownFunction("read_file")},
-	{id: "O02", text: "now()", code: "unknown-function", sentence: unknownFunction("now"), known: "ISS-74"},
-	{id: "O03", text: "random()", code: "unknown-function", sentence: unknownFunction("random"), known: "ISS-74"},
+	{id: "O02", text: "now()", code: "unknown-function", sentence: unknownFunction("now")},
+	{id: "O03", text: "random()", code: "unknown-function", sentence: unknownFunction("random")},
 	{id: "O04", text: `http_get("http://example.invalid/")`, code: "unknown-function", sentence: unknownFunction("http_get")},
 	{id: "O05", text: `env("HOME")`, code: "unknown-function", sentence: unknownFunction("env")},
 	{id: "O06", text: `exec("ls")`, code: "unknown-function", sentence: unknownFunction("exec")},

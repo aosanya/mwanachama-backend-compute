@@ -40,7 +40,6 @@ func TestParseRefusals(t *testing.T) {
 		{"version-too-big", `late_days@1000000(a, b)`, "bad-syntax", "The formula cannot be read: a version is a whole number from 1 to 999999 at line 1, column 11.", 1, 11},
 		{"space-before-at", `late_days @ 1(due, filed)`, "bad-syntax", "", 0, 0},
 		{"space-around-dot", `fin . pmt@1(x)`, "bad-syntax", "", 0, 0},
-		{"empty-brackets-of-call", `round()`, "bad-syntax", "", 0, 0},
 		{"empty-list", `max([])`, "bad-syntax", "", 0, 0},
 		{"depth", "!!!!!!!!!!!!suspended", "too-deep", "This formula goes over the depth limit of 12.", 0, 0},
 		{"brackets-open", strings.Repeat("(", 13) + "a" + strings.Repeat(")", 13), "too-deep", "This formula goes over the depth limit of 12.", 0, 0},
@@ -143,6 +142,38 @@ func TestLineBreaksAreBlanksButALoneCarriageReturnIsNot(t *testing.T) {
 		}
 		if got := Format(tree); got != "1 + 2" {
 			t.Fatalf("Format(Parse(%q)) = %q", typed, got)
+		}
+	}
+}
+
+func TestParseReadsACallWithNoArguments(t *testing.T) {
+	for _, name := range []string{"now", "random"} {
+		tree := mustParse(t, name+"()")
+		call, ok := tree.Root.(Call)
+		if !ok || call.Name != name || call.Library != nil || call.Version != nil || len(call.Args) != 0 {
+			t.Fatalf("%s() parsed to %#v", name, tree.Root)
+		}
+		if got := Format(tree); got != name+"()" {
+			t.Fatalf("%s() printed as %q", name, got)
+		}
+	}
+}
+
+func TestParseReadsALibraryCallWithNoArguments(t *testing.T) {
+	tree := mustParse(t, "fin.today@2( )")
+	call, ok := tree.Root.(Call)
+	if !ok || call.Library == nil || *call.Library != "fin" || call.Name != "today" || call.Version == nil || *call.Version != 2 || len(call.Args) != 0 {
+		t.Fatalf("got %#v", tree.Root)
+	}
+	if got := Format(tree); got != "fin.today@2()" {
+		t.Fatalf("printed as %q", got)
+	}
+}
+
+func TestParseStillRefusesEmptyBracketsThatAreNotACall(t *testing.T) {
+	for _, text := range []string{"()", "[]", "max([])", "round(,)", "round(1,)", "now(()"} {
+		if _, problems := Parse(text); len(problems) != 1 || problems[0].Code != "bad-syntax" {
+			t.Errorf("Parse(%q) gave %+v", text, problems)
 		}
 	}
 }

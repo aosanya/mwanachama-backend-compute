@@ -142,7 +142,9 @@ func shapeFaults(root Node) []shapeFault {
 			if node.Version != nil && (*node.Version < 1 || *node.Version > 999999) {
 				faults = append(faults, shapeFault{path, "the value " + strconv.Itoa(*node.Version) + " is not a version from 1 to 999999"})
 			}
-			walkAll(node.Args, path, "args", missing, walk)
+			if len(node.Args) > 0 {
+				walkAll(node.Args, path, "args", missing, walk)
+			}
 		case List:
 			walkAll(node.Items, path, "items", missing, walk)
 		default:

@@ -196,3 +196,37 @@ func TestEveryCodeOfTheLanguagePageHasACase(t *testing.T) {
 		}
 	}
 }
+
+func TestCheckRefusesACallWithNoArguments(t *testing.T) {
+	cases := []struct {
+		name     string
+		text     string
+		code     string
+		sentence string
+	}{
+		{"unknown-now", `now()`, "unknown-function", "The function now is not known."},
+		{"unknown-random", `random()`, "unknown-function", "The function random is not known."},
+		{"unknown-in-library", `fin.today@1()`, "unknown-function", "The function fin.today is not known."},
+		{"builtin-without-arguments", `round()`, "wrong-argument-count", "`round` needs 2 arguments and this call has 0."},
+		{"one-argument-builtin-without-arguments", `sum()`, "wrong-argument-count", "`sum` needs 1 argument and this call has 0."},
+		{"library-without-arguments", `late_days@1()`, "wrong-argument-count", "`late_days@1` needs 2 arguments and this call has 0."},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			got := Check(mustParse(t, c.text), nil, testLibrary())
+			if len(got) != 1 {
+				t.Fatalf("Check gave %d problems: %+v", len(got), got)
+			}
+			if got[0].Code != c.code || got[0].Sentence != c.sentence || got[0].Part != c.text || !reflect.DeepEqual(got[0].Path, Path{}) {
+				t.Fatalf("got %+v", got[0])
+			}
+		})
+	}
+}
+
+func TestCheckRefusesAnEmptyListStillAsABadTree(t *testing.T) {
+	got := Check(Tree{Root: List{}}, nil, testLibrary())
+	if len(got) != 1 || got[0].Code != "bad-tree" {
+		t.Fatalf("got %+v", got)
+	}
+}
