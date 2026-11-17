@@ -12,7 +12,7 @@ Terms used on this page. The meanings of Check and Validate are proposed; the ow
 |---|---|
 | Parse | Text in, formula tree out |
 | Format | Formula tree in, standard text out |
-| Check | Tests that a tree obeys the language's limits and shapes |
+| Check | Tests the formula text alone against everything the language sets: limits, shapes, names, functions, kinds, depth and cost (decision 18) |
 | Validate | Tests a row of inputs against a formula and lists every problem found |
 | batch run | Running one formula over many rows in one call |
 
