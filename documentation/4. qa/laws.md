@@ -6,7 +6,7 @@ Status: the owner has not yet reviewed this page. Every number marked "proposed"
 
 Hand-picked examples show that the engine works on the cases someone thought of. The laws below must hold on every input, so each one is tested on generated inputs. This repo computes values and agencies pin to release tags, so a broken law is a broken promise to every agency that pinned the version.
 
-Terms used on this page:
+Terms used on this page. The meanings of Check and Validate are proposed; the owner has not confirmed them:
 
 | Term | Meaning |
 |---|---|
@@ -167,3 +167,4 @@ The owner has not decided:
 2. The case counts of a normal run and a nightly run.
 3. How many past library versions laws 5 and 6 replay.
 4. The hash function for law 3.
+5. What Check and Validate each cover. This page reads Check as testing a tree against the language's limits and Validate as testing a row of inputs; the owner has not confirmed that split.
