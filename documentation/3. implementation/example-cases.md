@@ -49,6 +49,26 @@ A page that does not exist with no case file passes. The check runs on the real 
 
 The library a case calls is `StandIn`: `late_days@1` and `interest_step@1` are programs planned from the formulas of the language page, `fin.pmt@2` is written for the test, and `fin.pmt@1` and `step_a@1` to `step_e@1` have signatures and no body (they exist so that Check can give `call-too-deep` and the version codes). It stands in until the ten library functions of ISS-27 exist. A case that names a library function that has no body here fails at run time with `unknown-function`.
 
+## Notation for the definitions of the Validate rows (ISS-79, proposed)
+
+A Validate row is checked against a function definition, which the case table has no column for. The definitions are in a second file beside the case file, `testdata/formula-language.definitions.md`, with two tables.
+
+The first table has one row for each input and each check of a definition: `| id | part | name | detail | message |`.
+
+| Part | Name | Detail | Message |
+|---|---|---|---|
+| `input` | the input's name | `<type>: <rule>; <rule>`, with the type written `decimal`, `integer`, `float`, `text`, `date`, `boolean`, `list of decimal` or `list of integer` | empty |
+| `check` | the check's number | the check's formula | the check's message |
+| `from` | the id of another definition | empty | empty |
+
+- The rules are written as on the QA page and separated by `; `: `required`, `no-negatives`, `decimal-places 2`, `min-items 1`, `max-items 12`, `range 1 to 500`, `range more than 0.00` and `allowed-values "a", "b"`. An `allowed-values` with no value is a legal row, because a definition with no allowed value is itself a case.
+- A definition whose rows begin with `from` copies the definition it names. The rows after it with the same part and name replace the copied ones. The six definitions that are refused on save are written this way, as the definition they come from with one change.
+- The rows of one definition are together. The same input twice in one definition is refused.
+
+The second table says which definition each case is checked against and what it checks: `| case | definition | target |`. The target `row` validates the row of the case's `inputs` cell, and runs the formula when the row is clean. The target `definition` runs `CheckDefinition` on the definition and compares its codes, with an empty `inputs` cell.
+
+The loader is `LoadDefinitions` and `ParseDefinitions` in `examplecases/definitions.go`. A malformed file is refused as `<file>:<line>: <reason>`, with the reasons `bad header`, `wrong column count`, `empty cell`, `bad part`, `bad type`, `bad rule`, `duplicate name`, `definition split`, `unknown definition` and `bad target`.
+
 ## Results
 
 - **Run and passing:** the 55 `lang-` cases, with their exact typed results or problem codes in order. No expected result was changed to make a case pass, and none failed.
