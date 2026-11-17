@@ -12,6 +12,19 @@
       "REF-date.late_days-08": "ed61c8b8410cda356f26231b5e9cf496fdbcc003f237fc22a34d5e34fb3f8a08"
     }
   },
+  "edu.term_grade@1": {
+    "state": "draft",
+    "cases": {
+      "REF-edu.term_grade-01": "eb0b30728ecd5387065324a0ebc1cc470afbd44f829b8e826e63d0223b774e8f",
+      "REF-edu.term_grade-02": "bec8de9b96d31597c4f601d2d9fa4267f1b72e976c6d7d92ca5c6eee91e84adb",
+      "REF-edu.term_grade-03": "53add5cbbd46da47f25b188ae7c3206fbf5190bdbdf75e264948f9cb3d2328b2",
+      "REF-edu.term_grade-04": "5dac905b69d5483886c1fa44ae9f2574e08067168b4139fd70ca90f90f645029",
+      "REF-edu.term_grade-05": "daab67de24398bc2d9109b32ae89ec6cd0090cf1276ad1edb3920d679c909e8d",
+      "REF-edu.term_grade-06": "59556728e90c0a998ff6a49eca111bf51bf5df70c72054ff3f54a800b84af0a5",
+      "REF-edu.term_grade-07": "e81b68a68ac9c328d0e0107ff741360abeac59b16dcf4ba28224f8d3a1523480",
+      "REF-edu.term_grade-08": "97f1d49edce820fe9286f8a715680ab495590c31f2fee02c1396e61f3af2da94"
+    }
+  },
   "fin.balance_after_payment@1": {
     "state": "draft",
     "cases": {
@@ -51,6 +64,19 @@
       "REF-fin.equal_share-08": "30f35cca252677d38340c377399c825b0e6449f6068f1847014640912c1e6031"
     }
   },
+  "fin.farmer_net_payout@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.farmer_net_payout-01": "bcd4951604b5372f706907c8722b37da2811a5c81527e17cad6174453e23c8ab",
+      "REF-fin.farmer_net_payout-02": "b59271fcbd16b398b7070c4044bd7efdce093e0425150087ea2c063c402cba2e",
+      "REF-fin.farmer_net_payout-03": "f08b623ed5c242fb3d48ce5fe75b5dbd75e0b1408ce7df6f5e084e46b697595a",
+      "REF-fin.farmer_net_payout-04": "eb1d523a44a7fc6bb17c5df7bed1bb4e09eedfeb7ac11a5bbdafc10b9280b2aa",
+      "REF-fin.farmer_net_payout-05": "8eb0b8b03ba7331d4aa8e1de8a854b01935fd2ce34b5ff146837198b3c9ecb8a",
+      "REF-fin.farmer_net_payout-06": "32db713fe1b9145a203bf97a3925644d84f8a41f0de88d54ad00783a317a7060",
+      "REF-fin.farmer_net_payout-07": "124cd26614ea321b85c1925f33185724abdd02dc4361bee0886948f820d31970",
+      "REF-fin.farmer_net_payout-08": "c02f57138484b25d9a898c2443d846c589c22427ff4a78b6b78af18ac903240d"
+    }
+  },
   "fin.flat_instalment@1": {
     "state": "draft",
     "cases": {
@@ -62,6 +88,84 @@
       "REF-fin.flat_instalment-06": "f290a88f9c4a061efe08708902d108ea8950881e6cff6dc40a1b78810cc0d7b6",
       "REF-fin.flat_instalment-07": "c0e3974fb80e4b70c581bb345dc04628245d8cba0bfaeab554a8027780fdfb1e",
       "REF-fin.flat_instalment-08": "f48e5cc04e2e56d881d8c0d7b4e9ef4b16919a24136aa9294ce2349b8c1ef661"
+    }
+  },
+  "fin.interest_step@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.interest_step-01": "d2ceacf924574ad4376e77a73bc1b752f460db2c9c53a81af9e87cc7820efceb",
+      "REF-fin.interest_step-02": "48578a95c572fc479ccee2c4fea2903fc7c360d44fe821ab04a37e64572b0e06",
+      "REF-fin.interest_step-03": "f5c597744d1b6af1ecfb2dc0a5004915da53eb9831597de75c7b1f9063661947",
+      "REF-fin.interest_step-04": "10292368eccb342ece0a1c512e077eb7f55c161ea7614e7873ed93d6af7c760c",
+      "REF-fin.interest_step-05": "06c4d19f878717bb80da072e8db1a0942570cfa2a14e1966dbb4ef1eb6e54baf",
+      "REF-fin.interest_step-06": "530b037916e3e8ade9c385c37ad17be3672e287e95b66112a962fe518674c4d4",
+      "REF-fin.interest_step-07": "9ae221a1427dc880ff5936584cfd8f877e819072874770b48a767d1468c2d4b4",
+      "REF-fin.interest_step-08": "282d9899455aa91d07294e790ae32c0ee79027ef0e67cfea4039e6e341abe754"
+    }
+  },
+  "fin.interim_payment@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.interim_payment-01": "54f51b99f4fcda7d073594e8465f242b7baf4edf65f579daf35120c95f23fb7b",
+      "REF-fin.interim_payment-02": "91300947854b7c98941437324267421367f536f689587806a26647ae9f4d9cce",
+      "REF-fin.interim_payment-03": "73c72d1ba20ada3bbc59636603a8a0d2720cf9f4d8848d5081027fbb09a503f0",
+      "REF-fin.interim_payment-04": "5b3f82736b95553da2d83c4fc1826e013c769fbe8af646dd356c14cf1d181db6",
+      "REF-fin.interim_payment-05": "64c59c016beb68105ff829acee01ca74500152866fe63c71119f94c238ad6f29",
+      "REF-fin.interim_payment-06": "1a17f021db387c1c15d1d5cbb4528c930491cbf4f28e1ca35f27798685cf33ab",
+      "REF-fin.interim_payment-07": "5f2023db4c2ab6c3a78a0c1d64dc8cc3bcb596f01cab728d8dd66120629e0899",
+      "REF-fin.interim_payment-08": "e8629784d4b2ad4b375e6964235d32ddd8263ab0a5d690c6865039478f301679"
+    }
+  },
+  "fin.late_filing_penalty@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.late_filing_penalty-01": "128d6bed1af6cd9ef245f602200bc2ff655794970e34639d2dceed88c30a59a0",
+      "REF-fin.late_filing_penalty-02": "36506ec1cb5ec4794969ca96299c504f0a70d4753a80549de2e55a090d5a1792",
+      "REF-fin.late_filing_penalty-03": "6bd244518cf8049256a1fa4ac6fbc55254873eeb82334c9a303ee9c2f8f4c503",
+      "REF-fin.late_filing_penalty-04": "b6333cbcd030d4fa9559f7fa47d4cb965f7684a9d8465de3439aae3d84aab0e2",
+      "REF-fin.late_filing_penalty-05": "2c5c5341395b2b33612742b7c40805501f148188da4e7259cb11630d10839003",
+      "REF-fin.late_filing_penalty-06": "573364be1d1161446ae6f80243ef2bfb8e1b03165efc30da29654ec8ecf11cc3",
+      "REF-fin.late_filing_penalty-07": "fa35a0af37b5a25911dee670fc858b12f0a67c79b8adcab425c05af196b930c6",
+      "REF-fin.late_filing_penalty-08": "bb93477fd5e3d1c47e8db438879b0943745b9953ec068cdac7f8cbb16c8e5bb4"
+    }
+  },
+  "fin.lending_data_ok@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.lending_data_ok-01": "5be23b85fb440f8802510d73761ca512f96291d8fd02eaeeed51b4b2fda8d7e5",
+      "REF-fin.lending_data_ok-02": "edac401245832f011b8e08abbc51f49fc2912bd9cdf42d2fbc3efafacd9d45ba",
+      "REF-fin.lending_data_ok-03": "d474e346778923f35a9e1f3ed4f4009f5b888dc9bed1652f0987b68f16d07081",
+      "REF-fin.lending_data_ok-04": "b3266b26904cad84fd11d9dc4181c8078f63f5b6fa9a07dea6855276047cb333",
+      "REF-fin.lending_data_ok-05": "29f80e9fc693f9d08f3eb40f95646da854e5d45c3b309b763058c3289ad952d4",
+      "REF-fin.lending_data_ok-06": "007123f87c3a35e195bd3004c8b35f43637ee62b9e95513f207177a02c0cfdd4",
+      "REF-fin.lending_data_ok-07": "a1dc943caf18e4f47f50b58678b4251bac6142f48d0c9a879a35676df428638e",
+      "REF-fin.lending_data_ok-08": "e2750ec6655845572600c728ca1fae699942194ef6995d149da9b8bf236e8ba2"
+    }
+  },
+  "fin.loan_within_limit@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.loan_within_limit-01": "ec96509c85782e82a420000d84ab9f6087a9718dcd060081cfdcf1418ca75b8c",
+      "REF-fin.loan_within_limit-02": "7a55028a3305420f181934e1394058d143914a023db47e62c4c882cd2d870cb4",
+      "REF-fin.loan_within_limit-03": "10966f629130a14b39d40e1efc86a9c2ecc39d7964d6de9f5b48e04b918adf03",
+      "REF-fin.loan_within_limit-04": "2558c66d50f72e49f6975c6c647a42a322911c599e1b3ae76c0d6193d6932321",
+      "REF-fin.loan_within_limit-05": "cf813dce86f1b767364ae746d9426024857b92016038e10dd036adc499c6db8d",
+      "REF-fin.loan_within_limit-06": "c4e375b7d52cf5f39eaebedf701ea46856b9e6d4f9eb0591e5fec46f8c51f070",
+      "REF-fin.loan_within_limit-07": "e4395cfb758b476c9ecec423eb727d2189be45cc8e3126922b57e49569c79ace",
+      "REF-fin.loan_within_limit-08": "6ce9f0b6643bee1686f23fe66783a905106eeab2b417883a04a33ecffb1dfc53"
+    }
+  },
+  "fin.monthly_interest@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.monthly_interest-01": "a2590dca8f998a09a341a46ae0a8ef210c2a69168e957c5a1dcde5a66f034ed8",
+      "REF-fin.monthly_interest-02": "4e1c9bb257f326d73ef16834935feacb382cb462e21376408b69d14748350f94",
+      "REF-fin.monthly_interest-03": "4ca950cf695db4020e35b7daf6a085d8d4674853e54f21ed1a63cbd234274664",
+      "REF-fin.monthly_interest-04": "f400cfccdc8dc15820ce00abf838d9b63799279dd2c149b6e558d42679fc221a",
+      "REF-fin.monthly_interest-05": "2a2978162eb27fadd8f62824fdc648c80264afff6559e929aff1cfd3439fdcf0",
+      "REF-fin.monthly_interest-06": "e43211da5c1c274709c81229899f074c638917e5d13d58e163f21403578d5ba2",
+      "REF-fin.monthly_interest-07": "b56ef40904331f96aadcfaaa4ccf290d839f54a236db955cb37dc8b2db1f8fdc",
+      "REF-fin.monthly_interest-08": "5fee5f031b2fa36fe58f6c763954377d5435d7527cec1872d9991d23037bbfc1"
     }
   },
   "fin.proportional_share@1": {
@@ -114,6 +218,19 @@
       "REF-math.remainder-06": "68b923d6ef23bdf145a3da7f2c8a9eaf22159d23834191fa2a81171022e8f469",
       "REF-math.remainder-07": "a53e6b2a7ab3c74b5960aae82b34c1ffaa8c842ad42ac263aecd727c45dc7d1d",
       "REF-math.remainder-08": "be317e71d0dc322c00182a6c98f859b3775e8a4619b98846dad78fa1357b8288"
+    }
+  },
+  "member.voting_right@1": {
+    "state": "draft",
+    "cases": {
+      "REF-member.voting_right-01": "4f97759a8f3daa1e06893c7e456d8334ea8a8e20d15a379d2cd6e10b438f5503",
+      "REF-member.voting_right-02": "aeab3e9eaa53fc9ef19674697af2c0d0c0af47357a9d2137c2a14040963852f9",
+      "REF-member.voting_right-03": "21fe892c1ca2941480119acce03bc261c33afeea7eee5592bb81279de4fdccff",
+      "REF-member.voting_right-04": "3aa76ebb00e3f315cdd013c9d1af51fa529baf5bf45c0cd925991e771579cc48",
+      "REF-member.voting_right-05": "174c329635b961b296fedd375fdf5c0e6b7c3a00174ec357f350d11cc53f7ded",
+      "REF-member.voting_right-06": "7920811c3e7e3089c0b3de448de8205a3e5cc8016234026219bb299460d9b8ff",
+      "REF-member.voting_right-07": "c710d610a019ca2ebb28a92d73afeaf02b6faa10d1f8fc159cdf3646352721fc",
+      "REF-member.voting_right-08": "9168063b87f3bda98e66ba9fbd5977cda6bd68fa0f541079bc87bd852d1316d4"
     }
   },
   "stats.spread@1": {

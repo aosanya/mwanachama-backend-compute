@@ -32,6 +32,8 @@ func All() []Function {
 	return []Function{
 		balanceAfterPayment, equalShare, lateDays, flatInstalment, prorateFee,
 		straightLineValue, coverageRatio, proportionalShare, spread, remainder,
+		loanWithinLimit, farmerNetPayout, latePenalty, interestStep, monthlyInterest,
+		termGrade, interimPayment, lendingDataOk, votingRight,
 	}
 }
 

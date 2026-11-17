@@ -49,6 +49,10 @@ var numtextKinds = map[formula.Type]numtext.Type{
 }
 
 func (f Function) Prepare() (Callable, error) {
+	return f.PrepareIn(NewCalls())
+}
+
+func (f Function) PrepareIn(calls *Calls) (Callable, error) {
 	if refused := function.CheckDefinition(f.Definition); len(refused) > 0 {
 		return Callable{}, errors.New(f.Key() + ": the definition is refused: " + refused[0].Sentence)
 	}
@@ -60,11 +64,11 @@ func (f Function) Prepare() (Callable, error) {
 	for i, decl := range f.Definition.Inputs {
 		inputs[i] = formula.Input{Name: decl.Name, Type: decl.Type}
 	}
-	program, problems := formula.Plan(tree, inputs, nil, formula.DefaultOptions())
+	program, problems := formula.Plan(tree, inputs, calls, formula.DefaultOptions())
 	if len(problems) > 0 {
 		return Callable{}, errors.New(f.Key() + ": the body is refused: " + problems[0].Sentence)
 	}
-	if result, known := formula.ResultType(tree, inputs, nil); !known || result != f.Result {
+	if result, known := formula.ResultType(tree, inputs, calls); !known || result != f.Result {
 		return Callable{}, errors.New(f.Key() + ": the body gives " + string(result) + " and the function says " + string(f.Result))
 	}
 	return Callable{function: f, validator: function.Prepare(f.Definition), program: program, inputs: inputs}, nil
