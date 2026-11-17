@@ -62,7 +62,7 @@ type Outcome struct {
 }
 ```
 
-`Failure` is the plain sentence of a run that could not be worked out, such as a division by zero. It becomes `check-error`, with the message of the check and that sentence. A false answer becomes `check-failed`. A nil runner gives `check-error` for every check that would have run, with the sentence "No way to run this check was given." The tests use a small runner of their own for the operators the 14 check cases need. The real one is wired in when ISS-25 lands: its adapter has to take a tree and the typed values and give an `Outcome`.
+`Failure` is the plain sentence of a run that could not be worked out, such as a division by zero. It becomes `check-error`, with the message of the check and that sentence. A false answer becomes `check-failed`. A nil runner gives `check-error` for every check that would have run, with the sentence "No way to run this check was given." The tests use a small runner of their own for the operators the check cases need. The real one is wired in when ISS-25 lands: its adapter has to take a tree and the typed values and give an `Outcome`.
 
 `Validate` differs from the Go surface on the language page in two ways, both proposed: it takes the runner as a third argument, and its problem is `problem.Problem` where the page names `RowProblem`.
 
@@ -120,7 +120,7 @@ None of these is in the language page. All are tested.
 
 - every case of sections A to M of input-checks.md except those that need the batch or a tool, including the 3000-problem case `ic-g06`, the whole-number, decimal and approximate-number text tables, the text, yes-or-no and date tables, and the list-for-single cases;
 - `ic-c07`, which runs and logs that it is pending;
-- the six refused definitions of the language page and 24 more refusals, the cap of 20, and the acceptance of the eleven definitions D1 to D11 of the QA page;
+- the six refused definitions of the language page and 28 more refusals, the cap of 20, and the acceptance of the eleven definitions D1 to D11 of the QA page;
 - that a check is not run when an input it reads has a problem, that a missing runner gives `check-error`, and that two calls give the same list.
 
 The cases `ic-m04` to `ic-m06` are covered as far as this package goes: one `Validate` call per row, the same list on a second call. The three ways in (a single run, a batch row, an AI tool call) share the one function, so they cannot differ; the wrappers are not built.
