@@ -1,6 +1,6 @@
 # Library reference guard
 
-Status: design, not built. Nothing on this page exists as code or as data files yet. The paths, names and sentences below are proposals until the owner reviews them. All names and figures are invented.
+Status: built for ISS-27 and described on [library-functions.md](library-functions.md). The guard, the data files and the manifest exist in `functions/`. Where the build differs from this design it is said in a note marked Built below; the paths, names and sentences are still proposals until the owner reviews them. All names and figures are invented.
 
 The rule and the test that protects it. The cases being protected are on [library-reference.md](../4.%20qa/library-reference.md); the sources behind them are on [sources.md](../1.%20requirements/sources.md). The versioning decision is on [library-versioning.md](../2.%20design/library-versioning.md), whose section 3 leaves this guard to the library reference issue.
 
@@ -18,6 +18,8 @@ What exists today: the repo root holds `compute.go`, `compute_test.go`, `go.mod`
 | `testdata/reference/manifest.json` | The state of every version and a hash of every case. |
 
 For example `testdata/reference/fin.balance_after_payment@1.json`.
+
+Built: the files are in `functions/reference/` and not in `testdata/reference/`, because `testdata/` belongs to the example cases of ISS-31. The guard takes the folder as a field, so moving them is one change. The data file holds a JSON array of cases, and the manifest, with its 80 hashes, is `functions/reference/manifest.json`.
 
 Each case holds the fields of the case shape on the reference page: `id`, `kind`, `inputs`, `expected`, `tolerance` and `source`. The working and the section number of a source stay on the markdown page only. At most 200 cases per data file (proposed, the same limit as the case files on [example-cases.md](example-cases.md)). Today the reference page has 10 functions and 80 cases, 8 per function.
 
@@ -81,6 +83,8 @@ A hash is 64 hexadecimal characters. The messages below print the first 12.
 
 ## What the guard test checks
 
+Built: the guard is `Guard.Check` in `functions/guard.go` and its tests are in the package `functions/`, so `go test ./...` runs them. It reads the data files, the manifest, the reference page and sources.md.
+
 A Go test in the repo root, run by `go test ./...` and so by `make test`. It reads the data files, the manifest and the markdown pages. Each failure prints one sentence and the case id; the test fails the build. Sentences are proposals.
 
 | # | Failure | The sentence |
@@ -105,7 +109,7 @@ Failure 6 applies to every version, draft or published. It also names a result t
 
 ### A case added to a published version
 
-Allowed. A new case records what the version does; it cannot change what it does. The guard passes it and the reference test runs it. It prints one notice: `REF-fin.pmt-03: new case of published fin.pmt@1 is not in the manifest yet.` The manifest gains the case through a small command, not yet designed, that reads the data files and adds an entry for each case the manifest does not hold. The command never changes or deletes an entry: if a case's id is in the manifest with a different hash, it stops and prints failure 1.
+Allowed. A new case records what the version does; it cannot change what it does. The guard passes it and the reference test runs it. It prints one notice: `REF-fin.pmt-03: new case of published fin.pmt@1 is not in the manifest yet.` The manifest gains the case through a small command (built: `go run ./cmd/refmanifest`) that reads the data files and adds an entry for each case the manifest does not hold. The command never changes or deletes an entry: if a case's id is in the manifest with a different hash, it stops and prints failure 1.
 
 ### A case changed or removed in a published version
 
@@ -201,4 +205,4 @@ The hashes above were computed with the same outside script as the first one. Th
 3. Does a known-wrong version's cases stay in the manifest? Yes: a released version is never removed, per [library-versioning.md](../2.%20design/library-versioning.md). Whether a known-wrong version can ever be stopped from running is the owner's open question on that page, and not decided here.
 4. Where does the manifest live if the repo layout is not `testdata/reference/`? The path is a proposal.
 5. Does the guard compare against the manifest as it was at the last release tag? Without it, a commit that edits a published case and its hash in the manifest together passes, and only review stops it. With it, the test needs the git history, which a pure library may not want to read.
-6. How does the test ask the library which versions it serves? Failure 3 needs a list of function versions from the library, which does not exist yet.
+6. How does the test ask the library which versions it serves? Failure 3 needs a list of function versions from the library. Built: `functions.All()` is that list for the first ten functions. The registry of ISS-28 will need to give the same list.
