@@ -21,8 +21,10 @@ type definedProgram struct {
 	program *formula.Program
 }
 
-func registryOfDefinitions(t *testing.T, calls *atomic.Int64, definitions map[string]string) *Registry {
+func registryOfDefinitions(t *testing.T, calls *atomic.Int64, declared int, definitions map[string]string) *Registry {
 	t.Helper()
+	signature := loopSignature
+	signature.Cost = declared
 	registry := NewRegistry()
 	held := map[string]*definedProgram{}
 	for name, body := range definitions {
@@ -32,7 +34,7 @@ func registryOfDefinitions(t *testing.T, calls *atomic.Int64, definitions map[st
 			Library:   "loop",
 			Name:      name,
 			Version:   1,
-			Signature: loopSignature,
+			Signature: signature,
 			Apply: func(args []formula.Value) (formula.Value, *formula.Problem) {
 				calls.Add(1)
 				return entry.program.Apply(args)
@@ -71,7 +73,7 @@ func TestARegistryCallLoopEndsInsteadOfRunningForever(t *testing.T) {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			var calls atomic.Int64
-			registry := registryOfDefinitions(t, &calls, c.definitions)
+			registry := registryOfDefinitions(t, &calls, 1, c.definitions)
 			_, problem := registry.Apply("loop", c.entry, 1, []formula.Value{decimalOf(t, "100.00")})
 			if problem == nil {
 				t.Fatal("the loop returned a value")
@@ -88,7 +90,7 @@ func TestARegistryCallLoopEndsInsteadOfRunningForever(t *testing.T) {
 
 func TestASelfCallingDefinitionEndsAtCallTooDeep(t *testing.T) {
 	var calls atomic.Int64
-	registry := registryOfDefinitions(t, &calls, map[string]string{"again": "loop.again@1(total) + 1"})
+	registry := registryOfDefinitions(t, &calls, 1, map[string]string{"again": "loop.again@1(total) + 1"})
 	_, problem := registry.ApplyMetered("loop", "again", 1, []formula.Value{decimalOf(t, "100.00")}, formula.NewMeter(formula.DefaultOptions().Limits.Cost))
 	if problem == nil {
 		t.Fatal("the self-calling definition returned a value")
@@ -99,14 +101,14 @@ func TestASelfCallingDefinitionEndsAtCallTooDeep(t *testing.T) {
 	if problem.Sentence != "This formula goes over the call depth limit of 4." {
 		t.Errorf("sentence %q", problem.Sentence)
 	}
-	if calls.Load() != 5 {
-		t.Errorf("the host was called %d times and the depth limit of 4 allows 5", calls.Load())
+	if calls.Load() != 6 {
+		t.Errorf("the host was called %d times; the entry and four nested calls run and the fifth nested call is refused, so 6", calls.Load())
 	}
 }
 
 func TestAFormulaThatCallsTheRegistryGivesTheCalleeAShareOfItsMeter(t *testing.T) {
 	var calls atomic.Int64
-	registry := registryOfDefinitions(t, &calls, map[string]string{"plain": "total + 1"})
+	registry := registryOfDefinitions(t, &calls, 3, map[string]string{"plain": "total + 1"})
 	caller, problems := formula.Plan(parsed(t, "loop.plain@1(total)"), []formula.Input{{Name: "total", Type: formula.TypeDecimal}}, registry, formula.DefaultOptions())
 	if len(problems) > 0 {
 		t.Fatalf("plan: %v", problems)

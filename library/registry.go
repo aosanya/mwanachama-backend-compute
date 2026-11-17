@@ -131,20 +131,39 @@ func (r *Registry) resolveLocked(ref Ref) (Release, *formula.Problem) {
 }
 
 func (r *Registry) Apply(library string, name string, version int, args []formula.Value) (formula.Value, *formula.Problem) {
+	release, refused := r.callable(library, name, version)
+	if refused != nil {
+		return formula.Value{}, refused
+	}
+	return release.Apply(args)
+}
+
+func (r *Registry) ApplyMetered(library string, name string, version int, args []formula.Value, meter *formula.Meter) (formula.Value, *formula.Problem) {
+	release, refused := r.callable(library, name, version)
+	if refused != nil {
+		return formula.Value{}, refused
+	}
+	if release.Metered != nil {
+		return release.Metered(args, meter)
+	}
+	return release.Apply(args)
+}
+
+func (r *Registry) callable(library string, name string, version int) (Release, *formula.Problem) {
 	r.mu.RLock()
 	ref := Ref{Library: library, Name: name, Version: version}
 	release, resolved := r.resolveLocked(ref)
 	source := r.stops
 	r.mu.RUnlock()
 	if resolved != nil {
-		return formula.Value{}, resolved
+		return Release{}, resolved
 	}
 	if source != nil {
 		if stop, stopped := source.Stopped(library, name, version); stopped {
-			return formula.Value{}, problem(codeVersionStopped, stoppedSentence(ref, stop))
+			return Release{}, problem(codeVersionStopped, stoppedSentence(ref, stop))
 		}
 	}
-	return release.Apply(args)
+	return release, nil
 }
 
 func (r *Registry) NoteOf(library string, name string, version int) (Note, bool) {

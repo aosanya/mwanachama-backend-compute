@@ -29,12 +29,15 @@ type Note struct {
 
 type Implementation func(args []formula.Value) (formula.Value, *formula.Problem)
 
+type MeteredImplementation func(args []formula.Value, meter *formula.Meter) (formula.Value, *formula.Problem)
+
 type Release struct {
 	Library   string
 	Name      string
 	Version   int
 	Signature formula.Signature
 	Apply     Implementation
+	Metered   MeteredImplementation
 	Note      Note
 }
 
