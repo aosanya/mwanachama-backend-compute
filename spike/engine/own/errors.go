@@ -17,6 +17,58 @@ var (
 	errNotFinite    = errors.New("The formula produced a number that is not finite.")
 )
 
+type LimitError struct {
+	Name    string
+	Allowed int
+	Found   int
+	Cause   error
+	message string
+}
+
+func (e *LimitError) Error() string { return e.message }
+
+func (e *LimitError) Unwrap() error { return e.Cause }
+
+func limitError(name string, allowed, found int, format string) *LimitError {
+	return &LimitError{Name: name, Allowed: allowed, Found: found, message: fmt.Sprintf(format, found, allowed)}
+}
+
+func depthError(allowed, found int) *LimitError {
+	return limitError("depth", allowed, found, "The formula is nested too deeply: %d levels where %d are allowed.")
+}
+
+func nodeError(allowed, found int) *LimitError {
+	return limitError("node", allowed, found, "The formula is too large: %d parts where %d are allowed.")
+}
+
+func costError(allowed int) *LimitError {
+	return &LimitError{Name: "cost", Allowed: allowed, Found: allowed + 1, message: fmt.Sprintf("The formula needs more than the %d steps allowed.", allowed)}
+}
+
+func timeError(cause error) *LimitError {
+	return &LimitError{Name: "time", Cause: cause, message: "The formula ran out of time."}
+}
+
+func formulaLengthError(allowed, found int) *LimitError {
+	return limitError("formula length", allowed, found, "The formula has %d characters where %d are allowed.")
+}
+
+func listLengthError(allowed, found int) *LimitError {
+	return limitError("list length", allowed, found, "A list has %d entries where %d are allowed.")
+}
+
+func textLengthError(allowed, found int) *LimitError {
+	return limitError("text length", allowed, found, "A text has %d characters where %d are allowed.")
+}
+
+func magnitudeError(allowed, found int) *LimitError {
+	return limitError("number magnitude", allowed, found, "A number has %d digits where %d are allowed.")
+}
+
+func decimalPlacesError(allowed, found int) *LimitError {
+	return limitError("decimal places", allowed, found, "A number has %d decimal places where %d are allowed.")
+}
+
 func readError(pos Pos, what string) error {
 	return fmt.Errorf("The formula cannot be read: %s at line %d, column %d.", what, pos.Line, pos.Column)
 }

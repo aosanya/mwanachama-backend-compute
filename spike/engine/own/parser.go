@@ -1,6 +1,9 @@
 package own
 
-import "fmt"
+import (
+	"fmt"
+	"unicode/utf8"
+)
 
 var precedence = map[string]int{
 	"||": 1,
@@ -11,17 +14,32 @@ var precedence = map[string]int{
 	"*": 6, "/": 6, "%": 6,
 }
 
+const nestingCeiling = 10000
+
 type parser struct {
-	tokens []token
-	at     int
+	tokens     []token
+	at         int
+	nesting    int
+	maxNesting int
+	nodes      int
+	maxNodes   int
 }
 
 func Parse(source string) (Node, error) {
-	tokens, err := tokenize(source)
+	return ParseWith(source, Options{})
+}
+
+func ParseWith(source string, options Options) (Node, error) {
+	if options.MaxLength > 0 && len(source) > options.MaxLength {
+		if length := utf8.RuneCountInString(source); length > options.MaxLength {
+			return nil, formulaLengthError(options.MaxLength, length)
+		}
+	}
+	tokens, err := tokenizeWith(source, options.lexRules())
 	if err != nil {
 		return nil, err
 	}
-	p := &parser{tokens: tokens}
+	p := &parser{tokens: tokens, maxNesting: options.nestingLimit(), maxNodes: options.MaxNodes}
 	tree, err := p.conditional()
 	if err != nil {
 		return nil, err
@@ -62,7 +80,31 @@ func (p *parser) expect(text string) (token, error) {
 	return token{}, readError(found.pos, fmt.Sprintf("expected %q but found %s", text, describe(found)))
 }
 
+func (o Options) nestingLimit() int {
+	if o.MaxDepth > 0 {
+		return min(o.MaxDepth, nestingCeiling)
+	}
+	return nestingCeiling
+}
+
+func (p *parser) spend() error {
+	p.nodes++
+	if p.maxNodes > 0 && p.nodes > p.maxNodes {
+		return nodeError(p.maxNodes, p.nodes)
+	}
+	return nil
+}
+
 func (p *parser) conditional() (Node, error) {
+	p.nesting++
+	defer func() { p.nesting-- }()
+	if p.nesting > p.maxNesting {
+		return nil, depthError(p.maxNesting, p.nesting)
+	}
+	return p.conditionalBody()
+}
+
+func (p *parser) conditionalBody() (Node, error) {
 	test, err := p.binary(1)
 	if err != nil {
 		return nil, err
@@ -70,6 +112,9 @@ func (p *parser) conditional() (Node, error) {
 	question, ok := p.accept("?")
 	if !ok {
 		return test, nil
+	}
+	if err := p.spend(); err != nil {
+		return nil, err
 	}
 	then, err := p.conditional()
 	if err != nil {
@@ -97,6 +142,9 @@ func (p *parser) binary(least int) (Node, error) {
 			return left, nil
 		}
 		p.advance()
+		if err := p.spend(); err != nil {
+			return nil, err
+		}
 		right, err := p.binary(level + 1)
 		if err != nil {
 			return nil, err
@@ -106,19 +154,30 @@ func (p *parser) binary(least int) (Node, error) {
 }
 
 func (p *parser) unary() (Node, error) {
-	if p.atSymbol("!") || p.atSymbol("-") {
-		operator := p.advance()
-		operand, err := p.unary()
-		if err != nil {
+	var operators []token
+	for p.atSymbol("!") || p.atSymbol("-") {
+		if err := p.spend(); err != nil {
 			return nil, err
 		}
-		return Unary{Pos: operator.pos, Op: operator.text, Operand: operand}, nil
+		operators = append(operators, p.advance())
 	}
-	return p.primary()
+	operand, err := p.primary()
+	if err != nil {
+		return nil, err
+	}
+	for i := len(operators) - 1; i >= 0; i-- {
+		operand = Unary{Pos: operators[i].pos, Op: operators[i].text, Operand: operand}
+	}
+	return operand, nil
 }
 
 func (p *parser) primary() (Node, error) {
 	t := p.advance()
+	if !(t.kind == tokenSymbol && t.text == "(") {
+		if err := p.spend(); err != nil {
+			return nil, err
+		}
+	}
 	switch t.kind {
 	case tokenName:
 		return p.nameOrCall(t)

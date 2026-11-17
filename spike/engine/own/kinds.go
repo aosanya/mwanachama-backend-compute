@@ -19,6 +19,8 @@ type kindOps struct {
 	store       func(fn any, index int) setter
 	invoke      func(body any, setters []setter, size int) any
 	compare     func(left, right any, test func(int) bool) any
+	metered     func(fn any) any
+	native      func(call func(*frame) (any, error)) any
 }
 
 var kindTable = map[harness.Kind]kindOps{
@@ -61,10 +63,30 @@ func opsFor[T any](order func(T, T) int) kindOps {
 				return nil
 			}
 		},
+		metered: func(fn any) any {
+			body := fn.(thunk[T])
+			return thunk[T](func(fr *frame) (T, error) {
+				if err := fr.run.charge(1); err != nil {
+					return failed[T](err)
+				}
+				return body(fr)
+			})
+		},
+		native: func(call func(*frame) (any, error)) any {
+			return thunk[T](func(fr *frame) (T, error) {
+				out, err := call(fr)
+				if err != nil {
+					return failed[T](err)
+				}
+				value, _ := out.(T)
+				return value, nil
+			})
+		},
 		invoke: func(body any, setters []setter, size int) any {
 			run := body.(thunk[T])
 			return thunk[T](func(from *frame) (T, error) {
 				inner := newFrame(size)
+				inner.run = from.run
 				for _, set := range setters {
 					if err := set(from, inner); err != nil {
 						return failed[T](err)

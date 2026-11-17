@@ -5,6 +5,7 @@ import "github.com/aosanya/mwanachama-backend-compute/spike/harness"
 const inlineSlots = 8
 
 type frame struct {
+	run     *runState
 	slots   []any
 	backing [inlineSlots]any
 }

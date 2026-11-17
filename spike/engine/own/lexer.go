@@ -11,14 +11,29 @@ const oneCharSymbols = "+-*/%<>!?:,()[]"
 
 var twoCharSymbols = []string{"<=", ">=", "==", "!=", "&&", "||"}
 
+type lexRules struct {
+	maxText     int
+	maxDigits   int
+	maxDecimals int
+}
+
+func (o Options) lexRules() lexRules {
+	return lexRules{maxText: o.MaxTextLength, maxDigits: o.MaxDigits, maxDecimals: o.MaxDecimals}
+}
+
 type lexer struct {
 	runes []rune
 	at    int
 	pos   Pos
+	rules lexRules
 }
 
 func tokenize(source string) ([]token, error) {
-	l := &lexer{runes: []rune(source), pos: Pos{Line: 1, Column: 1}}
+	return tokenizeWith(source, lexRules{})
+}
+
+func tokenizeWith(source string, rules lexRules) ([]token, error) {
+	l := &lexer{runes: []rune(source), pos: Pos{Line: 1, Column: 1}, rules: rules}
 	var tokens []token
 	for {
 		l.skipSpace()
@@ -99,10 +114,17 @@ func (l *lexer) number(start Pos) (token, error) {
 	if len(whole) == 4 && l.atDateTail() {
 		return token{tokenDate, whole + l.takeCount(6), start}, nil
 	}
+	if l.rules.maxDigits > 0 && len(whole) > l.rules.maxDigits {
+		return token{}, magnitudeError(l.rules.maxDigits, len(whole))
+	}
 	kind, text := tokenInteger, whole
 	if l.peek(0) == '.' && isDigit(l.peek(1)) {
 		l.advance()
-		kind, text = tokenDecimal, whole+"."+l.take(isDigit)
+		fraction := l.take(isDigit)
+		if l.rules.maxDecimals > 0 && len(fraction) > l.rules.maxDecimals {
+			return token{}, decimalPlacesError(l.rules.maxDecimals, len(fraction))
+		}
+		kind, text = tokenDecimal, whole+"."+fraction
 	}
 	if l.peek(0) == 'f' && !isNameRune(l.peek(1)) {
 		l.advance()
@@ -128,7 +150,9 @@ func (l *lexer) atDateTail() bool {
 func (l *lexer) text(start Pos) (token, error) {
 	l.advance()
 	var value strings.Builder
+	length := 0
 	for !l.done() {
+		var added rune
 		switch r := l.advance(); r {
 		case '"':
 			return token{tokenText, value.String(), start}, nil
@@ -137,10 +161,15 @@ func (l *lexer) text(start Pos) (token, error) {
 			if err != nil {
 				return token{}, err
 			}
-			value.WriteRune(escaped)
+			added = escaped
 		default:
-			value.WriteRune(r)
+			added = r
 		}
+		length++
+		if l.rules.maxText > 0 && length > l.rules.maxText {
+			return token{}, textLengthError(l.rules.maxText, length)
+		}
+		value.WriteRune(added)
 	}
 	return token{}, readError(start, "the text is not closed")
 }

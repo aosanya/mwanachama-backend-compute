@@ -14,9 +14,11 @@ type slot struct {
 type compiler struct {
 	slots   map[string]slot
 	library harness.Library
+	options Options
+	metered bool
 }
 
-func newCompiler(params []harness.Param, library harness.Library) (*compiler, error) {
+func newCompiler(params []harness.Param, library harness.Library, options Options) (*compiler, error) {
 	slots := make(map[string]slot, len(params))
 	for i, param := range params {
 		if _, known := kindTable[param.Kind]; !known {
@@ -24,10 +26,18 @@ func newCompiler(params []harness.Param, library harness.Library) (*compiler, er
 		}
 		slots[param.Name] = slot{index: i, kind: param.Kind}
 	}
-	return &compiler{slots: slots, library: library}, nil
+	return &compiler{slots: slots, library: library, options: options, metered: options.MaxSteps > 0 || options.CheckEvery > 0}, nil
 }
 
 func (c *compiler) expr(n Node) (code, error) {
+	compiled, err := c.plain(n)
+	if err != nil || !c.metered {
+		return compiled, err
+	}
+	return code{compiled.kind, kindTable[compiled.kind].metered(compiled.fn)}, nil
+}
+
+func (c *compiler) plain(n Node) (code, error) {
 	switch v := n.(type) {
 	case Variable:
 		return c.variable(v)

@@ -1,6 +1,7 @@
 package own
 
 import (
+	"context"
 	"fmt"
 	"slices"
 
@@ -12,10 +13,11 @@ type program struct {
 	result harness.Kind
 	body   any
 	box    func(*frame) (any, error)
+	limits *runLimits
 }
 
-func build(tree Node, c harness.Case, library harness.Library) (*program, error) {
-	comp, err := newCompiler(c.Params, library)
+func build(tree Node, c harness.Case, library harness.Library, options Options) (*program, error) {
+	comp, err := newCompiler(c.Params, library, options)
 	if err != nil {
 		return nil, err
 	}
@@ -31,14 +33,27 @@ func build(tree Node, c harness.Case, library harness.Library) (*program, error)
 		result: root.kind,
 		body:   root.fn,
 		box:    kindTable[root.kind].box(root.fn),
+		limits: options.runLimits(),
 	}, nil
 }
 
 func (p *program) Run(inputs map[string]any) (any, error) {
+	return p.RunContext(context.Background(), inputs)
+}
+
+func (p *program) RunContext(ctx context.Context, inputs map[string]any) (any, error) {
 	fr := newFrame(len(p.params))
+	state, err := p.limits.begin(ctx)
+	if err != nil {
+		return nil, err
+	}
+	fr.run = state
 	for i, param := range p.params {
 		value, err := checkedInput(param, inputs)
 		if err != nil {
+			return nil, err
+		}
+		if err := p.limits.checkInput(value); err != nil {
 			return nil, err
 		}
 		fr.slots[i] = value

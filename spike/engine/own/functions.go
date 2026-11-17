@@ -55,6 +55,9 @@ func (c *compiler) call(n Call) (code, error) {
 	if !ok {
 		return code{}, typeError(n.Pos, signatureMessage(n.Name, options, args))
 	}
+	if err := c.guardArguments(n, args); err != nil {
+		return code{}, err
+	}
 	return code{chosen.result, chosen.build(args)}, nil
 }
 
@@ -62,11 +65,13 @@ func (c *compiler) overloadsOf(n Call) ([]overload, error) {
 	if strings.Contains(n.Name, "@") {
 		return c.libraryOverloads(n.Name)
 	}
-	options, ok := builtinFunctions[n.Name]
-	if !ok {
-		return nil, unknownFunction(n.Name)
+	if options, ok := builtinFunctions[n.Name]; ok {
+		return options, nil
 	}
-	return options, nil
+	if extra, ok := c.options.Functions[n.Name]; ok {
+		return []overload{extra.overload()}, nil
+	}
+	return nil, unknownFunction(n.Name)
 }
 
 func pick(options []overload, args []code) (overload, bool) {
