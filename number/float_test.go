@@ -111,7 +111,10 @@ func TestEM60To62_MixingTheKindsIsRefusedInOneSentence(t *testing.T) {
 		"add":      func() error { _, err := Add(amount, rate); return err },
 		"subtract": func() error { _, err := Sub(rate, amount); return err },
 		"multiply": func() error { _, err := Mul(amount, rate); return err },
-		"compare":  func() error { _, err := Compare(DecimalValue(dec(t, "0.3")), FloatValue(mustFloat(t, 0.3))); return err },
+		"compare": func() error {
+			_, err := Compare(DecimalValue(dec(t, "0.3")), FloatValue(mustFloat(t, 0.3)))
+			return err
+		},
 	}
 	for name, run := range operations {
 		err := run()
