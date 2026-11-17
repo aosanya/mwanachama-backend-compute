@@ -13,7 +13,7 @@ Three properties are checked on every input:
 | Property | Fails when |
 |---|---|
 | It never panics | any input makes the parser panic |
-| It returns within the time limit | any input runs past the per-input limit |
+| It does bounded work | any input makes the parser work past what the formula length limit allows. The library has no time limit of its own (decision 19), so the bound is a count of work and not a clock |
 | A refusal is a plain sentence with line and column | the parser refuses and the message has no sentence, no line or no column |
 
 The sentence form is the parser-error sentence in [hostile-formulas.md](../4.%20qa/hostile-formulas.md).
@@ -40,8 +40,10 @@ These three numbers are decided here.
 
 | Limit | Value |
 |---|---|
-| Time per input | to be set by the engine choice |
+| Work per input | bounded by the formula length limit, 500 characters proposed on the language page; no clock |
 | Memory the run may use | 1 GiB |
+
+Go's own fuzzing reports an input that hangs the run. That belongs to the test harness and is not a limit of the library.
 
 Without `-fuzz`, `go test ./...` only replays the seeds and the saved failures. It does not search for new inputs.
 

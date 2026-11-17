@@ -15,10 +15,12 @@ Decided on 2026-11-17:
 3. Every row is validated against the input rules and checks before it is calculated. A row with problems is not calculated and carries its full list of problems. Each problem names the input, the value received and the rule broken, plus a plain sentence and a code.
 4. A bad row never fails the batch. A row that fails during calculation carries its reason the same way.
 5. The program is immutable, so rows may be worked in parallel. The chunk size and the number of workers are the caller's to set.
-6. Cost and time limits apply to the whole batch as well as to each row.
+6. The cost limit applies to the whole batch as well as to each row. Changed by decision 19: the library has no time limit of its own, so the earlier time limit is gone.
 7. Aggregates over many rows (sum, count, average) are worked out by the database where the data lives, and only the total is passed in. This page says which aggregates may be pushed down and how a formula declares one.
 8. A batch result equals running each row alone. A test proves it on invented data.
 9. The host records one summary entry for a batch, not one entry per row, because the inputs are people's financial figures. How long anything is kept is the host's rule and a separate issue.
+10. Each agency sets the largest number of rows one batch may hold, and a batch over the limit is refused whole before any row is worked out (decision 16).
+11. A bulk run has two stages: a calculation batch that works out every row and finishes as a whole, then an actualization batch that posts or releases the results. This page and the library are the calculation stage only (decision 17).
 
 Everything else on this page is a proposal or an open question and says so.
 
@@ -99,21 +101,21 @@ Neither number may change any row's answer. The test runs the same rows with chu
 
 ## 4. Limits apply to the whole batch and to each row
 
-Provisional: a row over its own cost or time limit gets a problem with the refusal sentence from [hostile formulas](../4.%20qa/hostile-formulas.md), for example "This formula goes over the time limit of {value}." The rest of the batch carries on. Group B on that page (B01 to B05) must hold.
+Provisional: a row over its own cost limit at run time gets a problem with the refusal sentence from [hostile formulas](../4.%20qa/hostile-formulas.md), for example "This formula goes over the cost limit of {value}." It is a failed calculation and follows the step's failure choice (decision 19). The rest of the batch carries on. Group B on that page (B01 to B05) must hold.
 
-Provisional: the batch has its own cost limit and time limit, and so does each row. The values are to be set by the engine choice, as the limits table says.
+Provisional: the batch has its own cost limit, and so does each row. There is no time limit (decision 19). The values are to be set by the engine choice, as the limits table says.
 
 Provisional: a chunk is started only while the batch limit has not been reached. A chunk that has started finishes its rows, each still bound by its own row limits. Rows never started carry the problem code `batch-limit-reached` with stage `batch` and are not calculated.
 
-Provisional: the host's context cancel or deadline counts as the batch time limit. Rows not started then carry the code `batch-cancelled` with stage `batch`.
+Provisional: whether and how the library honours a host's own cancel or deadline is open (decision 19, open question 10). If it does, rows not started then carry the code `batch-cancelled` with stage `batch`.
 
 The batch call itself still returns with no error in both cases. Only a refused call (too many rows, bad chunk size, bad workers) returns an error, and then no row is calculated and nothing partial comes back.
 
-Rows per call: at most the agency's setting (decision 16), with 10,000 as the Provisional default. The host splits a larger run into several calls. An empty batch returns 0 results and a summary of zeros.
+Rows per call: at most the agency's setting (decision 16), with 10,000 as the Provisional default. A call over the setting is refused whole. Who cuts a run larger than the setting into several calculation batches, the platform or the builder, is open (agency steps decision 11). An empty batch returns 0 results and a summary of zeros.
 
 Law 4 exemption: rows that carry `batch-limit-reached` or `batch-cancelled` are not compared with a single run, because a single run never meets a batch limit. Every other row is compared.
 
-Provisional: which rows are left unstarted is repeatable only for a cost limit with 1 worker. With a time limit, or with more than 1 worker, it is not repeatable, and a test must not depend on which rows were left.
+Provisional: which rows are left unstarted is repeatable only for a cost limit with 1 worker. With more than 1 worker it is not repeatable, and a test must not depend on which rows were left.
 
 ## 5. Aggregates are pushed down to the database
 
@@ -193,12 +195,14 @@ The result of the call goes back to the caller for that call. Whether and how lo
 
 The owner has not decided any of these. Each has a proposed answer.
 
-1. The limit is each agency's own setting (decision 16). Is 10,000 right as the default, and what ceiling may no agency go above? Also: default chunk size 100, default chunk size 100, default 1 worker, at most 64 workers? Proposed: yes, as a starting point. Provisional: rows per call stays open until the limits are set.
+1. The limit is each agency's own setting (decision 16). Is 10,000 right as the default, and what ceiling may no agency go above? Also: default chunk size 100, default 1 worker, at most 64 workers? Proposed: yes, as a starting point. Provisional: rows per call stays open until the limits are set.
 2. [Laws](../4.%20qa/laws.md) uses 1 to 200 rows per batch for the random row generator and says the generator limits must equal the language's limits. Proposed: keep 200 for the random run and add fixed cases at 10,000 rows (accepted) and 10,001 rows (refused with `too-many-rows`).
 3. The hostile page describes a batch as "a list of rows, each holding a formula and its inputs", while this page runs one formula over many rows. Proposed: a row is a row of inputs, and a mix of formulas is several calls.
-4. The hostile page asks whether the time limit applies to each formula or to the whole batch. This page proposes both, as the owner decided.
+4. Settled by decision 19: there is no time limit, so the question of whether it applies to each formula or to the whole batch falls away. The cost limit applies to both. The number is kept so the other references hold.
 5. Should a row carry a key from the host, such as a member id? Proposed: no, only the row number.
-6. Should results stream back instead of coming as one list? Proposed: not now, because a call holds at most 10,000 rows.
+6. Should results stream back instead of coming as one list? Proposed: not now, because a call holds at most the agency's row limit, 10,000 by default.
 7. The case-file page names the design page `batch.md` and its case file `batch.cases.md`; this page is `batch-evaluation.md`. Proposed: settle one name before the loader is built. Until then the examples here are written inline and are not `formula` blocks with case markers.
 8. Problem codes: the language page owns the list. Provisional: this page needs `required`, `no-negatives`, `decimal-places` and `divide-by-zero`. Proposed new codes for the language page to adopt: `batch-limit-reached` and `batch-cancelled` as row problem codes, and `too-many-rows`, `bad-chunk-size` and `bad-workers` as codes of a refused call.
 9. Should the summary also keep the pushed-down totals? Proposed: yes, because they are fund totals and not one person's figure. The owner decides.
+10. Is a host's own cancel or deadline honoured, and how? Decision 19 leaves it open. Proposed: yes, a started chunk finishes its rows and rows not started carry `batch-cancelled`, as the bulk-runs page assumes in BR-72 to BR-77.
+11. Who cuts a run larger than the agency's row limit into several calculation batches? (agency steps decision 11) No proposal is made here.
