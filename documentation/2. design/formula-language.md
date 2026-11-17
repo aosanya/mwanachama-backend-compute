@@ -127,7 +127,7 @@ A tree is written as JSON. Each part is an object with a `kind`.
 | unary | `op` (`!`), `operand` | 0 operand |
 | binary | `op` (one of `+ - * / % < <= > >= == != && \|\|`), `left`, `right` | 0 left, 1 right |
 | conditional | `condition`, `then`, `else` | 0 condition, 1 then, 2 else |
-| call | `library` (string or null), `name` (string), `version` (integer or null), `args` (1 to 8 parts) | one per argument, in order |
+| call | `library` (string or null), `name` (string), `version` (integer or null), `args` (0 to 8 parts) | one per argument, in order |
 | list | `items` (1 or more parts) | one per item, in order |
 
 Rules for the fields:
@@ -226,7 +226,7 @@ Digits are never rewritten. `12.5` and `12.50` are two different formulas with t
 The rules for a call:
 
 - A library call or an agency call names a version, a whole number from 1 to 999999. A call without one is refused when the formula is saved: `fin.pmt needs a version. Available: fin.pmt@1, fin.pmt@2.`
-- Arguments are positional. There are 1 to 8 of them. Their count and types are checked against the callee's signature. An integer is accepted for a decimal parameter.
+- Arguments are positional. Parse reads 0 to 8 of them, and a call with 0 is refused by Check by name or count. Their count and types are checked against the callee's signature. An integer is accepted for a decimal parameter.
 - A function that calls another may call only a version that is already saved and published. So a function can never call itself, and there are no cycles.
 - A chain of calls is at most 4 calls long. The chain counts from this formula to the last function that calls no other. A formula that calls a function which calls three more has a chain of 4.
 - Every call checks the callee's own input rules. Those rules are specified under Input rules, checks and Validate.
@@ -275,7 +275,7 @@ Every limit is a number. Parse stops at the first limit it meets and gives one p
 | Brackets open at one time | 12 | Parse | `too-deep` |
 | Node count | 100 | Parse, Check | `too-many-nodes` |
 | Distinct names a formula reads, which are its inputs | 8 | Check | `too-many-inputs` |
-| Arguments in one call | 8 | Check | `wrong-argument-count` |
+| Arguments in one call, an empty list being read and refused by Check | 8 | Check | `wrong-argument-count` |
 | Items in a list written in a formula | 99, held by the node limit | Parse, Check | `too-many-nodes` |
 | Items in a list value | 1000 (proposed) | Validate, under Input rules, checks and Validate | `list-too-long` |
 | Text literal, in characters | 200 | Parse, Check | `too-long` |
@@ -393,7 +393,7 @@ The words `{what}` of `bad-tree` come from this set: `the kind {kind} is not in 
 
 The `{needs}` of `type-mismatch` is: `two numbers` for `+ - *` and the four comparisons, `a decimal or a float on at least one side` for `/`, `two integers` for `%`, `two numbers or two texts` for `==` and `!=`, `two booleans` for `&&` and `||`, `a boolean` for `!`.
 
-A call to a name that is none of these, such as `import`, `eval`, `now`, `random`, `env`, `exec` or `read_file`, is `unknown-function`. A formula can only compute from its own text and its inputs.
+A call to a name that is none of these, such as `import`, `eval`, `now`, `random`, `env`, `exec` or `read_file`, is `unknown-function`, and that holds when the call is written with no arguments, as in `now()` or `random()`. A call written with no arguments is part of the language: Parse reads the empty argument list, and Check refuses it. An unknown name gives `unknown-function`, and a known name gives `wrong-argument-count`. There is no separate syntax problem for empty brackets. A formula can only compute from its own text and its inputs.
 
 ## Input rules, checks and Validate
 
@@ -1837,7 +1837,6 @@ No formula needs any of these, so the language does not have them. Each is an op
 - `==` and `!=` on floats, booleans, dates and lists.
 - Lists of float, text, boolean or date, lists of lists, an empty list written in a formula, and picking an item by position.
 - `round` on an integer, `to_float` of an integer, and `to_decimal` of anything but a float.
-- A call with no argument.
 - Short-circuit evaluation and skipping the answer a condition did not choose.
 - Names for partial results, anonymous functions, `map`, `range`, `fold`, `sort` and loops. Formula 6 repeats `late_days@1(due, filed)` three times rather than naming it.
 - Comments and line breaks inside a formula.
