@@ -1,0 +1,312 @@
+=== RUN   TestNativeBoundaries
+    boundary_test.go:31: own: native depth: nested minus accepted up to 63 brackets (64 levels counting the number), limit 64
+    boundary_test.go:46: own: native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+    boundary_test.go:31: cel-go: native depth: nested minus accepted up to 63 brackets (64 levels counting the number), limit 64
+    boundary_test.go:46: cel-go: native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+    boundary_test.go:31: expr-lang: native depth: no refusal found; every nesting tried up to 128 brackets was accepted, limit 64
+    boundary_test.go:46: expr-lang: native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+--- PASS: TestNativeBoundaries (0.53s)
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_01
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_02
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_03
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_04
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_05
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_06
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_07
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_08
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_09
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_10
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_11
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_12
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_13
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_14
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_15
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_16
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_17
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_18
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/own/formula_19
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_01
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_02
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_03
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_04
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_05
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_06
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_07
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_08
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_09
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_10
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_11
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_12
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_13
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_14
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_15
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_16
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_17
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_18
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_19
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_01
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_02
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_03
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_04
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_05
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_06
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_07
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_08
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_09
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_10
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_11
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_12
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_13
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_14
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_15
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_16
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_17
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_18
+=== RUN   TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_19
+--- PASS: TestProposedLimitsLetAllNineteenFormulasPass (0.01s)
+    --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_01 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_02 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_03 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_04 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_05 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_06 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_07 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_08 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_09 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_10 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_11 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_12 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_13 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_14 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_15 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_16 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_17 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_18 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/own/formula_19 (0.00s)
+    --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_01 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_02 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_03 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_04 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_05 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_06 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_07 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_08 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_09 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_10 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_11 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_12 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_13 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_14 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_15 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_16 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_17 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_18 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/cel-go/formula_19 (0.00s)
+    --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_01 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_02 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_03 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_04 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_05 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_06 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_07 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_08 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_09 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_10 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_11 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_12 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_13 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_14 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_15 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_16 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_17 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_18 (0.00s)
+        --- PASS: TestProposedLimitsLetAllNineteenFormulasPass/expr-lang/formula_19 (0.00s)
+=== RUN   TestL07GoodFormulaStillWorksAfterHostileOnes
+--- PASS: TestL07GoodFormulaStillWorksAfterHostileOnes (0.13s)
+=== RUN   TestL08GoroutinesAndHeapAreBackAfterCostAndTimeRefusals
+    lifecycle_test.go:106: own: goroutines 2 before, 2 right after the refusals, 2 after waiting 0 us; heap in use changed by -16 KB
+    lifecycle_test.go:106: cel-go: goroutines 2 before, 3 right after the refusals, 2 after waiting 22.25 ms; heap in use changed by 16 KB
+    lifecycle_test.go:106: expr-lang: goroutines 2 before, 3 right after the refusals, 2 after waiting 2.27 ms; heap in use changed by 16 KB
+--- PASS: TestL08GoroutinesAndHeapAreBackAfterCostAndTimeRefusals (0.66s)
+=== RUN   TestL09HostDeadlineShorterThanTheTimeLimitWins
+    lifecycle_test.go:131: own: host deadline 15ms, time limit 400ms: returned in 15.088084ms with This formula goes over the time limit of 15ms.
+    lifecycle_test.go:131: cel-go: host deadline 15ms, time limit 400ms: returned in 15.672667ms with This formula goes over the time limit of 15ms.
+    lifecycle_test.go:131: expr-lang: host deadline 15ms, time limit 400ms: returned in 15.533292ms with This formula goes over the time limit of 15ms.
+--- PASS: TestL09HostDeadlineShorterThanTheTimeLimitWins (0.05s)
+=== RUN   TestL10TenHostileFormulasAtOnceWhileAGoodOneAnswers
+    lifecycle_test.go:197: own: ten hostile at once, good answered 5 in 38 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+    lifecycle_test.go:197: cel-go: ten hostile at once, good answered 5 in 331 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+    lifecycle_test.go:197: expr-lang: ten hostile at once, good answered 5 in 788 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+--- PASS: TestL10TenHostileFormulasAtOnceWhileAGoodOneAnswers (0.11s)
+=== RUN   TestMatrix
+    matrix_test.go:23: P04   own        native refused  native   106 us     This formula goes over the depth limit of 64. | raw: The formula is nested too deeply: 65 levels where 64 are allowed. | alloc 35 KB
+    matrix_test.go:23: P04   own        full   refused  precheck 31 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P04   cel-go     native refused  native   716 us     This formula goes over the depth limit of 64. | raw: ERROR: <input>:-1:0: expression recursion limit exceeded: 64 | alloc 594 KB
+    matrix_test.go:23: P04   cel-go     full   refused  precheck 25 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P04   expr-lang  native ok       none     290 us     1 | raw:  | alloc 40 KB
+    matrix_test.go:23: P04   expr-lang  full   refused  precheck 18 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P04b  own        native refused  native   89 us      This formula goes over the depth limit of 64. | raw: The formula is nested too deeply: 65 levels where 64 are allowed. | alloc 18 KB
+    matrix_test.go:23: P04b  own        full   refused  precheck 22 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P04b  cel-go     native refused  native   657 us     This formula goes over the depth limit of 64. | raw: ERROR: <input>:-1:0: expression recursion limit exceeded: 64 | alloc 535 KB
+    matrix_test.go:23: P04b  cel-go     full   refused  precheck 35 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P04b  expr-lang  native ok       none     167 us     1 | raw:  | alloc 27 KB
+    matrix_test.go:23: P04b  expr-lang  full   refused  precheck 31 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P05   own        native refused  native   390 us     This formula goes over the formula length limit of 5000. | raw: The formula has 1000000 characters where 5000 are allowed. | alloc 4 KB
+    matrix_test.go:23: P05   own        full   refused  precheck 300 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P05   cel-go     native refused  native   13.47 ms   This formula goes over the formula length limit of 5000. | raw: ERROR: <input>:-1:0: expression code point size exceeds limit: size: 1000000, limit 5000 | alloc 5249 KB
+    matrix_test.go:23: P05   cel-go     full   refused  precheck 362 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P05   expr-lang  native crash    none     854.50 ms   | raw: fatal error: stack overflow (the whole process died) | alloc 0 KB
+    matrix_test.go:23: P05   expr-lang  full   refused  precheck 299 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P05s  own        native refused  native   357 us     This formula goes over the depth limit of 64. | raw: The formula is nested too deeply: 65 levels where 64 are allowed. | alloc 828 KB
+    matrix_test.go:23: P05s  own        full   refused  precheck 21 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P05s  cel-go     native refused  native   635 us     This formula goes over the depth limit of 64. | raw: ERROR: <input>:-1:0: expression recursion limit exceeded: 64 | alloc 557 KB
+    matrix_test.go:23: P05s  cel-go     full   refused  precheck 26 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P05s  expr-lang  native refused  native   2.30 ms    The formula cannot be read: unexpected token EOF at line 1, column 4900. | raw: unexpected token EOF (1:4900) | ((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((... | alloc 433 KB
+    matrix_test.go:23: P05s  expr-lang  full   refused  precheck 27 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: P20   own        native refused  native   35 us      The formula cannot be read: expected a value but found the end of the formula at line 1, column 1. | raw: The formula cannot be read: expected a value but found the end of the formula at line 1, column 1. | alloc 4 KB
+    matrix_test.go:23: P20   own        full   refused  precheck 15 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 4 KB
+    matrix_test.go:23: P20   cel-go     native refused  native   496 us     The formula cannot be read: mismatched input the end of the formula at line 1, column 1. | raw: ERROR: <input>:1:0: Syntax error: mismatched input '<EOF>' expecting {'[', '{', '(', '.', '-', '!', 'true', 'false', 'null', NUM_FLOAT, NUM_INT, NUM_UINT, STRING, BYTES, IDENTIFIER} | alloc 476 KB
+    matrix_test.go:23: P20   cel-go     full   refused  precheck 24 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P20   expr-lang  native refused  native   74 us      The formula cannot be read: unexpected token EOF at line 1, column 1. | raw: unexpected token EOF | alloc 20 KB
+    matrix_test.go:23: P20   expr-lang  full   refused  precheck 16 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P20b  own        native refused  native   39 us      The formula cannot be read: expected a value but found the end of the formula at line 2, column 2. | raw: The formula cannot be read: expected a value but found the end of the formula at line 2, column 2. | alloc 4 KB
+    matrix_test.go:23: P20b  own        full   refused  precheck 33 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 4 KB
+    matrix_test.go:23: P20b  cel-go     native refused  native   501 us     The formula cannot be read: mismatched input the end of the formula at line 2, column 2. | raw: ERROR: <input>:2:2: Syntax error: mismatched input '<EOF>' expecting {'[', '{', '(', '.', '-', '!', 'true', 'false', 'null', NUM_FLOAT, NUM_INT, NUM_UINT, STRING, BYTES, IDENTIFIER} | | .^ | alloc 483 KB
+    matrix_test.go:23: P20b  cel-go     full   refused  precheck 28 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: P20b  expr-lang  native refused  native   158 us     The formula cannot be read: unexpected token EOF at line 2, column 1. | raw: unexpected token EOF (2:1) | | ^ | alloc 21 KB
+    matrix_test.go:23: P20b  expr-lang  full   refused  precheck 47 us      The formula cannot be read: the formula is empty at line 1, column 1. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: L01   own        native refused  native   115 us     This formula goes over the depth limit of 64. | raw: The formula is nested too deeply: 65 levels where 64 are allowed. | alloc 34 KB
+    matrix_test.go:23: L01   own        full   refused  precheck 27 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: L01   cel-go     native refused  native   621 us     This formula goes over the depth limit of 64. | raw: ERROR: <input>:-1:0: expression recursion limit exceeded: 64 | alloc 600 KB
+    matrix_test.go:23: L01   cel-go     full   refused  precheck 31 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: L01   expr-lang  native ok       none     218 us     1 | raw:  | alloc 38 KB
+    matrix_test.go:23: L01   expr-lang  full   refused  precheck 28 us      This formula goes over the depth limit of 64. | raw: (no engine error: refused before the engine ran) | alloc 11 KB
+    matrix_test.go:23: L02   own        native ok       none     114 us     -1 | raw:  | alloc 41 KB
+    matrix_test.go:23: L02   own        full   ok       none     116 us     -1 | raw:  | alloc 48 KB
+    matrix_test.go:23: L02   cel-go     native ok       none     1.06 ms    -1 | raw:  | alloc 850 KB
+    matrix_test.go:23: L02   cel-go     full   ok       none     1.02 ms    -1 | raw:  | alloc 858 KB
+    matrix_test.go:23: L02   expr-lang  native ok       none     300 us     -1 | raw:  | alloc 38 KB
+    matrix_test.go:23: L02   expr-lang  full   ok       none     209 us     -1 | raw:  | alloc 45 KB
+    matrix_test.go:23: L03   own        native refused  native   253 us     This formula goes over the node limit of 1000. | raw: The formula is too large: 1001 parts where 1000 are allowed. | alloc 321 KB
+    matrix_test.go:23: L03   own        full   refused  native   251 us     This formula goes over the node limit of 1000. | raw: The formula is too large: 1001 parts where 1000 are allowed. | alloc 323 KB
+    matrix_test.go:23: L03   cel-go     native refused  native   12.50 ms   This formula goes over the node limit of 1000. | raw: ERROR: <input>:-1:0: expression node count exceeds limit: count 1001, limit 1000 | alloc 3054 KB
+    matrix_test.go:23: L03   cel-go     full   refused  native   5.57 ms    This formula goes over the node limit of 1000. | raw: ERROR: <input>:-1:0: expression node count exceeds limit: count 1001, limit 1000 | alloc 3056 KB
+    matrix_test.go:23: L03   expr-lang  native refused  native   246 us     This formula goes over the node limit of 1000. | raw: compilation failed: expression exceeds maximum allowed nodes (1:3001) | ((((((((1 + (1 + 1)) + ((1 + 1) + (1 + 1))) + (((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1)))) + ((((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1))) + (((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1))))) + ... | alloc 192 KB
+    matrix_test.go:23: L03   expr-lang  full   refused  native   434 us     This formula goes over the node limit of 1000. | raw: compilation failed: expression exceeds maximum allowed nodes (1:3001) | ((((((((1 + (1 + 1)) + ((1 + 1) + (1 + 1))) + (((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1)))) + ((((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1))) + (((1 + 1) + (1 + 1)) + ((1 + 1) + (1 + 1))))) + ... | alloc 194 KB
+    matrix_test.go:23: L04   own        native ok       none     258 us     -500 | raw:  | alloc 381 KB
+    matrix_test.go:23: L04   own        full   ok       none     311 us     -500 | raw:  | alloc 382 KB
+    matrix_test.go:23: L04   cel-go     native ok       none     6.25 ms    -500 | raw:  | alloc 4766 KB
+    matrix_test.go:23: L04   cel-go     full   ok       none     6.10 ms    -500 | raw:  | alloc 4774 KB
+    matrix_test.go:23: L04   expr-lang  native ok       none     1.25 ms    -500 | raw:  | alloc 188 KB
+    matrix_test.go:23: L04   expr-lang  full   ok       none     1.26 ms    -500 | raw:  | alloc 190 KB
+    matrix_test.go:23: L05   own        native refused  native   2.53 ms    This formula goes over the cost limit of 1000000. | raw: The formula needs more than the 1000000 steps allowed. | alloc 11918 KB
+    matrix_test.go:23: L05   own        full   refused  native   2.16 ms    This formula goes over the cost limit of 1000000. | raw: The formula needs more than the 1000000 steps allowed. | alloc 11909 KB
+    matrix_test.go:23: L05   cel-go     native refused  native   5.04 ms    This formula goes over the cost limit of 1000000. | raw: operation cancelled: actual cost limit exceeded | alloc 7134 KB
+    matrix_test.go:23: L05   cel-go     full   refused  native   5.32 ms    This formula goes over the cost limit of 1000000. | raw: operation cancelled: actual cost limit exceeded | alloc 7145 KB
+    matrix_test.go:23: L05   expr-lang  native refused  function 4.80 ms    This formula goes over the cost limit of 1000000. | raw: (no engine error: refused before the engine ran) | alloc 23895 KB
+    matrix_test.go:23: L05   expr-lang  full   refused  function 4.04 ms    This formula goes over the cost limit of 1000000. | raw: (no engine error: refused before the engine ran) | alloc 23892 KB
+    matrix_test.go:23: L06   own        native refused  native   30.70 ms   This formula goes over the time limit of 30ms. | raw: The formula ran out of time. | alloc 445556 KB
+    matrix_test.go:23: L06   own        full   refused  native   30.14 ms   This formula goes over the time limit of 30ms. | raw: The formula ran out of time. | alloc 423874 KB
+    matrix_test.go:23: L06   cel-go     native refused  wrapper  32.30 ms   This formula goes over the time limit of 30ms. | raw: formula time limit | alloc 282325 KB
+    matrix_test.go:23: L06   cel-go     full   refused  wrapper  31.65 ms   This formula goes over the time limit of 30ms. | raw: formula time limit | alloc 282326 KB
+    matrix_test.go:23: L06   expr-lang  native refused  wrapper  31.26 ms   This formula goes over the time limit of 30ms. | raw: formula time limit | alloc 472729 KB
+    matrix_test.go:23: L06   expr-lang  full   refused  wrapper  31.31 ms   This formula goes over the time limit of 30ms. | raw: formula time limit | alloc 472730 KB
+    matrix_test.go:23: C01   own        native refused  function 46 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 7 KB
+    matrix_test.go:23: C01   own        full   refused  function 62 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 7 KB
+    matrix_test.go:23: C01   cel-go     native refused  function 787 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 681 KB
+    matrix_test.go:23: C01   cel-go     full   refused  function 767 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 682 KB
+    matrix_test.go:23: C01   expr-lang  native refused  function 162 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 30 KB
+    matrix_test.go:23: C01   expr-lang  full   refused  function 144 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 30 KB
+    matrix_test.go:23: C02   own        native refused  function 55 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 7 KB
+    matrix_test.go:23: C02   own        full   refused  function 95 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 7 KB
+    matrix_test.go:23: C02   cel-go     native refused  function 1.34 ms    This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 688 KB
+    matrix_test.go:23: C02   cel-go     full   refused  function 732 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 688 KB
+    matrix_test.go:23: C02   expr-lang  native refused  function 150 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 30 KB
+    matrix_test.go:23: C02   expr-lang  full   refused  function 134 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 30 KB
+    matrix_test.go:23: I01   own        native refused  native   43 us      This formula goes over the text length limit of 1000. | raw: A text has 1001 characters where 1000 are allowed. | alloc 12 KB
+    matrix_test.go:23: I01   own        full   refused  precheck 33 us      This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I01   cel-go     native ok       none     834 us     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... | raw:  | alloc 587 KB
+    matrix_test.go:23: I01   cel-go     full   refused  precheck 43 us      This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I01   expr-lang  native ok       none     125 us     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... | raw:  | alloc 32 KB
+    matrix_test.go:23: I01   expr-lang  full   refused  precheck 40 us      This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I02   own        native refused  native   345 us     This formula goes over the text length limit of 1000. | raw: A text has 1000000 characters where 1000 are allowed. | alloc 6 KB
+    matrix_test.go:23: I02   own        full   refused  native   344 us     This formula goes over the text length limit of 1000. | raw: A text has 1000000 characters where 1000 are allowed. | alloc 6 KB
+    matrix_test.go:23: I02   cel-go     native refused  wrapper  1.03 ms    This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 649 KB
+    matrix_test.go:23: I02   cel-go     full   refused  wrapper  954 us     This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 649 KB
+    matrix_test.go:23: I02   expr-lang  native refused  wrapper  360 us     This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 22 KB
+    matrix_test.go:23: I02   expr-lang  full   refused  wrapper  359 us     This formula goes over the text length limit of 1000. | raw: (no engine error: refused before the engine ran) | alloc 22 KB
+    matrix_test.go:23: I04   own        native refused  native   344 us     This formula goes over the formula length limit of 5000. | raw: The formula has 1000000 characters where 5000 are allowed. | alloc 4 KB
+    matrix_test.go:23: I04   own        full   refused  precheck 295 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I04   cel-go     native refused  native   3.04 ms    This formula goes over the formula length limit of 5000. | raw: ERROR: <input>:-1:0: expression code point size exceeds limit: size: 1000000, limit 5000 | alloc 4134 KB
+    matrix_test.go:23: I04   cel-go     full   refused  precheck 302 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I04   expr-lang  native refused  native   16.21 ms   The formula cannot be read: invalid integer literal: strconv.ParseInt: parsing "17777777777777777777777777777777777777777777777777777777777777777777... at line 1, column 1000000. | raw: invalid integer literal: strconv.ParseInt: parsing "1777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777... | alloc 26021 KB
+    matrix_test.go:23: I04   expr-lang  full   refused  precheck 304 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I04b  own        native refused  native   37 us      This formula goes over the number magnitude limit of 18. | raw: A number has 100 digits where 18 are allowed. | alloc 4 KB
+    matrix_test.go:23: I04b  own        full   refused  precheck 34 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I04b  cel-go     native refused  native   629 us     The formula cannot be read: invalid int literal at line 1, column 1. | raw: ERROR: <input>:1:1: invalid int literal | 1777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777 | ^ | alloc 563 KB
+    matrix_test.go:23: I04b  cel-go     full   refused  precheck 35 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I04b  expr-lang  native refused  native   85 us      The formula cannot be read: invalid integer literal: strconv.ParseInt: parsing "17777777777777777777777777777777777777777777777777777777777777777777... at line 1, column 100. | raw: invalid integer literal: strconv.ParseInt: parsing "1777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777": value out of range (1:100) | 1777777777777777777777777777777777777777777777777777777777777777777777777777... | alloc 25 KB
+    matrix_test.go:23: I04b  expr-lang  full   refused  precheck 33 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I05   own        native refused  native   10.88 ms   This formula goes over the number magnitude limit of 18. | raw: A number has 200000 digits where 18 are allowed. | alloc 3139 KB
+    matrix_test.go:23: I05   own        full   refused  native   11.05 ms   This formula goes over the number magnitude limit of 18. | raw: A number has 200000 digits where 18 are allowed. | alloc 3140 KB
+    matrix_test.go:23: I05   cel-go     native refused  wrapper  12.26 ms   This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3721 KB
+    matrix_test.go:23: I05   cel-go     full   refused  wrapper  11.57 ms   This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3721 KB
+    matrix_test.go:23: I05   expr-lang  native refused  wrapper  11.58 ms   This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3156 KB
+    matrix_test.go:23: I05   expr-lang  full   refused  wrapper  10.87 ms   This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3156 KB
+    matrix_test.go:23: I06   own        native refused  native   37 us      The formula cannot be read: a number cannot be followed by letters at line 1, column 2. | raw: The formula cannot be read: a number cannot be followed by letters at line 1, column 2. | alloc 4 KB
+    matrix_test.go:23: I06   own        full   refused  precheck 42 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I06   cel-go     native refused  native   750 us     not a decimal: "1e1000000000" | raw: not a decimal: "1e1000000000" | alloc 670 KB
+    matrix_test.go:23: I06   cel-go     full   refused  precheck 35 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I06   expr-lang  native refused  native   68 us      The formula cannot be read: invalid float literal: strconv.ParseFloat: parsing "1e1000000000": value out of range at line 1, column 12. | raw: invalid float literal: strconv.ParseFloat: parsing "1e1000000000": value out of range (1:12) | 1e1000000000 | ...........^ | alloc 22 KB
+    matrix_test.go:23: I06   expr-lang  full   refused  precheck 30 us      This formula goes over the number magnitude limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09   own        native refused  native   329 us     This formula goes over the formula length limit of 5000. | raw: The formula has 1000002 characters where 5000 are allowed. | alloc 4 KB
+    matrix_test.go:23: I09   own        full   refused  precheck 303 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09   cel-go     native refused  native   3.36 ms    This formula goes over the formula length limit of 5000. | raw: ERROR: <input>:-1:0: expression code point size exceeds limit: size: 1000013, limit 5000 | alloc 5124 KB
+    matrix_test.go:23: I09   cel-go     full   refused  precheck 324 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09   expr-lang  native refused  wrapper  598.35 ms  This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 2150602 KB
+    matrix_test.go:23: I09   expr-lang  full   refused  precheck 318 us     This formula goes over the formula length limit of 5000. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09b  own        native refused  native   49 us      This formula goes over the decimal places limit of 18. | raw: A number has 40 decimal places where 18 are allowed. | alloc 4 KB
+    matrix_test.go:23: I09b  own        full   refused  precheck 39 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09b  cel-go     native refused  wrapper  689 us     This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 668 KB
+    matrix_test.go:23: I09b  cel-go     full   refused  precheck 32 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I09b  expr-lang  native refused  wrapper  110 us     This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 28 KB
+    matrix_test.go:23: I09b  expr-lang  full   refused  precheck 34 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I10   own        native refused  native   46 us      This formula goes over the decimal places limit of 18. | raw: A number has 1000000 decimal places where 18 are allowed. | alloc 6 KB
+    matrix_test.go:23: I10   own        full   refused  precheck 34 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I10   cel-go     native refused  wrapper  21.68 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 4023 KB
+    matrix_test.go:23: I10   cel-go     full   refused  precheck 33 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I10   expr-lang  native refused  wrapper  20.68 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3289 KB
+    matrix_test.go:23: I10   expr-lang  full   refused  precheck 72 us      This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3 KB
+    matrix_test.go:23: I10b  own        native refused  native   64 us      This formula goes over the decimal places limit of 18. | raw: A number has 1000000 decimal places where 18 are allowed. | alloc 7 KB
+    matrix_test.go:23: I10b  own        full   refused  native   67 us      This formula goes over the decimal places limit of 18. | raw: A number has 1000000 decimal places where 18 are allowed. | alloc 7 KB
+    matrix_test.go:23: I10b  cel-go     native refused  wrapper  22.01 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 4010 KB
+    matrix_test.go:23: I10b  cel-go     full   refused  wrapper  22.05 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 4015 KB
+    matrix_test.go:23: I10b  expr-lang  native refused  wrapper  21.35 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3294 KB
+    matrix_test.go:23: I10b  expr-lang  full   refused  wrapper  31.13 ms   This formula goes over the decimal places limit of 18. | raw: (no engine error: refused before the engine ran) | alloc 3294 KB
+    matrix_test.go:23: I12   own        native refused  native   55 us      This formula goes over the list length limit of 10000. | raw: A list has 10001 entries where 10000 are allowed. | alloc 6 KB
+    matrix_test.go:23: I12   own        full   refused  native   62 us      This formula goes over the list length limit of 10000. | raw: A list has 10001 entries where 10000 are allowed. | alloc 6 KB
+    matrix_test.go:23: I12   cel-go     native refused  wrapper  619 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 631 KB
+    matrix_test.go:23: I12   cel-go     full   refused  wrapper  621 us     This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 629 KB
+    matrix_test.go:23: I12   expr-lang  native refused  wrapper  89 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 23 KB
+    matrix_test.go:23: I12   expr-lang  full   refused  wrapper  85 us      This formula goes over the list length limit of 10000. | raw: (no engine error: refused before the engine ran) | alloc 24 KB
+--- PASS: TestMatrix (3.25s)
+=== RUN   TestLargestAmongTheNineteenFormulas
+    measure_test.go:24: largest among the 19 by the own engine's count: depth 8, nodes 34, formula length 175 characters
+--- PASS: TestLargestAmongTheNineteenFormulas (0.00s)
+=== RUN   TestSmallestNativeLimitsThatPassTheNineteenFormulas
+    measure_test.go:51: own: smallest depth limit that lets all 19 pass natively: 8; smallest node limit: 34
+    measure_test.go:51: cel-go: smallest depth limit that lets all 19 pass natively: 7; smallest node limit: 38
+    measure_test.go:51: expr-lang: no native depth limit (the depth setting changes nothing); smallest node limit that lets all 19 pass: 48
+--- PASS: TestSmallestNativeLimitsThatPassTheNineteenFormulas (0.16s)
+=== RUN   TestChildCase
+    runner_test.go:112: only runs as a child process
+--- SKIP: TestChildCase (0.00s)
+PASS
+ok  	github.com/aosanya/mwanachama-backend-compute/spike/limits	5.113s

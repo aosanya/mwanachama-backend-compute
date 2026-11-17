@@ -1,0 +1,173 @@
+case   engine     mode    layer     time       sentence
+C01    cel-go     full    function  767 us     This formula goes over the list length limit of 10000.
+C01    cel-go     native  function  787 us     This formula goes over the list length limit of 10000.
+C01    expr-lang  full    function  144 us     This formula goes over the list length limit of 10000.
+C01    expr-lang  native  function  162 us     This formula goes over the list length limit of 10000.
+C01    own        full    function  62 us      This formula goes over the list length limit of 10000.
+C01    own        native  function  46 us      This formula goes over the list length limit of 10000.
+C02    cel-go     full    function  732 us     This formula goes over the list length limit of 10000.
+C02    cel-go     native  function  1.34 ms    This formula goes over the list length limit of 10000.
+C02    expr-lang  full    function  134 us     This formula goes over the list length limit of 10000.
+C02    expr-lang  native  function  150 us     This formula goes over the list length limit of 10000.
+C02    own        full    function  95 us      This formula goes over the list length limit of 10000.
+C02    own        native  function  55 us      This formula goes over the list length limit of 10000.
+F19    cel-go     native  native    -          smallest depth limit that lets all 19 pass natively: 7; smallest node limit: 38
+F19    expr-lang  native  native    -          no native depth limit (the depth setting changes nothing); smallest node limit that lets all 19 pass: 48
+F19    own        native  none      -          largest among the 19 by the own engine's count: depth 8, nodes 34, formula length 175 characters
+F19    own        native  native    -          smallest depth limit that lets all 19 pass natively: 8; smallest node limit: 34
+I01    cel-go     full    precheck  43 us      This formula goes over the text length limit of 1000.
+I01    cel-go     native  none      834 us     (no refusal) result aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...
+I01    expr-lang  full    precheck  40 us      This formula goes over the text length limit of 1000.
+I01    expr-lang  native  none      125 us     (no refusal) result aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...
+I01    own        full    precheck  33 us      This formula goes over the text length limit of 1000.
+I01    own        native  native    43 us      This formula goes over the text length limit of 1000.
+I02    cel-go     full    wrapper   954 us     This formula goes over the text length limit of 1000.
+I02    cel-go     native  wrapper   1.03 ms    This formula goes over the text length limit of 1000.
+I02    expr-lang  full    wrapper   359 us     This formula goes over the text length limit of 1000.
+I02    expr-lang  native  wrapper   360 us     This formula goes over the text length limit of 1000.
+I02    own        full    native    344 us     This formula goes over the text length limit of 1000.
+I02    own        native  native    345 us     This formula goes over the text length limit of 1000.
+I04    cel-go     full    precheck  302 us     This formula goes over the formula length limit of 5000.
+I04    cel-go     native  native    3.04 ms    This formula goes over the formula length limit of 5000.
+I04    expr-lang  full    precheck  304 us     This formula goes over the formula length limit of 5000.
+I04    expr-lang  native  native    16.21 ms   The formula cannot be read: invalid integer literal: strconv.ParseInt: parsing "17777777777777777777777777777777777777777777777777777777777777777777... at line 1, column 1000000.
+I04    own        full    precheck  295 us     This formula goes over the formula length limit of 5000.
+I04    own        native  native    344 us     This formula goes over the formula length limit of 5000.
+I04b   cel-go     full    precheck  35 us      This formula goes over the number magnitude limit of 18.
+I04b   cel-go     native  native    629 us     The formula cannot be read: invalid int literal at line 1, column 1.
+I04b   expr-lang  full    precheck  33 us      This formula goes over the number magnitude limit of 18.
+I04b   expr-lang  native  native    85 us      The formula cannot be read: invalid integer literal: strconv.ParseInt: parsing "17777777777777777777777777777777777777777777777777777777777777777777... at line 1, column 100.
+I04b   own        full    precheck  34 us      This formula goes over the number magnitude limit of 18.
+I04b   own        native  native    37 us      This formula goes over the number magnitude limit of 18.
+I05    cel-go     full    wrapper   11.57 ms   This formula goes over the number magnitude limit of 18.
+I05    cel-go     native  wrapper   12.26 ms   This formula goes over the number magnitude limit of 18.
+I05    expr-lang  full    wrapper   10.87 ms   This formula goes over the number magnitude limit of 18.
+I05    expr-lang  native  wrapper   11.58 ms   This formula goes over the number magnitude limit of 18.
+I05    own        full    native    11.05 ms   This formula goes over the number magnitude limit of 18.
+I05    own        native  native    10.88 ms   This formula goes over the number magnitude limit of 18.
+I06    cel-go     full    precheck  35 us      This formula goes over the number magnitude limit of 18.
+I06    cel-go     native  native    750 us     not a decimal: "1e1000000000"
+I06    expr-lang  full    precheck  30 us      This formula goes over the number magnitude limit of 18.
+I06    expr-lang  native  native    68 us      The formula cannot be read: invalid float literal: strconv.ParseFloat: parsing "1e1000000000": value out of range at line 1, column 12.
+I06    own        full    precheck  42 us      This formula goes over the number magnitude limit of 18.
+I06    own        native  native    37 us      The formula cannot be read: a number cannot be followed by letters at line 1, column 2.
+I09    cel-go     full    precheck  324 us     This formula goes over the formula length limit of 5000.
+I09    cel-go     native  native    3.36 ms    This formula goes over the formula length limit of 5000.
+I09    expr-lang  full    precheck  318 us     This formula goes over the formula length limit of 5000.
+I09    expr-lang  native  wrapper   598.35 ms  This formula goes over the decimal places limit of 18.
+I09    own        full    precheck  303 us     This formula goes over the formula length limit of 5000.
+I09    own        native  native    329 us     This formula goes over the formula length limit of 5000.
+I09b   cel-go     full    precheck  32 us      This formula goes over the decimal places limit of 18.
+I09b   cel-go     native  wrapper   689 us     This formula goes over the decimal places limit of 18.
+I09b   expr-lang  full    precheck  34 us      This formula goes over the decimal places limit of 18.
+I09b   expr-lang  native  wrapper   110 us     This formula goes over the decimal places limit of 18.
+I09b   own        full    precheck  39 us      This formula goes over the decimal places limit of 18.
+I09b   own        native  native    49 us      This formula goes over the decimal places limit of 18.
+I10    cel-go     full    precheck  33 us      This formula goes over the decimal places limit of 18.
+I10    cel-go     native  wrapper   21.68 ms   This formula goes over the decimal places limit of 18.
+I10    expr-lang  full    precheck  72 us      This formula goes over the decimal places limit of 18.
+I10    expr-lang  native  wrapper   20.68 ms   This formula goes over the decimal places limit of 18.
+I10    own        full    precheck  34 us      This formula goes over the decimal places limit of 18.
+I10    own        native  native    46 us      This formula goes over the decimal places limit of 18.
+I10b   cel-go     full    wrapper   22.05 ms   This formula goes over the decimal places limit of 18.
+I10b   cel-go     native  wrapper   22.01 ms   This formula goes over the decimal places limit of 18.
+I10b   expr-lang  full    wrapper   31.13 ms   This formula goes over the decimal places limit of 18.
+I10b   expr-lang  native  wrapper   21.35 ms   This formula goes over the decimal places limit of 18.
+I10b   own        full    native    67 us      This formula goes over the decimal places limit of 18.
+I10b   own        native  native    64 us      This formula goes over the decimal places limit of 18.
+I12    cel-go     full    wrapper   621 us     This formula goes over the list length limit of 10000.
+I12    cel-go     native  wrapper   619 us     This formula goes over the list length limit of 10000.
+I12    expr-lang  full    wrapper   85 us      This formula goes over the list length limit of 10000.
+I12    expr-lang  native  wrapper   89 us      This formula goes over the list length limit of 10000.
+I12    own        full    native    62 us      This formula goes over the list length limit of 10000.
+I12    own        native  native    55 us      This formula goes over the list length limit of 10000.
+L01    cel-go     full    precheck  31 us      This formula goes over the depth limit of 64.
+L01    cel-go     native  native    621 us     This formula goes over the depth limit of 64.
+L01    expr-lang  full    precheck  28 us      This formula goes over the depth limit of 64.
+L01    expr-lang  native  none      218 us     (no refusal) result 1
+L01    own        full    precheck  27 us      This formula goes over the depth limit of 64.
+L01    own        native  native    115 us     This formula goes over the depth limit of 64.
+L01b   cel-go     native  native    -          native depth: nested minus accepted up to 63 brackets (64 levels counting the number), limit 64
+L01b   expr-lang  native  native    -          native depth: no refusal found; every nesting tried up to 128 brackets was accepted, limit 64
+L01b   own        native  native    -          native depth: nested minus accepted up to 63 brackets (64 levels counting the number), limit 64
+L02    cel-go     full    none      1.02 ms    (no refusal) result -1
+L02    cel-go     native  none      1.06 ms    (no refusal) result -1
+L02    expr-lang  full    none      209 us     (no refusal) result -1
+L02    expr-lang  native  none      300 us     (no refusal) result -1
+L02    own        full    none      116 us     (no refusal) result -1
+L02    own        native  none      114 us     (no refusal) result -1
+L03    cel-go     full    native    5.57 ms    This formula goes over the node limit of 1000.
+L03    cel-go     native  native    12.50 ms   This formula goes over the node limit of 1000.
+L03    expr-lang  full    native    434 us     This formula goes over the node limit of 1000.
+L03    expr-lang  native  native    246 us     This formula goes over the node limit of 1000.
+L03    own        full    native    251 us     This formula goes over the node limit of 1000.
+L03    own        native  native    253 us     This formula goes over the node limit of 1000.
+L03b   cel-go     native  native    -          native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+L03b   expr-lang  native  native    -          native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+L03b   own        native  native    -          native nodes: formulas of balanced additions accepted up to 1000 nodes by this engine's own count, limit 1000
+L04    cel-go     full    none      6.10 ms    (no refusal) result -500
+L04    cel-go     native  none      6.25 ms    (no refusal) result -500
+L04    expr-lang  full    none      1.26 ms    (no refusal) result -500
+L04    expr-lang  native  none      1.25 ms    (no refusal) result -500
+L04    own        full    none      311 us     (no refusal) result -500
+L04    own        native  none      258 us     (no refusal) result -500
+L05    cel-go     full    native    5.32 ms    This formula goes over the cost limit of 1000000.
+L05    cel-go     native  native    5.04 ms    This formula goes over the cost limit of 1000000.
+L05    expr-lang  full    function  4.04 ms    This formula goes over the cost limit of 1000000.
+L05    expr-lang  native  function  4.80 ms    This formula goes over the cost limit of 1000000.
+L05    own        full    native    2.16 ms    This formula goes over the cost limit of 1000000.
+L05    own        native  native    2.53 ms    This formula goes over the cost limit of 1000000.
+L06    cel-go     full    wrapper   31.65 ms   This formula goes over the time limit of 30ms.
+L06    cel-go     native  wrapper   32.30 ms   This formula goes over the time limit of 30ms.
+L06    expr-lang  full    wrapper   31.31 ms   This formula goes over the time limit of 30ms.
+L06    expr-lang  native  wrapper   31.26 ms   This formula goes over the time limit of 30ms.
+L06    own        full    native    30.14 ms   This formula goes over the time limit of 30ms.
+L06    own        native  native    30.70 ms   This formula goes over the time limit of 30ms.
+L07    cel-go     full    none      -          2 + 3 returned 5 after six hostile formulas and a time-limit run
+L07    expr-lang  full    none      -          2 + 3 returned 5 after six hostile formulas and a time-limit run
+L07    own        full    none      -          2 + 3 returned 5 after six hostile formulas and a time-limit run
+L08    cel-go     full    none      22.25 ms   goroutines 2 before, 3 right after the refusals, 2 after waiting 22.25 ms; heap in use changed by 16 KB
+L08    expr-lang  full    none      2.27 ms    goroutines 2 before, 3 right after the refusals, 2 after waiting 2.27 ms; heap in use changed by 16 KB
+L08    own        full    none      0 us       goroutines 2 before, 2 right after the refusals, 2 after waiting 0 us; heap in use changed by -16 KB
+L09    cel-go     full    wrapper   15.67 ms   This formula goes over the time limit of 15ms.
+L09    expr-lang  full    wrapper   15.53 ms   This formula goes over the time limit of 15ms.
+L09    own        full    native    15.09 ms   This formula goes over the time limit of 15ms.
+L10    cel-go     full    none      31.50 ms   ten hostile at once, good answered 5 in 331 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+L10    expr-lang  full    none      30.56 ms   ten hostile at once, good answered 5 in 788 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+L10    own        full    none      32.88 ms   ten hostile at once, good answered 5 in 38 us: [P04=depth P05=formula length L01=depth L03=node L05=cost C01=list length C02=list length I01=text length I10=decimal places L06=time]
+P04    cel-go     full    precheck  25 us      This formula goes over the depth limit of 64.
+P04    cel-go     native  native    716 us     This formula goes over the depth limit of 64.
+P04    expr-lang  full    precheck  18 us      This formula goes over the depth limit of 64.
+P04    expr-lang  native  none      290 us     (no refusal) result 1
+P04    own        full    precheck  31 us      This formula goes over the depth limit of 64.
+P04    own        native  native    106 us     This formula goes over the depth limit of 64.
+P04b   cel-go     full    precheck  35 us      This formula goes over the depth limit of 64.
+P04b   cel-go     native  native    657 us     This formula goes over the depth limit of 64.
+P04b   expr-lang  full    precheck  31 us      This formula goes over the depth limit of 64.
+P04b   expr-lang  native  none      167 us     (no refusal) result 1
+P04b   own        full    precheck  22 us      This formula goes over the depth limit of 64.
+P04b   own        native  native    89 us      This formula goes over the depth limit of 64.
+P05    cel-go     full    precheck  362 us     This formula goes over the formula length limit of 5000.
+P05    cel-go     native  native    13.47 ms   This formula goes over the formula length limit of 5000.
+P05    expr-lang  full    precheck  299 us     This formula goes over the formula length limit of 5000.
+P05    expr-lang  native  none      854.50 ms  CRASH: fatal error: stack overflow (the whole process died)
+P05    own        full    precheck  300 us     This formula goes over the formula length limit of 5000.
+P05    own        native  native    390 us     This formula goes over the formula length limit of 5000.
+P05s   cel-go     full    precheck  26 us      This formula goes over the depth limit of 64.
+P05s   cel-go     native  native    635 us     This formula goes over the depth limit of 64.
+P05s   expr-lang  full    precheck  27 us      This formula goes over the depth limit of 64.
+P05s   expr-lang  native  native    2.30 ms    The formula cannot be read: unexpected token EOF at line 1, column 4900.
+P05s   own        full    precheck  21 us      This formula goes over the depth limit of 64.
+P05s   own        native  native    357 us     This formula goes over the depth limit of 64.
+P20    cel-go     full    precheck  24 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20    cel-go     native  native    496 us     The formula cannot be read: mismatched input the end of the formula at line 1, column 1.
+P20    expr-lang  full    precheck  16 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20    expr-lang  native  native    74 us      The formula cannot be read: unexpected token EOF at line 1, column 1.
+P20    own        full    precheck  15 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20    own        native  native    35 us      The formula cannot be read: expected a value but found the end of the formula at line 1, column 1.
+P20b   cel-go     full    precheck  28 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20b   cel-go     native  native    501 us     The formula cannot be read: mismatched input the end of the formula at line 2, column 2.
+P20b   expr-lang  full    precheck  47 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20b   expr-lang  native  native    158 us     The formula cannot be read: unexpected token EOF at line 2, column 1.
+P20b   own        full    precheck  33 us      The formula cannot be read: the formula is empty at line 1, column 1.
+P20b   own        native  native    39 us      The formula cannot be read: expected a value but found the end of the formula at line 2, column 2.
