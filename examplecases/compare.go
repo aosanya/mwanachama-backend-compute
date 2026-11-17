@@ -25,13 +25,13 @@ func Mismatch(c Case, outcome Outcome) string {
 	return ""
 }
 
-func Failing(cases []Case, held map[string]string, runtime *StandIn) []string {
+func Failing(cases []Case, held map[string]string, definitions Definitions, runtime *StandIn) []string {
 	var failing []string
 	for _, c := range cases {
 		if _, isHeld := held[c.Name]; isHeld {
 			continue
 		}
-		outcome, err := Evaluate(c, runtime)
+		outcome, err := Run(c, definitions, runtime)
 		if err != nil || Mismatch(c, outcome) != "" {
 			failing = append(failing, c.Name)
 		}

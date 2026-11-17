@@ -14,12 +14,13 @@ func TestEveryCaseRunsAndGivesItsExpectedResultOrProblems(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	definitions := loadDefinitions(t)
 	for _, c := range cases {
 		t.Run(c.Name, func(t *testing.T) {
 			if reason, isHeld := held[c.Name]; isHeld {
 				t.Skipf("held: %s", reason)
 			}
-			outcome, err := Evaluate(c, runtime)
+			outcome, err := Run(c, definitions, runtime)
 			if err != nil {
 				t.Fatalf("%s:%d: %v", c.File, c.Line, err)
 			}

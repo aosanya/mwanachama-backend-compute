@@ -39,8 +39,9 @@ func TestChangingOneExpectedResultInACopyMakesExactlyThatCaseFail(t *testing.T) 
 	if err != nil {
 		t.Fatal(err)
 	}
+	definitions := loadDefinitions(t)
 	_, untouched := copyOfTheCaseFile(t, func(text string) string { return text })
-	if failing := Failing(untouched, held, runtime); len(failing) != 0 {
+	if failing := Failing(untouched, held, definitions, runtime); len(failing) != 0 {
 		t.Fatalf("the unchanged copy fails: %v", failing)
 	}
 	changes := map[string][2]string{
@@ -58,7 +59,7 @@ func TestChangingOneExpectedResultInACopyMakesExactlyThatCaseFail(t *testing.T) 
 				}
 				return strings.Replace(text, change[0], change[1], 1)
 			})
-			failing := Failing(cases, held, runtime)
+			failing := Failing(cases, held, definitions, runtime)
 			if len(failing) != 1 || failing[0] != name {
 				t.Fatalf("failing cases: %v, want only %s", failing, name)
 			}
