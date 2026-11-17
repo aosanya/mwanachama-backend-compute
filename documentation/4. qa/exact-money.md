@@ -2,7 +2,7 @@
 
 Status: draft. A test design for owner review. Nothing here is built, and nothing here chooses an open rule.
 
-All names and figures are invented. Amounts are shown with 2 places. That is a working assumption for this page only (open question 3).
+All names and figures are invented. Amounts are shown with 2 places. Each agency sets the places of its currency (decision 15), so the cases are written for 2 places and are repeated for other place counts (open question 3).
 
 ## What this protects
 
@@ -10,10 +10,10 @@ No balance, interest or share is ever off by a fraction. Any drift is caught by 
 
 ## Open questions for the owner
 
-1. Rounding modes. Which modes does the formula language offer, which are allowed in an agency's formula, and which is the default? The eight candidates are defined under group B. The tests run all eight and choose none.
-2. Remainder of a split. When a total does not divide evenly, where do the leftover cents go? Candidates are listed under group C. Related: the base share of a negative total (this page assumes truncation toward zero), and the tie-break when two members have equal fractions.
-3. Places per currency. The page assumes 2. If a currency can have 0, 3 or 4 places, every case repeats per place count.
-4. Non-terminating division. 1 divided by 3 has no exact decimal. Candidates: refuse; round to a stated number of places with a named mode; carry a rational number.
+1. Rounding modes. Partly settled: where a formula names no rounding, halves round up (decision 14), and the agency decides the rounding rule, with the builder offered the list wherever a result is a number (decision 20). Still open: the list itself (proposed: down, up, half up, half down and half even), and whether an agency can change its own default from half up. The eight candidates are defined under group B. The tests run all eight; half-+inf, ceiling and floor are not in the proposed list, so their columns are checked as candidates only and are dropped if the list is confirmed.
+2. Remainder of a split. Settled by decision 13: each share is cut down to the currency's smallest unit, the payout is the sum of the shares, and the left-over stays in the account the payout came from. No rounding account and no random choice. The tie-break between equal fractions falls away. Still open: the base share of a negative total (this page assumes truncation toward zero).
+3. Places per currency. Settled by decision 15: each agency sets the places of its currency. The page is written for 2; for a currency with 0, 3 or 4 places every case repeats per place count, and those repeats are not written out yet.
+4. Non-terminating division. Settled by decision 21 for the approach: the number of digits kept inside a calculation before the final rounding is an agency setting, so 1 divided by 3 is kept to that many digits and then rounded as the formula says. Refusing and carrying a rational number are not offered. Still open: the default (20 digits is proposed) and the range an agency may choose from.
 5. Negative inputs. May an input be negative? Cases that need it are marked "only if negative inputs are allowed".
 6. Error wording. The exact sentence for mixing decimal and float is not decided. Candidate wordings are not fixed here.
 7. Fast-path boundary. The size of the largest whole number of smallest units held on the fast path is set by the engine choice (the engine spike). The page calls it B.
@@ -46,6 +46,8 @@ The eight candidate modes. Each is defined by what it does at the half, or, for 
 | down | any fraction, toward zero (truncate) |
 | ceiling | any fraction, toward positive infinity |
 | floor | any fraction, toward negative infinity |
+
+Decision 20 proposes that an agency be offered five of these: down, up, half up, half down and half even. Half-+inf, ceiling and floor are candidates only.
 
 half-up and half-+inf give the same result for every positive input and differ only at the half of a negative input. Libraries use the name "half-up" for both, so the tests name the behaviour, not only the label.
 
@@ -119,9 +121,9 @@ Only if negative inputs are allowed. Under up and floor the result is -0.01.
 
 ## C. Splitting a total
 
-Rule: the shares add back to the total. The remainder is never lost and never invented.
+Rule: the shares plus the left-over add back to the total. The left-over is never lost and never invented. By decision 13 each share is cut down to the smallest unit, the payout is the sum of the shares and the left-over stays in the account the payout came from.
 
-Working assumption for the tables: the base share is the total divided by the number of members, cut off after 2 places toward zero. The remainder is the total minus the sum of the base shares, counted in cents.
+The base share is the total divided by the number of members, cut down after 2 places (toward zero for a positive total; the direction for a negative total is open question 2). The remainder is the total minus the sum of the base shares, counted in cents; it is the left-over that stays in the payout's account.
 
 ### C1. Cases
 
@@ -149,11 +151,13 @@ These hold under every candidate placement below and are tested without choosing
 | EM-40 | Sum of shares, plus any amount held outside the members, equals the total exactly | every case in C1 and EM-102 |
 | EM-41 | Remainder is 0 or more cents and fewer cents than there are members | EM-30 to EM-39 |
 | EM-42 | No share is negative when the total is not negative | EM-30 to EM-39 |
-| EM-43 | Each share differs from the base share by 0 or 1 cent | candidates 2, 3, 5 and 6 below only. Candidates 1 and 4 give one member the whole remainder, so EM-31 shows a 4 cent difference. Under candidate 5 members hold exactly the base share |
-| EM-44 | Running the same split twice gives the same shares | every case, with the seed recorded for candidate 6 |
-| EM-45 | Member order in the list does not change the total of shares, only who holds which cent | EM-30, EM-31 |
+| EM-43 | Every share equals the base share exactly, so no member gets an extra cent (decision 13) | EM-30 to EM-39 |
+| EM-44 | Running the same split twice gives the same shares; there is no random choice | every case |
+| EM-45 | Member order in the list does not change any share or the total of shares | EM-30, EM-31 |
 
-### C3. Remainder placement: depends on the owner's answer to open question 2
+### C3. Where the remainder goes: settled by decision 13
+
+The owner chose candidate 5 in a form without a rounding account: the left-over stays in the account the payout came from. Candidates 1, 2, 3, 4 and 6 are ruled out. They are kept below so the case ids hold; EM-46 to EM-49 and EM-51 are not run, and EM-50 is the case that runs.
 
 The candidates:
 
@@ -161,7 +165,7 @@ The candidates:
 2. One cent each to the first r members in list order (r is the remainder in cents).
 3. One cent each to the r members with the largest fractional parts (largest remainder method). A tie-break is then needed (open question 2).
 4. The last member absorbs it.
-5. A named account, such as a rounding account, holds it.
+5. A named account, such as a rounding account, holds it. Chosen in this form: the account the payout came from holds it, and there is no separate rounding account.
 6. Member order randomised with a recorded seed, then candidate 2.
 
 Shown for two cases only. Each row adds to 100.00.
@@ -172,10 +176,10 @@ Shown for two cases only. Each row adds to 100.00.
 | EM-47 | 2 first r members | 33.34, 33.33, 33.33 | four at 14.29, then three at 14.28. Check: 4 x 14.29 + 3 x 14.28 = 57.16 + 42.84 = 100.00 |
 | EM-48 | 3 largest fractions | all three fractions are equal (one third), so the tie-break decides. With list order as tie-break: 33.34, 33.33, 33.33 | all seven fractions are equal (four sevenths), so the tie-break decides. With list order as tie-break: same as candidate 2 |
 | EM-49 | 4 last member | 33.33, 33.33, 33.34 | six at 14.28, then 14.32 |
-| EM-50 | 5 account | members 33.33 each, account 0.01. Check: 99.99 + 0.01 = 100.00 | members 14.28 each, account 0.04. Check: 99.96 + 0.04 = 100.00 |
+| EM-50 | 5 the payout's own account (runs) | members 33.33 each, payout 99.99, left-over 0.01 stays in the account the payout came from. Check: 99.99 + 0.01 = 100.00 | members 14.28 each, payout 99.96, left-over 0.04 stays. Check: 99.96 + 0.04 = 100.00 |
 | EM-51 | 6 seeded order | any 1 of 3 members holds the extra cent: 3 possible results. Same seed gives the same one | any 4 of 7 members hold an extra cent: 35 possible results (7 choose 4). Same seed gives the same one |
 
-Candidate 3 only differs from candidate 2 when fractions differ, as in EM-37: shares 3.33 and 6.66 plus 1 cent. The member with weight 2 has the larger fraction (two thirds of a cent against one third), so candidate 3 gives 3.33 and 6.67, and candidate 2 gives 3.34 and 6.66.
+Under decision 13 EM-37 gives 3.33 and 6.66, and the 1 cent left over stays in the payout's account. The largest-remainder candidate would have given 3.33 and 6.67, and the first-members candidate 3.34 and 6.66; both are ruled out.
 
 ## D. Interest
 
@@ -309,8 +313,8 @@ A wrapped result of EM-81 would be negative. A saturated result would stay at ..
 | EM-94 | smallest amount: 0.01 + 0.01 | 0.02 | 1 + 1 = 2 cents | one smallest unit is not lost |
 | EM-95 | 0.01 x 0.5 to 2 places | 0.005 before rounding. Rounds as the half row of EM-12, scaled: half-up 0.01, half-down 0.00, half-even 0.00 | 1 cent x 0.5 = 0.5 cent | a half cent is a rounding case, not a loss |
 | EM-96 | very large: 999,999,999,999,999,999.99 + 0.01 | 1,000,000,000,000,000,000.00 | 99,999,999,999,999,999,999 cents + 1 = 100,000,000,000,000,000,000 cents. This is above the 64-bit illustration (about 1.8 x 10^19 even unsigned), so it runs on the big path whichever B is chosen | carry through every digit |
-| EM-97 | 1 divided by 3 | open question 4. Candidates: refuse; 0.33 to 2 places under half-up; the rational 1/3 | 1/3 has no exact decimal. Under the rational candidate, 1/3 x 3 = 1 exactly. Under the rounding candidate, 0.33 x 3 = 0.99 | a division never returns a quiet wrong figure |
-| EM-98 | 2 divided by 3 to 2 places, if the rounding candidate is chosen | half-up 0.67, up 0.67, ceiling 0.67, down 0.66, floor 0.66 | 2/3 = 0.6666..., which is above the half of the third place, so every half mode gives 0.67 | the mode is named in the formula |
+| EM-97 | 1 divided by 3 | kept to the agency's digits (20 proposed): 0.33333333333333333333. To 2 places under half-up: 0.33. Times 3 before the final rounding: 0.99999999999999999999 | 1/3 has no exact decimal, so the digits kept are the agency's setting (decision 21). Refusing and carrying a rational are not offered | a division never returns a quiet wrong figure |
+| EM-98 | 2 divided by 3 to 2 places, digits kept as in EM-97 | half-up 0.67, up 0.67, ceiling 0.67, down 0.66, floor 0.66 | 2/3 = 0.6666..., which is above the half of the third place, so every half mode gives 0.67 | the mode is named in the formula |
 | EM-99 | 0.0001 at 4 places, only if places per currency can be 4 | 0.0001 + 0.0001 = 0.0002; 0.0001 x 0.5 = 0.00005 before rounding | 1 unit + 1 unit = 2 units | the smallest unit follows the currency's places |
 
 Only if negative inputs are allowed (open question 5):
@@ -319,9 +323,9 @@ Only if negative inputs are allowed (open question 5):
 |---|---|---|---|
 | EM-100 | -10.00 + 4.00 | -6.00 | -1,000 + 400 = -600 cents |
 | EM-101 | -0.5 rounded to 0 places, under each mode | the EM-13 row | see B1 |
-| EM-102 | -100.00 among 3 | base share -33.33 each, remainder -1 cent, check -99.99 + -0.01 = -100.00 | 10,000 cents / 3 = 3,333 each, cut toward zero; 3 x 3,333 = 9,999; remainder -1. Where the -1 cent goes: open question 2 |
+| EM-102 | -100.00 among 3 | base share -33.33 each, remainder -1 cent, check -99.99 + -0.01 = -100.00 | 10,000 cents / 3 = 3,333 each, cut toward zero; 3 x 3,333 = 9,999; remainder -1. The -1 cent left over stays in the payout's account (decision 13); the direction of the cut for a negative total is open question 2 |
 
-Cut toward floor instead, the base share would be -33.34 with a remainder of +2 cents. That is a different convention and part of open question 2.
+Cut toward floor instead, the base share would be -33.34 with a remainder of +2 cents. That is a different convention and is the part of open question 2 that stays open.
 
 ## How the figures were checked
 
