@@ -111,3 +111,71 @@ func TestAnExampleRemovedFromACopyOfTheDesignPageLeavesARowToReport(t *testing.T
 		t.Fatalf("failures: %v", failures)
 	}
 }
+
+func TestChangingOneExpectedResultOfAValidateRowInACopyMakesExactlyThatCaseFail(t *testing.T) {
+	held, err := LoadHeld(heldPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	runtime, err := NewStandIn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	definitions := loadDefinitions(t)
+	changes := map[string][2]string{
+		"rules-required-valid":            {"result: dec:75.25 | A clean row is calculated", "result: dec:75.26 | A clean row is calculated"},
+		"rules-three-problems-at-once":    {"problems: no-negatives, no-negatives, decimal-places |", "problems: no-negatives, decimal-places, no-negatives |"},
+		"rules-check-failed":              {"problems: check-failed | A check that runs and is false", "problems: check-error | A check that runs and is false"},
+		"rules-definition-range-reversed": {"problems: range-reversed |", "problems: places-too-many |"},
+	}
+	for name, change := range changes {
+		t.Run(name, func(t *testing.T) {
+			_, cases := copyOfTheCaseFile(t, func(text string) string {
+				if strings.Count(text, change[0]) != 1 {
+					t.Fatalf("%q is not found once in the case file", change[0])
+				}
+				return strings.Replace(text, change[0], change[1], 1)
+			})
+			failing := Failing(cases, held, definitions, runtime)
+			if len(failing) != 1 || failing[0] != name {
+				t.Fatalf("failing cases: %v, want only %s", failing, name)
+			}
+		})
+	}
+}
+
+func TestChangingARuleOfADefinitionInACopyMakesTheCasesThatUseItFail(t *testing.T) {
+	held, err := LoadHeld(heldPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	runtime, err := NewStandIn()
+	if err != nil {
+		t.Fatal(err)
+	}
+	original := "| V1 | input | payment | decimal: required; no-negatives; decimal-places 2 | |"
+	changed := "| V1 | input | payment | decimal: required; no-negatives; decimal-places 3 | |"
+	text := readFile(t, definitionsPath)
+	if strings.Count(text, original) != 1 {
+		t.Fatalf("%q is not found once in the definitions file", original)
+	}
+	definitions, err := ParseDefinitions("copy.definitions.md", strings.Replace(text, original, changed, 1))
+	if err != nil {
+		t.Fatal(err)
+	}
+	failing := Failing(loadAll(t), held, definitions, runtime)
+	if len(failing) == 0 {
+		t.Fatal("no case fails")
+	}
+	failed := map[string]bool{}
+	for _, name := range failing {
+		failed[name] = true
+		binding, bound := definitions.Bindings[name]
+		if !bound || !strings.HasPrefix(binding.Definition, "V1") {
+			t.Errorf("%s fails and does not use V1", name)
+		}
+	}
+	if !failed["rules-decimal-places-invalid"] {
+		t.Error("rules-decimal-places-invalid still passes with three places allowed")
+	}
+}

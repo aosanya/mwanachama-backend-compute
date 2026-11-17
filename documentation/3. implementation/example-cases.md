@@ -15,8 +15,11 @@ Status: the owner has not reviewed this page. The shapes marked proposed on the 
 | `examplecases/library.go` | `StandIn`, the library the cases call (see below). |
 | `examplecases/compare.go` | `Mismatch` and `Failing`: the comparison of an outcome with the expected cell. |
 | `examplecases/held.go` | `LoadHeld`: the list of cases that are read but not run, with a reason. |
+| `examplecases/definitions.go` | `LoadDefinitions` and `ParseDefinitions`: the definitions file read into `function.Definition` values and the bindings of the cases (ISS-79). |
+| `examplecases/bound.go` | `Run`, `EvaluateBound` and `RowOf`: a bound case is compiled with `batch.Compile` and run row by row, or its definition is checked with `CheckDefinition` (ISS-79). |
 | `testdata/formula-language.cases.md` | The 111 cases of the language page. |
-| `testdata/formula-language.held.md` | The 56 held cases and why. |
+| `testdata/formula-language.definitions.md` | The 12 definitions V1 to VB of the QA page, the 6 definitions derived from them for the refused-on-save rows, and the binding of each of the 56 `rules-` cases (ISS-79). |
+| `testdata/formula-language.held.md` | The held cases and why. It is empty since ISS-79: every case runs. |
 
 The tests are in `loader_test.go`, `page_test.go`, `data_test.go`, `cases_test.go` and `proof_test.go`. They run under `go test ./...` and so under `make test`. A failing case is found by its name, because the name is the name of the subtest.
 
@@ -71,16 +74,16 @@ The loader is `LoadDefinitions` and `ParseDefinitions` in `examplecases/definiti
 
 ## Results
 
-- **Run and passing:** the 55 `lang-` cases, with their exact typed results or problem codes in order. No expected result was changed to make a case pass, and none failed.
-- **Held:** the 56 `rules-` cases. They are Validate rows, and each is checked against an input definition (V1 to VB on [formula-examples](../4.%20qa/formula-examples.md)) that has no notation in the case file yet. That is the open point the QA page names (a definition column, or one definition file per page). They are listed in `testdata/formula-language.held.md`, shown as skipped with the reason in a test run, and kept in the case file. A held row that is not a case of the file is a failure.
-- **Proofs, made in copies and never in the committed files:** changing one expected result in a copy of the case file makes exactly that case fail (five changes tried: a decimal, an integer, a problem code, a boolean and a float), and the unchanged copy has no failure. In a copy of the design page, a formula block with no case line, a marked example with no row, and a removed example whose row is left are each reported.
+- **Run and passing:** all 111 cases. The 55 `lang-` cases give their exact typed results or problem codes in order. The 56 `rules-` cases run since ISS-79: 50 validate a row, as received text, against their definition and calculate it when it is clean, and 6 check a definition with `CheckDefinition`. No expected result was changed to make a case pass, and none failed, so no engine bug and no page error was found.
+- **Held:** none. The held file keeps its header, and a case waiting for an owner decision would be added to it with the question. The 56 rows were held until ISS-79 only because the case file had no notation for the definitions.
+- **Proofs, made in copies and never in the committed files:** changing one expected result in a copy of the case file makes exactly that case fail (five changes tried: a decimal, an integer, a problem code, a boolean and a float), and the unchanged copy has no failure. In a copy of the design page, a formula block with no case line, a marked example with no row, and a removed example whose row is left are each reported. For the Validate rows: changing the expected cell of one row in a copy makes exactly that row fail (a result, an order of problems, a check code and a definition code were tried), and changing one rule of V1 in a copy of the definitions file makes cases that use V1 fail and no other.
 
 ## Differences from the proposal
 
 - **Package and folder.** The package is `examplecases/`, not `internal/casefile`, and the case files are in `testdata/`, not in `documentation/4. qa/cases/`. The QA page proposed both and left them open (its question 5).
 - **Where the table lives twice.** The 111 rows are on the QA page [formula-examples](../4.%20qa/formula-examples.md) and in `testdata/formula-language.cases.md`, because a case file holds nothing but its table. A test holds the two equal, row by row, so a change to one without the other fails.
 - **Formula length.** The cell holds up to 500 characters, not the 200 proposed, because two rows are longer (302 and 213 characters) and the language page's text limit is 500.
-- **Types.** `float`, `list<int>`, `list<dec>` and `list<text>` are added, with the notation that formula-examples.md proposes. `list<text>` is read by the loader but has no value in the formula package, so `Evaluate` returns `ErrUnsupported` for it; only held rows use it.
+- **Types.** `float`, `list<int>`, `list<dec>` and `list<text>` are added, with the notation that formula-examples.md proposes. `list<text>` is read by the loader but has no value in the formula package, so `Evaluate` returns `ErrUnsupported` for it. Only the Validate rows use it, and they go to `RowOf`, which gives it to `Validate` as a list of received text.
 - **Design page names.** The three design pages named on the QA page are `formula-language.md`, `batch.md` and `posting.md`. Only the first exists with examples. The batch page of the repo is `batch-evaluation.md`, so the check will look for `batch.md` until the owner settles the name.
 - **Sentence under the title.** The sentence each design page is to carry, pointing at its case file, is not added: the pages are not part of this issue, and the case file is in `testdata/`, so the sentence would have to change first.
 
@@ -88,7 +91,7 @@ The loader is `LoadDefinitions` and `ParseDefinitions` in `examplecases/definiti
 
 The open questions of the QA page are not copied here: see [Open questions](../4.%20qa/example-cases.md#open-questions). What this build adds to them:
 
-1. How a held Validate row is to be run: the definitions V1 to VB need a notation. When they have one, the held rows go to the run and the held file shrinks.
+1. The decision 22 question (negative inputs) does not touch these rows: each row that expects `no-negatives` has the rule declared on its input. A row that gives a negative to an input without the rule, as case `ic-c07` of the input checks does, is held on the input-checks suite (ISS-37), not here.
 2. Whether the stand-in library should be replaced by the real functions when ISS-27 lands, or kept for the rows that name a version no release has.
 3. Whether the table on the QA page should be generated from the case file, so that there is one copy.
 4. The cases of the other test issues (laws, money, hostile formulas, basic runs) have their own tables on their QA pages and are not read by this loader yet.
