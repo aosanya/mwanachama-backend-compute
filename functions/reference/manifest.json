@@ -1,0 +1,132 @@
+{
+  "date.late_days@1": {
+    "state": "draft",
+    "cases": {
+      "REF-date.late_days-01": "3feb8d20fc935aa7cbc8c6ec07306a5491ae9cfd4f597b3aa7e30d2bd9e5e14d",
+      "REF-date.late_days-02": "820670184810c16684c471f997a6e9d39c044966f9864a986ba1fa23de0aad64",
+      "REF-date.late_days-03": "12d08217d81a137848a14a269e0f8c71b0e2fa6041fb61f4a98f2570bc7f9883",
+      "REF-date.late_days-04": "207997cba78082b122278f134833e9530bbc9ddc6a35f1690d3af41470400356",
+      "REF-date.late_days-05": "b10109717d78892d6de6a4c1e42ad85192baab98d5bef9448c206a65f42f42ce",
+      "REF-date.late_days-06": "0d812b2993ffda25073ba8ecaa8b4941b53dc4186656c235cfe48255da862071",
+      "REF-date.late_days-07": "c912bf7112b1f02e99137fd50a8cd91bbaa7eae0ee3d9e0e4b68c379488bf089",
+      "REF-date.late_days-08": "ed61c8b8410cda356f26231b5e9cf496fdbcc003f237fc22a34d5e34fb3f8a08"
+    }
+  },
+  "fin.balance_after_payment@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.balance_after_payment-01": "345008ae79f497d9c4999c1075c9ba95b63f68866d2c3ab2bfa6ad9dd893daab",
+      "REF-fin.balance_after_payment-02": "89ef633ee12107f8a8bbfc86ba41978f7ada8c3899637ace7259aab28e578ee6",
+      "REF-fin.balance_after_payment-03": "0eb0cc57d128841e65c8d6af975dfb9ec2f5dd6e7c68c6b69fe128a5a82bbe61",
+      "REF-fin.balance_after_payment-04": "18138664f8aa10af87765c1cca171e9cf7a323c4e11b7a45411de881a480fd16",
+      "REF-fin.balance_after_payment-05": "7b67a6448f8d97c7a5f70fc5c349ea8c8c93025e723a5ee8ef764a29615f4a4f",
+      "REF-fin.balance_after_payment-06": "22e4bdd9690272bfd435efcdfb1ef7bc658c00021f34f8ab070736a815d147b6",
+      "REF-fin.balance_after_payment-07": "f77576ac0c09f17edfc0fe3aab897a2364ac8c3f0b38d53adf065b928f3478fc",
+      "REF-fin.balance_after_payment-08": "7e43cca2c0d27a8470c5e66a16cf59f458673bdb620a3c02c0ebfcd066f9a73c"
+    }
+  },
+  "fin.coverage_ratio@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.coverage_ratio-01": "de936548d6a74512f5261230255f22703265f48a12732821f462e196b9c77dbe",
+      "REF-fin.coverage_ratio-02": "5483f43136e27a4e0ec5e1d899d09e640d7aef5bf826b5ac6458469a3e02fe56",
+      "REF-fin.coverage_ratio-03": "5a69c00eb2c5f1229cbb4056ae263a0b2f0f2ec562229d99cab50317f8c7c4e6",
+      "REF-fin.coverage_ratio-04": "e570b1f5d43bb97d2c09cf531575420466e83b300adc06d9b9ddf50c207bfd21",
+      "REF-fin.coverage_ratio-05": "614853e0cba8acba481e5182b78745c058d16e143b4d8fee66b6cbf8d513a1de",
+      "REF-fin.coverage_ratio-06": "bcd5095fa633c17f3034321e3c023e0eb606ec52848295e10888786d83514217",
+      "REF-fin.coverage_ratio-07": "93d9aac82ff30621b5904255ec44afa057bdcccb5278508af69ad6488ad61da5",
+      "REF-fin.coverage_ratio-08": "3b1885953cf5275884d9369307509cbfe0851847242e94bd44d51669d3c636c2"
+    }
+  },
+  "fin.equal_share@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.equal_share-01": "8a9dfc2130e0bd654f5ac0b6f230ab7cf397dc674bc6efc5a09211cce45217f1",
+      "REF-fin.equal_share-02": "d49b11039159001a6d64943e8146bcea14c14feb97109c4c767c345a764dd0c2",
+      "REF-fin.equal_share-03": "e704070b6a42de86d7651728e1d67b2a692078b8c1214a80584624d8ee6eff8d",
+      "REF-fin.equal_share-04": "42b473f3f63937fe75ecaf81c5c2e9b6ed6728cec6896f2dec7535d7939e5138",
+      "REF-fin.equal_share-05": "e04e1af02686a6149a89e1d5842ba311bc3f781dd453db9403622663b1299c1b",
+      "REF-fin.equal_share-06": "ca61252813ea7a3584e5ffe1ba666ad6d1e9d7fa52ebdcb8e35002586cd9406d",
+      "REF-fin.equal_share-07": "e259dac83a2f293885ec33da06750b449656ddfcf9823affadd48157a9b86ed1",
+      "REF-fin.equal_share-08": "30f35cca252677d38340c377399c825b0e6449f6068f1847014640912c1e6031"
+    }
+  },
+  "fin.flat_instalment@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.flat_instalment-01": "96ffb08dd826243b6bdd1b6833db0640940ef20c1b4cd5f38074161c0fbe18b9",
+      "REF-fin.flat_instalment-02": "4ee4dcd3e44e080e90d51823a7ef5d8056585b8f831c4238a543b4c0985f683e",
+      "REF-fin.flat_instalment-03": "0f596edb824ff017d82937b611dc8dd825dc3510edf407827a205950a5d665b7",
+      "REF-fin.flat_instalment-04": "58fc916649e06c92c08bfa9ef17ca709fe639328c9c9794cb0a7a938977207e7",
+      "REF-fin.flat_instalment-05": "0200ebc519518289bdc0537a5c9eb9894aab14870162a79b8f936b97e00ef47a",
+      "REF-fin.flat_instalment-06": "f290a88f9c4a061efe08708902d108ea8950881e6cff6dc40a1b78810cc0d7b6",
+      "REF-fin.flat_instalment-07": "c0e3974fb80e4b70c581bb345dc04628245d8cba0bfaeab554a8027780fdfb1e",
+      "REF-fin.flat_instalment-08": "f48e5cc04e2e56d881d8c0d7b4e9ef4b16919a24136aa9294ce2349b8c1ef661"
+    }
+  },
+  "fin.proportional_share@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.proportional_share-01": "e417e70dbb3799148a9327d8e1c7e1b5853c9e982bf01a77bd7f0a0a458bc7c4",
+      "REF-fin.proportional_share-02": "6bde83ef04cd211702446f3a5747a58fe9f77ccf3bfdad279a1508cef352afce",
+      "REF-fin.proportional_share-03": "c9137d0263d5d4990454ddbc9ec9af6f4958aa1f8da0d703c545c6dc69771361",
+      "REF-fin.proportional_share-04": "d559af6eb8ff1995aeaf9fcae49b16efa7cf2718e8c7b86a35931cd1a9d8a3f2",
+      "REF-fin.proportional_share-05": "1d4fecddf6685259aab5b81f623ecb8ed01aad6cbc0f4c18b2eac92752f0bfdc",
+      "REF-fin.proportional_share-06": "f67d86f796c36d658ccf84a1f3c335ff268e80abf428b8732b9e9f2628bb7c89",
+      "REF-fin.proportional_share-07": "62e892d6b5d8fcdb21c649766cab79446bff1befa7ea19d9512abbf20b0fad6f",
+      "REF-fin.proportional_share-08": "05535b1bfced8d9a1907f527e59b283ecc58df014b42b018dc662a6fee6d35a9"
+    }
+  },
+  "fin.prorate_fee@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.prorate_fee-01": "9c036439ecba6430441199e7f9c9ffe4cbfc9bcb8cd8ae0557844ef6074e8209",
+      "REF-fin.prorate_fee-02": "baf3c80e247166e5ab9fe8064e291a289e71e996049c10322cbd6f922c8c26f6",
+      "REF-fin.prorate_fee-03": "6521f0229c435ae5f7e68642e898c332b9afa8d9037645bb66f3b8a79cc3e0d4",
+      "REF-fin.prorate_fee-04": "8bad80f17ee47426471e932dfb85104563911da4c48ca311cfeed0b953124c22",
+      "REF-fin.prorate_fee-05": "94453875d7336046d4648e8fdd65093707bc8bd1631484a6a31bccea43d92eb2",
+      "REF-fin.prorate_fee-06": "d1b35c354e60ba8c87a04b3b3a974789837a958af7be8247b4abade69ca3f949",
+      "REF-fin.prorate_fee-07": "2e70d75ed8ff529b50f28518fd221c9553a7348db68284f7238a0a723a519b0d",
+      "REF-fin.prorate_fee-08": "3492a8c2d8a95ab52b48a72ad2e2984c1b4750594c83743f81e528b032b03a23"
+    }
+  },
+  "fin.straight_line_value@1": {
+    "state": "draft",
+    "cases": {
+      "REF-fin.straight_line_value-01": "e5c2acbb160e417128d2d280e4032d8c598c498495185783ee5bcb35dbc32ec8",
+      "REF-fin.straight_line_value-02": "38e8e5ebc0f93bc91e2b0a7d48d5c04f1eb20c4525053ab767c27a1bc24030b8",
+      "REF-fin.straight_line_value-03": "0ef66734818864660baf93ece3de21932bdcb8cd96ea4a2334428abe0a71a1ee",
+      "REF-fin.straight_line_value-04": "e619aed3363d0d282c7fd4dfa200d502f733cfa3e5796bc591fff16c2363f2b7",
+      "REF-fin.straight_line_value-05": "6a404b6522d403f77c53d00bd9077ced88a726934a3f980004bb3e49482d3e2b",
+      "REF-fin.straight_line_value-06": "63e303b6d83ee75f5c2a43cbec5b301489bd9054f907e276f008072b4b1c5988",
+      "REF-fin.straight_line_value-07": "4babbc127c80e5367ba0bd589eb9f5fecd11b8942de49036ee79615f18329945",
+      "REF-fin.straight_line_value-08": "5a0ea1ad8aa28b5b00608d8f43ac23620d68a82601452b4f8a33aa4aac660f02"
+    }
+  },
+  "math.remainder@1": {
+    "state": "draft",
+    "cases": {
+      "REF-math.remainder-01": "0a2625741d3d0d6c49b8b1258421f69d8863a89065719c2e0b1a00ebc749a428",
+      "REF-math.remainder-02": "a925410f8c25088ee4a74ba6335b9498a3eb63b7f4729980656ebe089bcadf27",
+      "REF-math.remainder-03": "fa189d9c25d866e36b28dec0958d0d4f8bd0ced7dccb9973bb1c47e7e4999b2f",
+      "REF-math.remainder-04": "2087dc12bbb69e485ba83a0fc3750b50fba52a75257f22d15ef69c0db9d349f9",
+      "REF-math.remainder-05": "34ae89d8a102a820d4f7e75aeb6fb204385ebd7d7d3cffc46ef6f9aa14234fc1",
+      "REF-math.remainder-06": "68b923d6ef23bdf145a3da7f2c8a9eaf22159d23834191fa2a81171022e8f469",
+      "REF-math.remainder-07": "a53e6b2a7ab3c74b5960aae82b34c1ffaa8c842ad42ac263aecd727c45dc7d1d",
+      "REF-math.remainder-08": "be317e71d0dc322c00182a6c98f859b3775e8a4619b98846dad78fa1357b8288"
+    }
+  },
+  "stats.spread@1": {
+    "state": "draft",
+    "cases": {
+      "REF-stats.spread-01": "54ce1877c3df946b3002af4baff9870f6a02af249c2fa858b5c08e66aef12c85",
+      "REF-stats.spread-02": "157471d0cb128d14810769602d8c13678e43b0fca420d32d6fe0ecc10dd6e510",
+      "REF-stats.spread-03": "68b55f53faffdc798ecf1e637ecb6a013dc0a98aa94f63faef56c2e208d33ee8",
+      "REF-stats.spread-04": "7c556e32acc0f3bee35df1a5a60095557081867c0c9e148894719457d8af4353",
+      "REF-stats.spread-05": "8049066f0fe870616119259c563249f270232e0c0167c1c08c4adc7a6381aa02",
+      "REF-stats.spread-06": "cea0a86c38906094af56b995cf88da6c645a92c9f4bebf94bbcb041b693f1f77",
+      "REF-stats.spread-07": "5b4ea6b9e4015946f3ce123dcf76905a54e1fcf195533de07125c09e8e0a8e3c",
+      "REF-stats.spread-08": "ab27e5fb4e12380774386929aa04bd1a2b03f8ff7109daf85c0e28a964f3c0c1"
+    }
+  }
+}
