@@ -1,0 +1,90 @@
+[
+  {
+    "id": "REF-math.remainder-01",
+    "kind": "normal",
+    "inputs": {
+      "value": "1237",
+      "divisor": "50"
+    },
+    "expected": "37",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-math.remainder-02",
+    "kind": "normal",
+    "inputs": {
+      "value": "100",
+      "divisor": "7"
+    },
+    "expected": "2",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-math.remainder-03",
+    "kind": "edge",
+    "inputs": {
+      "value": "1200",
+      "divisor": "50"
+    },
+    "expected": "0",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-math.remainder-04",
+    "kind": "edge",
+    "inputs": {
+      "value": "0",
+      "divisor": "50"
+    },
+    "expected": "0",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-math.remainder-05",
+    "kind": "edge",
+    "inputs": {
+      "value": "37",
+      "divisor": "50"
+    },
+    "expected": "37",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-math.remainder-06",
+    "kind": "refusal",
+    "inputs": {
+      "value": "1237",
+      "divisor": "0"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-math.remainder-07",
+    "kind": "refusal",
+    "inputs": {
+      "value": "-7",
+      "divisor": "50"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-math.remainder-08",
+    "kind": "refusal",
+    "inputs": {
+      "value": "1237.5",
+      "divisor": "50"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

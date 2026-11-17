@@ -1,0 +1,114 @@
+[
+  {
+    "id": "REF-fin.straight_line_value-01",
+    "kind": "normal",
+    "inputs": {
+      "cost": "12000.00",
+      "salvage": "2000.00",
+      "life_years": "7",
+      "bought": "2023-09-10",
+      "on": "2026-11-17"
+    },
+    "expected": "7714.29",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.straight_line_value-02",
+    "kind": "normal",
+    "inputs": {
+      "cost": "5000.00",
+      "salvage": "500.00",
+      "life_years": "3",
+      "bought": "2024-01-15",
+      "on": "2026-01-15"
+    },
+    "expected": "2000.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.straight_line_value-03",
+    "kind": "edge",
+    "inputs": {
+      "cost": "12000.00",
+      "salvage": "2000.00",
+      "life_years": "7",
+      "bought": "2023-09-10",
+      "on": "2024-09-09"
+    },
+    "expected": "12000.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.straight_line_value-04",
+    "kind": "edge",
+    "inputs": {
+      "cost": "12000.00",
+      "salvage": "2000.00",
+      "life_years": "7",
+      "bought": "2010-01-01",
+      "on": "2026-11-17"
+    },
+    "expected": "2000.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.straight_line_value-05",
+    "kind": "edge",
+    "inputs": {
+      "cost": "1000.00",
+      "salvage": "0.00",
+      "life_years": "3",
+      "bought": "2023-01-01",
+      "on": "2026-01-01"
+    },
+    "expected": "0.01",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.straight_line_value-06",
+    "kind": "edge",
+    "inputs": {
+      "cost": "1.00",
+      "salvage": "0.00",
+      "life_years": "8",
+      "bought": "2025-01-01",
+      "on": "2026-01-01"
+    },
+    "expected": "0.87",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.straight_line_value-07",
+    "kind": "refusal",
+    "inputs": {
+      "cost": "12000.00",
+      "salvage": "2000.00",
+      "life_years": "0",
+      "bought": "2023-09-10",
+      "on": "2026-11-17"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.straight_line_value-08",
+    "kind": "refusal",
+    "inputs": {
+      "cost": "0.00",
+      "salvage": "0.00",
+      "life_years": "7",
+      "bought": "2023-09-10",
+      "on": "2026-11-17"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

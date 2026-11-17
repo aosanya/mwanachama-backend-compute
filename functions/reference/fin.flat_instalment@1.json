@@ -1,0 +1,98 @@
+[
+  {
+    "id": "REF-fin.flat_instalment-01",
+    "kind": "normal",
+    "inputs": {
+      "principal": "2400.00",
+      "monthly_rate": "0.012",
+      "months": "7"
+    },
+    "expected": "371.66",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.flat_instalment-02",
+    "kind": "normal",
+    "inputs": {
+      "principal": "1000.00",
+      "monthly_rate": "0.010",
+      "months": "10"
+    },
+    "expected": "110.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.flat_instalment-03",
+    "kind": "edge",
+    "inputs": {
+      "principal": "600.00",
+      "monthly_rate": "0.000",
+      "months": "12"
+    },
+    "expected": "50.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.flat_instalment-04",
+    "kind": "edge",
+    "inputs": {
+      "principal": "500.00",
+      "monthly_rate": "0.025",
+      "months": "1"
+    },
+    "expected": "512.50",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.flat_instalment-05",
+    "kind": "edge",
+    "inputs": {
+      "principal": "10000.00",
+      "monthly_rate": "0.050",
+      "months": "60"
+    },
+    "expected": "666.67",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.flat_instalment-06",
+    "kind": "edge",
+    "inputs": {
+      "principal": "1.00",
+      "monthly_rate": "0.000",
+      "months": "8"
+    },
+    "expected": "0.13",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.flat_instalment-07",
+    "kind": "refusal",
+    "inputs": {
+      "principal": "2400.00",
+      "monthly_rate": "0.012",
+      "months": "72"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.flat_instalment-08",
+    "kind": "refusal",
+    "inputs": {
+      "principal": "2400.00",
+      "monthly_rate": "-1.000",
+      "months": "7"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

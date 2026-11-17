@@ -1,0 +1,106 @@
+[
+  {
+    "id": "REF-fin.prorate_fee-01",
+    "kind": "normal",
+    "inputs": {
+      "monthly_fee": "47.00",
+      "joined": "2026-06-12",
+      "period_end": "2026-06-30",
+      "days_in_period": "30"
+    },
+    "expected": "29.77",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.prorate_fee-02",
+    "kind": "normal",
+    "inputs": {
+      "monthly_fee": "60.00",
+      "joined": "2026-03-11",
+      "period_end": "2026-03-31",
+      "days_in_period": "31"
+    },
+    "expected": "40.65",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.prorate_fee-03",
+    "kind": "edge",
+    "inputs": {
+      "monthly_fee": "47.00",
+      "joined": "2026-06-01",
+      "period_end": "2026-06-30",
+      "days_in_period": "30"
+    },
+    "expected": "47.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.prorate_fee-04",
+    "kind": "edge",
+    "inputs": {
+      "monthly_fee": "47.00",
+      "joined": "2026-06-30",
+      "period_end": "2026-06-30",
+      "days_in_period": "30"
+    },
+    "expected": "1.57",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.prorate_fee-05",
+    "kind": "edge",
+    "inputs": {
+      "monthly_fee": "0.00",
+      "joined": "2026-06-12",
+      "period_end": "2026-06-30",
+      "days_in_period": "30"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.prorate_fee-06",
+    "kind": "edge",
+    "inputs": {
+      "monthly_fee": "0.14",
+      "joined": "2026-02-28",
+      "period_end": "2026-02-28",
+      "days_in_period": "28"
+    },
+    "expected": "0.01",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.prorate_fee-07",
+    "kind": "refusal",
+    "inputs": {
+      "monthly_fee": "47.00",
+      "joined": "2026-06-12",
+      "period_end": "2026-06-30",
+      "days_in_period": "32"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.prorate_fee-08",
+    "kind": "refusal",
+    "inputs": {
+      "monthly_fee": "-47.00",
+      "joined": "2026-06-12",
+      "period_end": "2026-06-30",
+      "days_in_period": "30"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

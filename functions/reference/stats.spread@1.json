@@ -1,0 +1,106 @@
+[
+  {
+    "id": "REF-stats.spread-01",
+    "kind": "normal",
+    "inputs": {
+      "values": [
+        "2400.50",
+        "3100.25",
+        "2750.00"
+      ]
+    },
+    "expected": "699.75",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-stats.spread-02",
+    "kind": "normal",
+    "inputs": {
+      "values": [
+        "10.00",
+        "4.50",
+        "7.25",
+        "4.50"
+      ]
+    },
+    "expected": "5.50",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-stats.spread-03",
+    "kind": "edge",
+    "inputs": {
+      "values": [
+        "8.40"
+      ]
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-stats.spread-04",
+    "kind": "edge",
+    "inputs": {
+      "values": [
+        "3.00",
+        "3.00",
+        "3.00"
+      ]
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-stats.spread-05",
+    "kind": "edge",
+    "inputs": {
+      "values": [
+        "9.99",
+        "0.01"
+      ]
+    },
+    "expected": "9.98",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-stats.spread-06",
+    "kind": "edge",
+    "inputs": {
+      "values": [
+        "0.00",
+        "12.50"
+      ]
+    },
+    "expected": "12.50",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-stats.spread-07",
+    "kind": "refusal",
+    "inputs": {
+      "values": []
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-stats.spread-08",
+    "kind": "refusal",
+    "inputs": {
+      "values": [
+        "5.00",
+        "-1.00"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

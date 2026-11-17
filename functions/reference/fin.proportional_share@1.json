@@ -1,0 +1,124 @@
+[
+  {
+    "id": "REF-fin.proportional_share-01",
+    "kind": "normal",
+    "inputs": {
+      "call_amount": "50000.00",
+      "units": "1200",
+      "all_units": [
+        "1200",
+        "830",
+        "1500",
+        "477"
+      ]
+    },
+    "expected": "14973.80",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.proportional_share-02",
+    "kind": "normal",
+    "inputs": {
+      "call_amount": "900.00",
+      "units": "2",
+      "all_units": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    "expected": "180.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.proportional_share-03",
+    "kind": "edge",
+    "inputs": {
+      "call_amount": "900.00",
+      "units": "0",
+      "all_units": [
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.proportional_share-04",
+    "kind": "edge",
+    "inputs": {
+      "call_amount": "900.00",
+      "units": "7",
+      "all_units": [
+        "7"
+      ]
+    },
+    "expected": "900.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.proportional_share-05",
+    "kind": "edge",
+    "inputs": {
+      "call_amount": "1.00",
+      "units": "1",
+      "all_units": [
+        "8"
+      ]
+    },
+    "expected": "0.13",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.proportional_share-06",
+    "kind": "edge",
+    "inputs": {
+      "call_amount": "100.00",
+      "units": "1",
+      "all_units": [
+        "3"
+      ]
+    },
+    "expected": "33.33",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.proportional_share-07",
+    "kind": "refusal",
+    "inputs": {
+      "call_amount": "50000.00",
+      "units": "-200",
+      "all_units": [
+        "1200",
+        "830",
+        "1500",
+        "477"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.proportional_share-08",
+    "kind": "refusal",
+    "inputs": {
+      "call_amount": "100.00",
+      "units": "0",
+      "all_units": [
+        "0"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-03"
+  }
+]

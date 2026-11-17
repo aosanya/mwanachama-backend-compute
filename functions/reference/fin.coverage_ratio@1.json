@@ -1,0 +1,90 @@
+[
+  {
+    "id": "REF-fin.coverage_ratio-01",
+    "kind": "normal",
+    "inputs": {
+      "stock_value": "84500.00",
+      "facility_balance": "62000.00"
+    },
+    "expected": "1.363f",
+    "tolerance": "rel:1e-9",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-02",
+    "kind": "normal",
+    "inputs": {
+      "stock_value": "150.00",
+      "facility_balance": "100.00"
+    },
+    "expected": "1.5f",
+    "tolerance": "rel:1e-9",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-03",
+    "kind": "edge",
+    "inputs": {
+      "stock_value": "0.00",
+      "facility_balance": "5000.00"
+    },
+    "expected": "0.0f",
+    "tolerance": "rel:1e-9",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-04",
+    "kind": "edge",
+    "inputs": {
+      "stock_value": "62000.00",
+      "facility_balance": "62000.00"
+    },
+    "expected": "1.0f",
+    "tolerance": "rel:1e-9",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-05",
+    "kind": "edge",
+    "inputs": {
+      "stock_value": "100.00",
+      "facility_balance": "300.00"
+    },
+    "expected": "0.333f",
+    "tolerance": "rel:1e-9",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-06",
+    "kind": "edge",
+    "inputs": {
+      "stock_value": "2500000.00",
+      "facility_balance": "0.01"
+    },
+    "expected": "250000000.0f",
+    "tolerance": "rel:1e-9",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-07",
+    "kind": "refusal",
+    "inputs": {
+      "stock_value": "84500.00",
+      "facility_balance": "0.00"
+    },
+    "expected": "refused",
+    "tolerance": "rel:1e-9",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.coverage_ratio-08",
+    "kind": "refusal",
+    "inputs": {
+      "stock_value": "-1.00",
+      "facility_balance": "62000.00"
+    },
+    "expected": "refused",
+    "tolerance": "rel:1e-9",
+    "source": "S-02"
+  }
+]

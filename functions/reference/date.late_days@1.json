@@ -1,0 +1,89 @@
+[
+  {
+    "id": "REF-date.late_days-01",
+    "kind": "normal",
+    "inputs": {
+      "due": "2026-03-31",
+      "filed": "2026-05-15"
+    },
+    "expected": "45",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-date.late_days-02",
+    "kind": "normal",
+    "inputs": {
+      "due": "2026-03-31",
+      "filed": "2026-03-20"
+    },
+    "expected": "0",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-date.late_days-03",
+    "kind": "edge",
+    "inputs": {
+      "due": "2026-03-31",
+      "filed": "2026-03-31"
+    },
+    "expected": "0",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-date.late_days-04",
+    "kind": "edge",
+    "inputs": {
+      "due": "2026-03-31",
+      "filed": "2026-04-01"
+    },
+    "expected": "1",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-date.late_days-05",
+    "kind": "edge",
+    "inputs": {
+      "due": "2028-02-28",
+      "filed": "2028-03-01"
+    },
+    "expected": "2",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-date.late_days-06",
+    "kind": "edge",
+    "inputs": {
+      "due": "2026-12-31",
+      "filed": "2027-03-01"
+    },
+    "expected": "60",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-date.late_days-07",
+    "kind": "refusal",
+    "inputs": {
+      "due": "2026-03-31"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-date.late_days-08",
+    "kind": "refusal",
+    "inputs": {
+      "due": "2026-02-30",
+      "filed": "2026-03-05"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

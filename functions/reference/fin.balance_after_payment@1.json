@@ -1,0 +1,90 @@
+[
+  {
+    "id": "REF-fin.balance_after_payment-01",
+    "kind": "normal",
+    "inputs": {
+      "balance": "120.50",
+      "payment": "45.25"
+    },
+    "expected": "75.25",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-02",
+    "kind": "normal",
+    "inputs": {
+      "balance": "120.50",
+      "payment": "130.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-03",
+    "kind": "edge",
+    "inputs": {
+      "balance": "80.00",
+      "payment": "0.00"
+    },
+    "expected": "80.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-04",
+    "kind": "edge",
+    "inputs": {
+      "balance": "75.25",
+      "payment": "75.25"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-05",
+    "kind": "edge",
+    "inputs": {
+      "balance": "100.00",
+      "payment": "99.99"
+    },
+    "expected": "0.01",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-06",
+    "kind": "edge",
+    "inputs": {
+      "balance": "0.00",
+      "payment": "0.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-07",
+    "kind": "refusal",
+    "inputs": {
+      "balance": "120.50",
+      "payment": "-5.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.balance_after_payment-08",
+    "kind": "refusal",
+    "inputs": {
+      "balance": "120.50",
+      "payment": "10.005"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

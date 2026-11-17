@@ -1,0 +1,124 @@
+[
+  {
+    "id": "REF-fin.equal_share-01",
+    "kind": "normal",
+    "inputs": {
+      "deposits": [
+        "500.00",
+        "750.00",
+        "1250.50"
+      ],
+      "expenses": [
+        "120.25",
+        "80.00"
+      ],
+      "members": "7"
+    },
+    "expected": "328.61",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.equal_share-02",
+    "kind": "normal",
+    "inputs": {
+      "deposits": [
+        "100.00"
+      ],
+      "expenses": [],
+      "members": "3"
+    },
+    "expected": "33.33",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.equal_share-03",
+    "kind": "edge",
+    "inputs": {
+      "deposits": [
+        "0.05"
+      ],
+      "expenses": [],
+      "members": "2"
+    },
+    "expected": "0.03",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.equal_share-04",
+    "kind": "edge",
+    "inputs": {
+      "deposits": [
+        "60.00",
+        "40.25"
+      ],
+      "expenses": [
+        "10.25"
+      ],
+      "members": "1"
+    },
+    "expected": "90.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.equal_share-05",
+    "kind": "edge",
+    "inputs": {
+      "deposits": [
+        "500.00"
+      ],
+      "expenses": [
+        "500.00"
+      ],
+      "members": "500"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.equal_share-06",
+    "kind": "refusal",
+    "inputs": {
+      "deposits": [
+        "500.00"
+      ],
+      "expenses": [],
+      "members": "0"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.equal_share-07",
+    "kind": "refusal",
+    "inputs": {
+      "deposits": [],
+      "expenses": [],
+      "members": "4"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.equal_share-08",
+    "kind": "refusal",
+    "inputs": {
+      "deposits": [
+        "500.00"
+      ],
+      "expenses": [
+        "-5.00"
+      ],
+      "members": "4"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]
