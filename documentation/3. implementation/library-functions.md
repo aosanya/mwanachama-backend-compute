@@ -104,7 +104,7 @@ These are the owner's, copied from the reference page and the guard page. Nothin
 6. **Names** (question 8): `date.` for `late_days`, and the general `stats.spread` and `math.remainder`.
 7. **What makes a version published**, who may mark it, and where the manifest lives (guard page questions 1, 2 and 4).
 8. **Whether the guard compares with the manifest of the last release tag** (guard page question 5). It does not: a commit that edits a published case and its hash together passes, and only review stops it.
-9. **Where the functions are registered.** ISS-28 builds the versions and the registry. A `formula.Runtime` that serves these ten to a formula that calls `fin.balance_after_payment@1(...)` is not written here, so the `fin.*` and `stats.*` cases of basic-runs.md sections 10 and 11 can run only when that registry takes `All()`.
+9. **Where the functions are registered.** They are registered in `library/` (ISS-28, ISS-77): `library.LoadFunctions` publishes `All()`, all nineteen functions, into the registry, and a formula that calls `fin.balance_after_payment@1(...)` runs on them. See [library.md](library.md). Every version is still served as released version 1 while the manifest says `draft`, because what makes a version published is open (question 7 above).
 10. **The guard's question 6**: how the test asks the library which versions it serves is answered by `All()` here.
 
 ## Tests

@@ -1,4 +1,4 @@
-.PHONY: build test test-race vet fmt-check comment-scan ci clean fuzz fuzz-nightly nightly
+.PHONY: build test test-race vet fmt-check comment-scan ci clean fuzz fuzz-nightly nightly speed-check
 
 NIGHTLY_FUZZTIME ?= 30m
 
@@ -35,3 +35,6 @@ nightly:
 	$(MAKE) -C laws nightly
 	HOSTILE_SEED=$$(date +%s) go test -count=1 -race -v -run Generated ./hostile_test
 	$(MAKE) fuzz-nightly
+
+speed-check:
+	$(MAKE) -C concurrency_test speed-check
