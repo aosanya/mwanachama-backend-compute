@@ -52,7 +52,7 @@ var parserCases = []saveCase{
 	{id: "P12", text: "‮1 + 2", code: "bad-syntax", sentence: cannotBeRead("unexpected character U+202E", 1, 1)},
 	{id: "P13", text: "\U0001F600 * 1", code: "bad-syntax", prefix: "The formula cannot be read: unexpected character"},
 	{id: "P14", text: "1 +\a 2", code: "bad-syntax", sentence: cannotBeRead("unexpected control character", 1, 4)},
-	{id: "P14", text: "1 +\r2", code: "bad-syntax", sentence: cannotBeRead("unexpected control character", 1, 4), known: "ISS-73"},
+	{id: "P14", text: "1 +\r2", code: "bad-syntax", sentence: cannotBeRead("unexpected control character", 1, 4)},
 	{id: "P15", text: "sum(price, quantity", code: "bad-syntax", sentence: cannotBeRead("missing closing bracket", 1, 20)},
 	{id: "P16", text: "price * quantity +", code: "bad-syntax", sentence: cannotBeRead("the formula ends after an operator", 1, 19)},
 	{id: "P17", text: `"hello`, code: "bad-syntax", sentence: cannotBeRead("text is not closed", 1, 1)},

@@ -80,8 +80,13 @@ func refusal(offset int, name limit.Name, value int) *syntaxFailure {
 func (l *lexer) skipSpace() {
 	for l.position < len(l.runes) {
 		switch l.runes[l.position] {
-		case ' ', '\t', '\n', '\r':
+		case ' ', '\t', '\n':
 			l.position++
+		case '\r':
+			if l.position+1 >= len(l.runes) || l.runes[l.position+1] != '\n' {
+				return
+			}
+			l.position += 2
 		default:
 			return
 		}
