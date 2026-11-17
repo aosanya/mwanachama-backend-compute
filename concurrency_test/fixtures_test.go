@@ -62,7 +62,7 @@ func day(text string) formula.Value {
 	return formula.DateValue(d)
 }
 
-func flag(truth bool) formula.Value { return formula.BooleanValue(truth) }
+func truth(value bool) formula.Value { return formula.BooleanValue(value) }
 
 func word(text string) formula.Value { return formula.TextValue(text) }
 
@@ -129,7 +129,7 @@ func nineteenFormulas() []formulaCase {
 		{17, "plot yield spread", "max(yields) - min(yields)",
 			[]argument{arg("yields", decList("2400.50", "3100.25", "2750.00"))}, "decimal:699.75"},
 		{18, "voting right", votingBody,
-			[]argument{arg("joined", day("2026-01-20")), arg("on", day("2026-09-15")), arg("paid_up", flag(true)), arg("suspended", flag(false)), arg("role", word("member"))}, "boolean:true"},
+			[]argument{arg("joined", day("2026-01-20")), arg("on", day("2026-09-15")), arg("paid_up", truth(true)), arg("suspended", truth(false)), arg("role", word("member"))}, "boolean:true"},
 		{19, "seed bags left over", "kilos % bag_size",
 			[]argument{arg("kilos", whole(1237)), arg("bag_size", whole(50))}, "integer:37"},
 	}
