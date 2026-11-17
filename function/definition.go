@@ -49,5 +49,5 @@ func CheckDefinition(definition Definition) []formula.Problem {
 }
 
 func Validate(definition Definition, row Row, runner Runner) []problem.Problem {
-	return nil
+	return validateInputsOnly(definition, row)
 }
