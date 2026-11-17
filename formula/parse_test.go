@@ -28,6 +28,9 @@ func TestParseRefusals(t *testing.T) {
 		{"unexpected-character", `a # b`, "bad-syntax", "The formula cannot be read: unexpected character # at line 1, column 3.", 1, 3},
 		{"unexpected-outside-language", "a ​ b", "bad-syntax", "The formula cannot be read: unexpected character U+200B at line 1, column 3.", 1, 3},
 		{"control-character", "a \x01 b", "bad-syntax", "The formula cannot be read: unexpected control character at line 1, column 3.", 1, 3},
+		{"lone-carriage-return", "1 +\r2", "bad-syntax", "The formula cannot be read: unexpected control character at line 1, column 4.", 1, 4},
+		{"lone-carriage-return-at-end", "1 +\r", "bad-syntax", "The formula cannot be read: unexpected control character at line 1, column 4.", 1, 4},
+		{"carriage-return-before-space", "a \r b", "bad-syntax", "The formula cannot be read: unexpected control character at line 1, column 3.", 1, 3},
 		{"second-line", "a +\n  # b", "bad-syntax", "The formula cannot be read: unexpected character # at line 2, column 3.", 2, 3},
 		{"not-utf-8", "a + \xff", "bad-syntax", "The formula cannot be read: text is not valid UTF-8 at line 1, column 1.", 1, 1},
 		{"dot-before-digits", `.5`, "bad-syntax", "The formula cannot be read: unexpected character . at line 1, column 1.", 1, 1},
@@ -129,5 +132,17 @@ func TestPartAtGivesThePathAndTheStandardText(t *testing.T) {
 	}
 	if _, ok := PartAt(tree, Path{3}); ok {
 		t.Errorf("PartAt([3]) should not exist")
+	}
+}
+
+func TestLineBreaksAreBlanksButALoneCarriageReturnIsNot(t *testing.T) {
+	for _, typed := range []string{"1 +\n2", "1 +\r\n2", "1\r\n+\r\n2", "1\n\n+\n\n2"} {
+		tree, problems := Parse(typed)
+		if len(problems) != 0 {
+			t.Fatalf("Parse(%q) gave %+v", typed, problems)
+		}
+		if got := Format(tree); got != "1 + 2" {
+			t.Fatalf("Format(Parse(%q)) = %q", typed, got)
+		}
 	}
 }

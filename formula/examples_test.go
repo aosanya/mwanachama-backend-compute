@@ -134,6 +134,8 @@ func TestDigitsAreNeverRewritten(t *testing.T) {
 	}
 }
 
+var blanks = []string{" ", "\t", "\n", "\r\n"}
+
 func respaced(standard string, rng *rand.Rand) string {
 	var out strings.Builder
 	inText := false
@@ -148,7 +150,7 @@ func respaced(standard string, rng *rand.Rand) string {
 			case 0:
 			default:
 				for n := rng.Intn(3) + 1; n > 0; n-- {
-					out.WriteByte(" \t\n\r"[rng.Intn(4)])
+					out.WriteString(blanks[rng.Intn(len(blanks))])
 				}
 			}
 		default:
