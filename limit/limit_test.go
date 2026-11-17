@@ -20,19 +20,19 @@ type limitRow struct {
 
 func limitRows() []limitRow {
 	return []limitRow{
-		{"formula length 500 proposed", func(m *Measure, v int) { m.FormulaLength = v }, FormulaLength, 500},
-		{"tree depth 12 proposed", func(m *Measure, v int) { m.Depth = v }, Depth, 12},
-		{"brackets open 12 proposed", func(m *Measure, v int) { m.BracketsOpen = v }, Depth, 12},
-		{"nodes 100 proposed", func(m *Measure, v int) { m.Nodes = v }, Node, 100},
-		{"inputs 8 proposed", func(m *Measure, v int) { m.Inputs = v }, Input, 8},
-		{"text literal 200 proposed", func(m *Measure, v int) { m.TextLiteral = v }, TextLength, 200},
-		{"integer literal 18 digits proposed", func(m *Measure, v int) { m.IntegerDigits = v }, NumberMagnitude, 18},
-		{"decimal literal 30 digits proposed", func(m *Measure, v int) { m.DecimalDigits = v }, NumberMagnitude, 30},
-		{"places of a decimal literal 10 proposed", func(m *Measure, v int) { m.DecimalPlaces = v }, DecimalPlaces, 10},
-		{"name length 40 proposed", func(m *Measure, v int) { m.NameLength = v }, NameLength, 40},
-		{"call depth 4 proposed", func(m *Measure, v int) { m.CallDepth = v }, CallDepth, 4},
-		{"cost 20000 proposed", func(m *Measure, v int) { m.Cost = v }, Cost, 20000},
-		{"list value 1000 items proposed", func(m *Measure, v int) { m.ListItems = v }, ListLength, 1000},
+		{"formula length 500 proposed", func(m *Measure, v int) { m.FormulaLength = v }, FormulaLengthLimit, 500},
+		{"tree depth 12 proposed", func(m *Measure, v int) { m.Depth = v }, DepthLimit, 12},
+		{"brackets open 12 proposed", func(m *Measure, v int) { m.BracketsOpen = v }, DepthLimit, 12},
+		{"nodes 100 proposed", func(m *Measure, v int) { m.Nodes = v }, NodeLimit, 100},
+		{"inputs 8 proposed", func(m *Measure, v int) { m.Inputs = v }, InputLimit, 8},
+		{"text literal 200 proposed", func(m *Measure, v int) { m.TextLiteral = v }, TextLengthLimit, 200},
+		{"integer literal 18 digits proposed", func(m *Measure, v int) { m.IntegerDigits = v }, NumberMagnitudeLimit, 18},
+		{"decimal literal 30 digits proposed", func(m *Measure, v int) { m.DecimalDigits = v }, NumberMagnitudeLimit, 30},
+		{"places of a decimal literal 10 proposed", func(m *Measure, v int) { m.DecimalPlaces = v }, DecimalPlacesLimit, 10},
+		{"name length 40 proposed", func(m *Measure, v int) { m.NameLength = v }, NameLengthLimit, 40},
+		{"call depth 4 proposed", func(m *Measure, v int) { m.CallDepth = v }, CallDepthLimit, 4},
+		{"cost 20000 proposed", func(m *Measure, v int) { m.Cost = v }, CostLimit, 20000},
+		{"list value 1000 items proposed", func(m *Measure, v int) { m.ListItems = v }, ListLengthLimit, 1000},
 	}
 }
 
@@ -93,11 +93,11 @@ func TestTheProposedValuesAreTheLanguagePageTable(t *testing.T) {
 
 func TestTheFirstLimitInTableOrderIsNamed(t *testing.T) {
 	refusal, refused := Proposed().Refusal(Measure{FormulaLength: 501, Depth: 13, Cost: 20001})
-	if !refused || refusal.Limit != FormulaLength {
+	if !refused || refusal.Limit != FormulaLengthLimit {
 		t.Fatalf("got %+v refused %v, want the formula length limit first", refusal, refused)
 	}
 	refusal, refused = Proposed().Refusal(Measure{Depth: 13, Cost: 20001})
-	if !refused || refusal.Limit != Depth {
+	if !refused || refusal.Limit != DepthLimit {
 		t.Fatalf("got %+v refused %v, want the depth limit first", refusal, refused)
 	}
 }
@@ -130,7 +130,7 @@ func TestArgumentsInOneCallAreCheckedAgainstTheSetting(t *testing.T) {
 }
 
 func TestARefusalIsAnErrorWithTheSameSentence(t *testing.T) {
-	refusal := Refusal{Limit: Cost, Value: 20000}
+	refusal := Refusal{Limit: CostLimit, Value: 20000}
 	var err error = refusal
 	if err.Error() != refusal.Sentence() {
 		t.Fatalf("error %q, sentence %q", err.Error(), refusal.Sentence())
