@@ -29,16 +29,17 @@ func main() {
 		fmt.Fprintln(os.Stderr, "usage: summarise bench-run.txt [more-bench-output.txt ...]")
 		os.Exit(2)
 	}
-	samples := map[key][]sample{}
+	out := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 	for _, path := range os.Args[1:] {
+		samples := map[key][]sample{}
 		if err := read(path, samples); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
-	}
-	out := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
-	for _, group := range []string{"Run", "Compile", "BatchSequential", "BatchParallel"} {
-		write(out, group, samples)
+		fmt.Fprintf(out, "\n==== %s ====\n", path)
+		for _, group := range []string{"Run", "Compile", "BatchSequential", "BatchParallel"} {
+			write(out, group, samples)
+		}
 	}
 	out.Flush()
 }

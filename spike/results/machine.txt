@@ -1,0 +1,25 @@
+cpu brand: Apple M3 Pro
+hw.ncpu: 11
+hw.perflevel0.logicalcpu (performance cores): 5
+hw.perflevel1.logicalcpu (efficiency cores): 6
+hw.memsize: 19327352832 bytes
+sw_vers:
+  ProductName:		macOS
+  ProductVersion:		15.7.3
+  BuildVersion:		24G419
+go version: go version go1.27.3 darwin/arm64
+uname -a: Darwin Mac.QLOCOM 24.6.0 Darwin Kernel Version 24.6.0: Wed Nov  5 21:33:32 PST 2025; root:xnu-11417.140.69.705.2~1/RELEASE_ARM64_T6030 arm64
+cel.dev/cel-go: v0.33.2
+github.com/expr-lang/expr: v1.17.8
+date: 2026-11-17
+benchmark binary: go test -c ./measure/, run as -test.bench . -test.benchmem -test.count=5 from the measure directory; GOMAXPROCS = ncpu
+other agents ran tests and builds on the same machine during both runs
+run1 (bench-run.txt): started 10:56:59, load average (1 minute) sampled every 20 seconds:
+  samples 57, min 6.81, median 13.27, max 29.22
+  first sample: 10:56  up 12:09, 1 user, load averages: 18.67 15.76 13.49
+  last sample: 11:15  up 12:28, 1 user, load averages: 6.81 11.54 13.31
+run2 (bench-run-2.txt): started 11:24:10, load average (1 minute) sampled every 20 seconds:
+  samples 51, min 4.55, median 5.98, max 19.34
+  first sample: 11:24  up 12:36, 1 user, load averages: 6.68 7.17 10.06
+  last sample: 11:40  up 12:53, 1 user, load averages: 6.97 6.47 7.76
+load average when these notes were written: 11.44 7.62 7.97
