@@ -1,0 +1,2 @@
+go test fuzz v1
+string("sum(rows) + sum(rows) + sum(rows) + sum(rows)")
