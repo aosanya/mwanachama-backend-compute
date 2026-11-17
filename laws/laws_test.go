@@ -77,14 +77,6 @@ func TestLawSameOutputOnEveryMachine(t *testing.T) {
 	}
 }
 
-func TestLawBatchEqualsSingleWaitsForTheBatchBuild(t *testing.T) {
-	t.Skip("waiting: law 4 is switched on when the batch evaluation build (ISS-29) lands")
-}
-
-func TestLawPublishedFunctionNeverChangesWaitsForTheLibraryBuild(t *testing.T) {
-	t.Skip("waiting: law 6 is switched on when the first ten library functions with recorded reference values (ISS-27) land")
-}
-
-func TestLawProblemListIsCompleteWaitsForValidate(t *testing.T) {
-	t.Skip("waiting: the complete problem list half of law 7 is switched on when Validate (ISS-26) is done")
+func TestLawProblemListIsCompleteAndARowWithProblemsIsNeverCalculated(t *testing.T) {
+	runLaw(t, ProblemListIsComplete)
 }

@@ -6,7 +6,11 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/aosanya/mwanachama-backend-compute/batch"
 	"github.com/aosanya/mwanachama-backend-compute/formula"
+	"github.com/aosanya/mwanachama-backend-compute/function"
+	"github.com/aosanya/mwanachama-backend-compute/library"
+	"github.com/aosanya/mwanachama-backend-compute/problem"
 )
 
 const (
@@ -20,6 +24,15 @@ type Engine struct {
 	Check  func(tree formula.Tree, inputs []formula.Input) []formula.Problem
 	Hash   func(text string) string
 	Run    func(tree formula.Tree, inputs []formula.Input, values map[string]formula.Value) string
+
+	Batch    BatchOps
+	Validate func(definition function.Definition, row function.Row) []problem.Problem
+	Library  func() *library.Registry
+}
+
+type BatchOps struct {
+	Single func(compiled *batch.Compiled, row function.Row) string
+	Batch  func(compiled *batch.Compiled, rows []function.Row, chunk int, workers int) []string
 }
 
 func RealEngine() Engine {
@@ -29,7 +42,10 @@ func RealEngine() Engine {
 		Check: func(tree formula.Tree, inputs []formula.Input) []formula.Problem {
 			return formula.Check(tree, inputs, nil)
 		},
-		Run: runOutcome,
+		Run:      runOutcome,
+		Batch:    BatchOps{Single: singleOutcome, Batch: batchOutcomes},
+		Validate: validateRow,
+		Library:  FixtureLibrary,
 	}
 	engine.Hash = func(text string) string {
 		tree, problems := formula.Parse(text)
@@ -43,7 +59,11 @@ func RealEngine() Engine {
 }
 
 func runOutcome(tree formula.Tree, inputs []formula.Input, values map[string]formula.Value) string {
-	program, problems := formula.Plan(tree, inputs, nil, formula.DefaultOptions())
+	return outcomeWith(nil, tree, inputs, values)
+}
+
+func outcomeWith(runtime formula.Runtime, tree formula.Tree, inputs []formula.Input, values map[string]formula.Value) string {
+	program, problems := formula.Plan(tree, inputs, runtime, formula.DefaultOptions())
 	if len(problems) > 0 {
 		return "plan:" + problems[0].Code + ":" + problems[0].Sentence
 	}
