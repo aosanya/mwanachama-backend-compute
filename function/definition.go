@@ -42,7 +42,3 @@ type Outcome struct {
 type Runner interface {
 	Run(tree formula.Tree, values map[string]numtext.Value) Outcome
 }
-
-func CheckDefinition(definition Definition) []formula.Problem {
-	return nil
-}
