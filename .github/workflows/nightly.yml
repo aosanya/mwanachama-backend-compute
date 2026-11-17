@@ -1,0 +1,26 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - run: make nightly
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failing-fuzz-inputs
+          path: hostile_test/testdata/fuzz
+          if-no-files-found: ignore
