@@ -170,14 +170,10 @@ func TestCheckRefusesATreeThatIsNotAFormula(t *testing.T) {
 }
 
 func TestCheckGivesAtMostTwentyProblems(t *testing.T) {
-	names := make([]string, 30)
-	for i := range names {
-		names[i] = "missing_" + string(rune('a'+i%26)) + string(rune('a'+i/26))
-	}
-	tree := mustParse(t, "round("+strings.Join(names, " + ")+", 2)")
+	tree := mustParse(t, "max(["+strings.TrimSuffix(strings.Repeat("rate, ", 30), ", ")+"])")
 	got := Check(tree, nil, testLibrary())
-	if len(got) == 0 || len(got) > 20 {
-		t.Fatalf("got %d problems", len(got))
+	if len(got) != 20 {
+		t.Fatalf("got %d problems, want 20", len(got))
 	}
 }
 
