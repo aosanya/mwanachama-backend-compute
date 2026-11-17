@@ -24,6 +24,7 @@ func (p *Program) Cost() int
 - A `Program` holds no state of its own. One program may be run by many callers at once, and each run has its own frame and its own meter. A test runs one program from eight goroutines under the race detector.
 - `Apply` takes the values by position, in the order of the inputs given to `Plan`. It is how a program stands in as an agency function: a `Runtime` can hand the arguments of a call to the program of the callee.
 - `RunMetered` takes the meter from the caller, so a host can see what a run spent (`Meter.Spent`).
+- `ApplyMetered` takes the values by position and the meter of the run that is calling. A `Runtime` that also implements `MeteredRuntime` (`ApplyMetered(library, name, version, args, meter)`) is given a callee meter by the run, and hands it to `Program.ApplyMetered`. See How a callee is metered below.
 
 ### Values
 
@@ -106,7 +107,7 @@ The evaluators were read at their heads and outlines: `runtimecost.go`, `interpr
 - The sentence of `number-too-big` for a float is `The part `{part}` gives a float that is not a finite number.` The page gives only the digits sentence.
 - An integer with a float is read as a float by converting the integer to a 64-bit float, which keeps 15 to 16 digits of a large integer.
 - The average of integers is the integer sum divided as floats. The sum is checked against the 18 digits first.
-- A callee is charged its declared cost at the call, and its own run is not charged again. A program used as a callee has its own meter with the same limit.
+- A callee is charged its declared cost at the call. See How a callee is metered for what a program used as a callee spends.
 - The cost problem names the whole formula and the path `[]`, as the save-time `too-costly` does, and not the part where the limit was met.
 - The decimal zero of an empty `sum` has no places (`0`), as basic-runs.md Gap 6 writes it.
 
@@ -124,3 +125,15 @@ The evaluators were read at their heads and outlines: `runtimecost.go`, `interpr
 ## Tests
 
 `go vet ./formula/` is clean and `go test ./formula/ -race` passes. The run tests are `run_examples_test.go` (the nineteen example formulas with their expected results, the worked lines, and the problems with their part, path and sentence), `run_basic_test.go` (sections 1 to 9 and 12 of basic-runs.md, the settings, the inputs of a run, and the same result every run) and `run_cost_test.go` (what a run spends against the count, the stop at the limit, no clock, one program run by eight goroutines).
+
+## How a callee is metered
+
+Built for ISS-72. `Runtime.Apply` carries no meter, so a program that a host calls back through `Program.Apply` starts a fresh meter every time and a host that loops is never stopped by the library.
+
+- A `Runtime` that implements `MeteredRuntime` is called through `ApplyMetered`. The run charges the callee's declared cost at the call, then gives the callee a meter of its own whose limit is what was left of the caller's limit before that charge, and whose depth is the caller's depth plus one.
+- When the callee returns, the caller is charged the difference if the callee spent more than it declared. So a call costs the larger of the declared cost and the actual cost, and is never charged twice. A callee that spends exactly what it declared leaves the run's total equal to the static cost from `Check`.
+- `Program.ApplyMetered` refuses a callee whose depth is over the call depth limit (4, proposed) with `call-too-deep` and the call depth sentence. So a function that calls itself, two functions that call each other and a self-call that doubles each time end at depth 5, with at most 2^5 calls for the doubling case, and the host does not have to stop them.
+- A `Runtime` without `ApplyMetered` is called through `Apply` as before, with a fresh meter for each call. Such a host is the host's own to guard. `library/` and `examplecases/` are still in this group until they implement `ApplyMetered`.
+- The callee's failure is returned as it is. A callee that runs out of its share gives `too-costly` with the callee's own formula as its part.
+
+Open: the declared cost is still the callee's own claim. A callee that spends more is charged the difference after it has run, and the run's own limit stops it as it goes, because the callee's meter carries the remaining share.

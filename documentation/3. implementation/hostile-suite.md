@@ -40,8 +40,8 @@ Cost is checked in the two places the run page names. A formula whose count is o
 
 | Kind | Rows |
 |---|---|
-| Built and passing | P01, P02, P04 to P20, L01 to L05, L07, L08, L10, C01, C03, C05, C07, C09, C11, C02, C04, C06, I01, I03, I04, I06 to I11, O01, O04 to O16 |
-| Built, failing, tracked by an issue | P03 (ISS-75), O02 and O03 (ISS-74), C10, C12 and C13 (ISS-72) |
+| Built and passing | P01, P02, P04 to P20, L01 to L05, L07, L08, L10, C01, C03, C05, C07, C09, C10, C11, C12, C13, C02, C04, C06, I01, I03, I04, I06 to I11, O01, O04 to O16 |
+| Built, failing, tracked by an issue | P03 (ISS-75), O02 and O03 (ISS-74) |
 | Held, with the reason | L06, L09, C08, I02, I05, I12, I13, B01 to B05 |
 
 A failing row is skipped with the issue code in the message. If it starts to pass, the suite fails and says to remove it from the list, so the list cannot go stale.
@@ -69,7 +69,7 @@ Where a case uses a part that is not in the language (`range`, `map`, `fold`, `r
 
 | Issue | What | Rows |
 |---|---|---|
-| ISS-72 | A host that calls a program from its Runtime in a loop is never stopped. `Program.Apply` makes a new meter for each call and `Runtime.Apply` carries none. The test runtime had to stop the loop itself after 2001 calls | C10, C12, C13 |
+| ISS-72 | A host that calls a program from its Runtime in a loop was never stopped. Fixed: a `MeteredRuntime` is given the caller's meter and call depth, and a loop ends at `call-too-deep`. See How a callee is metered on formula-run.md. The loop host in the suite implements `ApplyMetered` and its own guard is never reached | C10, C12, C13 |
 | ISS-73 | A lone carriage return was read as a blank, and the page says it is an unexpected control character. Fixed: Parse refuses a lone carriage return, and P14 passes for both control characters | P14 |
 | ISS-74 | `now()` and `random()` give `unexpected character )` because a call with no argument is not in the language. The hostile page and the language page's list of codes say `unknown-function`. The owner decides | O02, O03 |
 | ISS-75 | A NUL byte gives `unexpected control character`, the page says `unexpected NUL character`. The owner decides | P03 |
@@ -93,7 +93,7 @@ Two short runs were made on a busy machine (load average above 60): 60 seconds g
 
 ## Open
 
-- A host's own cancel (L09) and how a callee is metered (ISS-72).
+- A host's own cancel (L09). A host whose `Runtime` has no `ApplyMetered` is not stopped by the library (formula-run.md).
 - Where the nightly run is scheduled. The repo has no CI and no remote.
 - Go's fuzzer keeps the failing input as a file and has no seed to log, so the seed of the page is logged only for the generator. A failing fuzz input is committed as a file in `testdata/fuzz/FuzzParse` and added as a row of the QA page.
 - B01 to B05 and I02, I05, I12 wait on ISS-29 and ISS-26.
