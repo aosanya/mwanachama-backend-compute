@@ -4,6 +4,8 @@ Built for ISS-27, in the package `functions/`. It holds the ten functions the ag
 
 Status: the owner has not reviewed this page. Everything marked proposed is a starting point.
 
+Since ISS-35 the package also holds the nine functions after these ten (nineteen in all, 152 recorded cases), a runtime that lets a function call another, and a check that every case gives the same answer on every platform. They are on [platform-check.md](platform-check.md). The counts below (ten functions, 80 cases) describe the first ten.
+
 ## Where it lives
 
 | Path | What it holds |
@@ -95,7 +97,7 @@ A fix to a published function is never an edit: add `@2` as a new `Function` bes
 These are the owner's, copied from the reference page and the guard page. Nothing here is decided.
 
 1. **A division by zero in `fin.proportional_share@1`.** Case 08 (`units 0, all_units [0]`) is refused by the run with `divide-by-zero`, not by an input rule, because the formulas page has no rule that the sum is more than 0 (reference page question 7). If the owner adds the rule it is a check of the definition and a new version.
-2. **The rounding of halves.** Five cases sit on a half and pass with half away from zero, the setting `number.DefaultSettings` uses (reference page question 1, exact-money question 1). With another default they fail and the cases would be a new version.
+2. **The rounding of halves.** Five of these ten functions' cases (eight in all nineteen, see [platform-check.md](platform-check.md)) sit on a half and pass with half away from zero, the setting `number.DefaultSettings` uses (reference page question 1, exact-money question 1). With another default they fail and the cases would be a new version.
 3. **The wording of a refusal** (reference page question 2). A refused case passes on any sentence, and the test pins only the code.
 4. **The float tolerance against zero** (question 3): the guard asks for exactly `0.0f`.
 5. **Cases not written** for the open questions 4, 5 and 6 of the reference page: a ratio on a half, a negative share and dates in the wrong order.
