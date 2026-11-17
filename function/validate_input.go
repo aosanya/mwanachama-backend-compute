@@ -198,12 +198,3 @@ func contains(values []string, text string) bool {
 	}
 	return false
 }
-
-func validateInputsOnly(definition Definition, row Row) []problem.Problem {
-	problems := []problem.Problem{}
-	for _, decl := range definition.Inputs {
-		received, given := row[decl.Name]
-		problems = append(problems, validateInput(decl, received, given).problems...)
-	}
-	return problems
-}

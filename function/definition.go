@@ -3,7 +3,6 @@ package function
 import (
 	"github.com/aosanya/mwanachama-backend-compute/formula"
 	"github.com/aosanya/mwanachama-backend-compute/numtext"
-	"github.com/aosanya/mwanachama-backend-compute/problem"
 )
 
 type Rule struct {
@@ -46,8 +45,4 @@ type Runner interface {
 
 func CheckDefinition(definition Definition) []formula.Problem {
 	return nil
-}
-
-func Validate(definition Definition, row Row, runner Runner) []problem.Problem {
-	return validateInputsOnly(definition, row)
 }

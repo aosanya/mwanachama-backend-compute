@@ -260,7 +260,7 @@ func evaluateBinary(n formula.Binary, values map[string]numtext.Value) (any, str
 		return a.Mul(b), ""
 	case "/":
 		if b.IsZero() {
-			return nil, "The part ~" + formula.Format(formula.Tree{Root: n}) + "~ divides by zero."
+			return nil, "The part `" + formula.Format(formula.Tree{Root: n}) + "` divides by zero."
 		}
 		quotient, _ := a.Div(b, 20, number.RoundHalfUp)
 		return quotient, ""
