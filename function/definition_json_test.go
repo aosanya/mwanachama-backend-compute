@@ -134,7 +134,7 @@ func TestMarkupCharactersInAFormulaOrMessageAreKept(t *testing.T) {
 		Checks: []CheckDecl{check("a < 5 && a > 0", `Keep "a" < 5 & > 0`)},
 	}
 	data := DefinitionToJSON(definition)
-	if strings.Contains(string(data), `<`) || strings.Contains(string(data), `&`) {
+	if strings.Contains(string(data), escaped("003c")) || strings.Contains(string(data), escaped("0026")) {
 		t.Errorf("markup characters are escaped in %s", data)
 	}
 	back, problems := DefinitionFromJSON(data)
@@ -273,4 +273,8 @@ func TestADeeplyNestedDefinitionIsRefusedWithoutHarm(t *testing.T) {
 	if len(problems) != 1 || problems[0].Code != "bad-definition" || !reflect.DeepEqual(definition, Definition{}) {
 		t.Fatalf("a definition %d deep gave %#v and %+v", depth, definition, problems)
 	}
+}
+
+func escaped(code string) string {
+	return "\\u" + code
 }
