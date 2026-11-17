@@ -1,6 +1,6 @@
 # Concurrency and speed
 
-Status: the owner has not reviewed this page. Every number marked "proposed" is a starting point. Every target figure is marked "to be set" until the owner chooses the engine (the engine spike, ISS-4). All names and figures are invented; the repo is public.
+Status: the owner has not reviewed this page. Every number marked "proposed" is a starting point. The owner chose the engine on 2026-11-17 (decision 23: the library's own engine), and the target figures below are the ones proposed on [the engine choice page](../2.%20design/engine-choice.md). They are proposed, and they rest on a spike measured on a busy machine, so a re-run on a quiet machine can move them (open question 7). They are recorded on [concurrency-and-speed.md](../3.%20implementation/concurrency-and-speed.md) in the implementation folder. All names and figures are invented; the repo is public.
 
 ## What this page protects
 
@@ -9,7 +9,7 @@ A host runs one compiled formula for many callers at once, and a month-end run w
 1. Sharing is safe. Many callers running one compiled program at the same moment each get exactly what a single caller gets.
 2. Speed does not slip. A change that makes a run, a batch or a compile slower than its target by more than a stated margin fails a check.
 
-This page designs the cases. It builds nothing. The cases that need the engine's own figures say "to be set" and are filled in when the engine page exists (todo TD-2980 of the same issue).
+This page designs the cases. It builds nothing. The speed cases carry the proposed targets of the engine choice page. Only one case stays held: CS-14, the cancel of a batch, which waits on an open decision.
 
 ## How the cases are read
 
@@ -77,7 +77,7 @@ Notes on the concurrency cases:
 
 - CS-01 to CS-03, CS-05 and CS-06 run under the race detector. A race report fails the case even when every result is right.
 - No concurrency case measures time. A case that passes or fails depends on the input and the code, never on how fast the machine is (decision 19: the library has no time limit of its own, so a test must not pass and fail on the same input).
-- CS-10 and CS-11 depend on the batch cost limit, whose value is to be set by the engine choice. Until then the test uses a small invented limit.
+- CS-10 and CS-11 depend on the batch cost limit. The engine choice page proposes the limits ("Limits (proposed)") and the language page proposes others; neither is decided, so the test uses a small invented limit of its own.
 
 ## Speed cases
 
@@ -85,10 +85,10 @@ Speed cases are benchmarks, not tests. They run in a separate check (proposed: `
 
 | Id | Setup | Reported | Target |
 |---|---|---|---|
-| CS-20 | One run of one compiled program, first example inputs, for each formula class below | Median nanoseconds, bytes and allocations per run of 5 counts | to be set |
-| CS-21 | One batch of 1,000 rows, one worker | Median nanoseconds, bytes and allocations per row | to be set |
-| CS-22 | One batch of 100,000 rows, one worker, then 8 workers. The agency's row setting is raised for the test above its default (the ceiling is an open question) | Median nanoseconds, bytes and allocations per row, and the ratio of the 8 workers figure to the 1 worker figure | to be set |
-| CS-23 | One compile of each formula class (parse, check and build one program) | Median nanoseconds, bytes and allocations per compile | to be set |
+| CS-20 | One run of one compiled program, first example inputs, for each formula class below | Median nanoseconds, bytes and allocations per run of 5 counts | Proposed: for each formula, at most 1,500 ns and at most 25 allocations per run; the median over all 19 formulas at most 450 ns (engine choice page, "Speed targets") |
+| CS-21 | One batch of 1,000 rows, one worker | Median nanoseconds, bytes and allocations per row | Proposed, per row: formula 8 at most 225 ns, formula 3 at most 725 ns, formula 15 at most 675 ns. Formula 1 has no target: the spike ran no batch of it, so the case reports its figure only. The spike measured batches of 10,000 rows, not 1,000, so these targets are the 10,000-row ones carried over (open question 8) |
+| CS-22 | One batch of 100,000 rows, one worker, then 8 workers. The agency's row setting is raised for the test above its default (the ceiling is an open question) | Median nanoseconds, bytes and allocations per row, and the ratio of the 8 workers figure to the 1 worker figure | Proposed, per row with 1 worker: formula 8 at most 225 ns, formula 3 at most 725 ns, formula 15 at most 675 ns. With 8 workers: formula 8 at most 150 ns, formula 3 at most 425 ns, formula 15 at most 400 ns. The ratio is reported and not judged (the spike's speed-up was 2.3 to 2.6 times). Carried over from 10,000 rows (open question 8) |
+| CS-23 | One compile of each formula class (parse, check and build one program) | Median nanoseconds, bytes and allocations per compile | Proposed, derived here by the one-goroutine rule of the engine choice page (1.5 times the larger of the two runs, rounded up to a multiple of 25 ns): formula 1 at most 2,450 ns, formula 8 at most 2,525 ns, formula 15 at most 2,850 ns, formula 3 at most 3,850 ns. Allocations per compile at most 45, 55, 60 and 70 for formulas 1, 8, 15 and 3 (open question 9) |
 
 The formula classes, used in CS-20 to CS-23 and chosen from the spike:
 
@@ -110,9 +110,9 @@ Rules for every speed case:
 
 | Rule | Value | Status |
 |---|---|---|
-| Target for one run, per class | to be set from the engine choice page | To be set |
-| Target for one row of a batch, per class, 1 worker and 8 workers | to be set from the engine choice page | To be set |
-| Target for one compile, per class | to be set from the engine choice page | To be set |
+| Target for one run, per class | At most 1,500 ns and 25 allocations for every formula; the median over the 19 at most 450 ns | Proposed on the engine choice page. Measured for the own engine: median 206 ns in the quieter run and 406 ns in the busier one, the slowest formula 648 ns and 2,843 ns |
+| Target for one row of a batch, per class, 1 worker and 8 workers | Formula 8: 225 and 150 ns. Formula 3: 725 and 425 ns. Formula 15: 675 and 400 ns. Formula 1: none | Proposed on the engine choice page for batches of 10,000 rows, carried to 1,000 and 100,000 rows here |
+| Target for one compile, per class | Formula 1: 2,450 ns. Formula 8: 2,525 ns. Formula 15: 2,850 ns. Formula 3: 3,850 ns | Proposed here by the engine choice page's rule; the engine choice page gives none |
 | Margin: a figure over its target by more than this fails the check | 25 percent | Proposed. The spike's own noise was about 20 percent on a busy machine, so a margin below 20 would fail on noise |
 | Margin for bytes and allocations per run | 10 percent | Proposed. These figures do not depend on load, so the margin can be tighter |
 | Count of runs a figure is the median of | 5 | Proposed |
@@ -130,9 +130,12 @@ A run over the target by more than the margin fails the check and says which cla
 
 The owner has not decided any of these. Each has a proposed answer.
 
-1. The target figures themselves. They wait for the engine choice. Proposed: a target for each class is the median measured for the chosen engine on a quiet machine, rounded up to 2 significant figures, and the margin above is added to it.
+1. The target figures themselves. The engine is chosen, and the figures above are the ones the engine choice page proposes. Proposed: they stay proposed until the owner reads them, and they are replaced by the median measured for the own engine on a quiet machine (question 7).
 2. The margin, 25 percent for time and 10 percent for memory. Proposed as stated above.
 3. Whether the speed check runs on every change or only before a release. Proposed: before a release and on a nightly run, never in `make test`.
 4. Whether a host's own cancel is honoured, and then what "promptly" means without a clock (decision 19). Proposed: say how many rows may still finish after the signal, as a count and not a time, and hold CS-14 until the owner answers.
 5. The 100,000-row batch of CS-22 is above the proposed default of 10,000 rows per call. Proposed: the test raises the agency's setting for that run only, and the ceiling an agency may set stays open on [batch evaluation](../2.%20design/batch-evaluation.md).
 6. A machine for the check that is the same every time, for example a machine the team keeps for this. Proposed: the check records the machine and refuses to compare across machines (rule 2 above), and a fixed machine is chosen later.
+7. A re-run of the benchmarks on a quiet machine. The spike ran while other agents worked: the one-minute load average on 11 CPUs had a median of 13.3 in the first run and 6.0 in the second, and the own engine's per-run figures moved up to 4.4 times between the two. Proposed: re-run the spike's measure package on a quiet machine before the owner accepts the targets, and keep the margin rules until then.
+8. The spike measured batches of 10,000 rows and no others. The targets of CS-21 and CS-22 carry the per-row figures of the 10,000-row batch to 1,000 and 100,000 rows, and formula 1 had no batch run. Proposed: the first run of the speed check records these figures and the targets are set from them.
+9. The compile targets of CS-23 were derived on this page with the engine choice page's one-goroutine rule, because that page gives no compile target. Proposed: accept the rule, or give a target for compile and the page follows.
