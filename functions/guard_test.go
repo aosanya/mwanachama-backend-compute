@@ -348,8 +348,8 @@ var signatureLine = regexp.MustCompile("(?m)^Signature: `([a-z]+\\.[a-z_]+@\\d+)
 
 func TestEachDefinitionHasTheSignatureOfThePage(t *testing.T) {
 	matches := signatureLine.FindAllStringSubmatch(readPage(t, referencePage), -1)
-	if len(matches) != 10 {
-		t.Fatalf("the page has %d signatures, want 10", len(matches))
+	if len(matches) != 19 {
+		t.Fatalf("the page has %d signatures, want 19", len(matches))
 	}
 	for _, match := range matches {
 		found, ok := Find(match[1])

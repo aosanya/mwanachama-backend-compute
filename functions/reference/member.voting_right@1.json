@@ -1,0 +1,113 @@
+[
+  {
+    "id": "REF-member.voting_right-01",
+    "kind": "normal",
+    "inputs": {
+      "joined": "2026-01-20",
+      "on": "2026-09-15",
+      "paid_up": "true",
+      "suspended": "false",
+      "role": "member"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-member.voting_right-02",
+    "kind": "normal",
+    "inputs": {
+      "joined": "2026-01-20",
+      "on": "2026-09-15",
+      "paid_up": "true",
+      "suspended": "true",
+      "role": "member"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-member.voting_right-03",
+    "kind": "edge",
+    "inputs": {
+      "joined": "2026-09-15",
+      "on": "2026-09-15",
+      "paid_up": "false",
+      "suspended": "false",
+      "role": "officer"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-member.voting_right-04",
+    "kind": "edge",
+    "inputs": {
+      "joined": "2020-01-01",
+      "on": "2026-01-01",
+      "paid_up": "true",
+      "suspended": "false",
+      "role": "guest"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-member.voting_right-05",
+    "kind": "edge",
+    "inputs": {
+      "joined": "2026-03-15",
+      "on": "2026-09-15",
+      "paid_up": "true",
+      "suspended": "false",
+      "role": "member"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-member.voting_right-06",
+    "kind": "edge",
+    "inputs": {
+      "joined": "2026-03-16",
+      "on": "2026-09-15",
+      "paid_up": "true",
+      "suspended": "false",
+      "role": "member"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-member.voting_right-07",
+    "kind": "refusal",
+    "inputs": {
+      "joined": "2026-01-20",
+      "on": "2026-09-15",
+      "suspended": "false",
+      "role": "member"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-member.voting_right-08",
+    "kind": "refusal",
+    "inputs": {
+      "joined": "2026-01-20",
+      "on": "2026-09-15",
+      "paid_up": "true",
+      "suspended": "false",
+      "role": "visitor"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

@@ -1,12 +1,12 @@
 # Library reference cases
 
-Status: draft. Reference cases for the first ten library functions. All names and figures are invented. Nothing here chooses a rule the owner has not decided; those are listed under Open questions.
+Status: draft. Reference cases for the first ten library functions and for the nine that follow them (152 cases). All names and figures are invented. Nothing here chooses a rule the owner has not decided; those are listed under Open questions.
 
 ## What this page protects
 
 A library function must give the same answer for the same input for as long as its version exists. Each function below has recorded cases: inputs, the expected result, the source of the figure and the working. A case with no source is not accepted. A published version is never edited (see [library-versioning.md](../2.%20design/library-versioning.md)), so its cases are never changed; a fix is a new version and its cases are added beside the old ones. The test that fails when a recorded case of a published version changes is described on [library-reference-guard.md](../3.%20implementation/library-reference-guard.md). Every source named here is recorded on [sources.md](../1.%20requirements/sources.md) under the same id.
 
-The functions are the nineteen formulas of [example-formulas.md](../1.%20requirements/example-formulas.md) turned into library functions. The ten below are the ones the agency templates need first. The other nine follow the same shape.
+The functions are the nineteen formulas of [example-formulas.md](../1.%20requirements/example-formulas.md) turned into library functions. The ten under The first ten functions are the ones the agency templates need first. The other nine, under The other nine functions, follow the same shape.
 
 ## The case shape
 
@@ -31,6 +31,7 @@ A `refused` case passes when the function gives no result and says so in one sen
 |---|---|
 | Decimal (every money function) | Exact: difference 0. The result is a decimal with a scale of 2 places unless a function says otherwise, so `0.00` is right and `0` is wrong. |
 | Integer | Exact. |
+| Boolean and text | Exact: the result is the same text, `true` or `B`. |
 | Float (`fin.coverage_ratio@1` only) | A relative error of 1e-9: the result passes when `|result - expected| <= 1e-9 x |expected|`. |
 | Refused | No result. |
 
@@ -45,6 +46,9 @@ Rounding. Every case that rounds uses the mode example-formulas.md states for `r
 | REF-fin.prorate_fee-06 | 0.01 | 0.00 | 0.00 |
 | REF-fin.straight_line_value-06 | 0.87 | 0.88 | 0.88 |
 | REF-fin.proportional_share-05 | 0.13 | 0.12 | 0.12 |
+| REF-fin.farmer_net_payout-05 | 0.01 | 0.00 | 0.00 |
+| REF-fin.monthly_interest-06 | 0.01 | 0.00 | 0.00 |
+| REF-fin.interim_payment-06 | 342.00 | 342.00 | 333.00 |
 
 Cases that round without sitting on a half agree under all three half modes. They would differ under up, down, ceiling and floor, which the owner has not ruled out.
 
@@ -72,6 +76,11 @@ Every function has cases for the kinds of input it takes. A refusal never reache
 | Date | leap day, month end, year end | Counted by the calendar. |
 | Date | not a calendar date (2026-02-30), or missing | Refused. |
 | Any required input | not given | Refused. |
+| Text with allowed values | a value outside the list (`paused`, `visitor`) | Refused. Each allowed value is accepted. |
+| Yes or no | not given | Refused. `true` and `false` are accepted. |
+| Float | each end of its range, and one outside (0.0f, 1.0f, 1.2f) | The ends are accepted, the value outside is refused. |
+| List of decimal without a no negatives rule | one negative element | Accepted as input; the function's own test then decides (`fin.lending_data_ok@1` gives false). |
+| A band or a step | each side of every boundary | The boundary value belongs to the band the formula states (a balance of 1000.00 is in the middle band, 90 days late is in the 5 percent step). |
 | Answer undefined for the input | variance of one value, rate of minus one, division by zero | Never silently 0 and never a guess: either a defined result written down, or a refusal. `stats.spread@1` of one value is defined and gives 0.00. A sample variance of one value is undefined and gets its refusal case when that function is written. |
 
 ## The first ten functions
@@ -272,15 +281,202 @@ Tolerance: exact.
 | REF-math.remainder-07 | refusal | `value -7, divisor 50` | `refused` | S-02 §19 | -7 breaks the no negatives rule of kilos. |
 | REF-math.remainder-08 | refusal | `value 1237.5, divisor 50` | `refused` | S-02 §19 | 1237.5 is not a whole number and breaks the integer type rule. |
 
+## The other nine functions
+
+These are the nine formulas of example-formulas.md that the first ten leave out: 2, 4, 6, 7, 8, 10, 14, 16 and 18. Each is written as a library function at version 1 with eight cases in the same shape: normal, edge and two refusal cases. The input names follow the formulas page.
+
+Two things differ from the first ten. A function may call another: `fin.late_filing_penalty@1` calls `date.late_days@1` and `fin.monthly_interest@1` calls `fin.interest_step@1`, each by name and version, so their cases rest on the called version and never on a newer one. Text and yes-or-no values appear: a text value and a text result are written without quotes in the tables and in the data files (`status active`, result `B`), a yes or no is `true` or `false`, and a float input is written with its trailing `f` on this page and as digits only (`0.37`) in the data files, because the reader of a received float takes digits.
+
+The names, the libraries `edu.` and `member.` and the prefix `fin.` for `interest_step` are proposals (Open question 8). Every function below is a proposal of the same kind as the first ten: the owner has not decided its name or its rules beyond the formulas page.
+
+### fin.loan_within_limit@1
+
+Signature: `fin.loan_within_limit@1(status: text, requested: decimal, contributions: list of decimal) -> boolean`. Formula 2.
+
+Rule: whether a loan may be granted: the member is active and the amount asked is not more than three times the contributions. Status is one of active, lapsed or suspended, requested is more than 0.00 with 2 places, contributions has at least one value and no negatives.
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.loan_within_limit-01 | normal | `status active, requested 1400.00, contributions [200.00, 250.00, 150.00, 100.00]` | `true` | S-01 §2 | Contributions 200.00 + 250.00 + 150.00 + 100.00 = 700.00. Three times is 2100.00. 1400.00 is not more than 2100.00 and the status is active, so true. |
+| REF-fin.loan_within_limit-02 | normal | `status active, requested 2500.00, contributions [200.00, 250.00, 150.00, 100.00]` | `false` | S-03 | Three times 700.00 is 2100.00. 2500.00 is more than 2100.00, so false. |
+| REF-fin.loan_within_limit-03 | edge | `status lapsed, requested 100.00, contributions [500.00]` | `false` | S-03 | 100.00 is far below 1500.00, but the status is lapsed and not active, so false. |
+| REF-fin.loan_within_limit-04 | edge | `status active, requested 2100.00, contributions [700.00]` | `true` | S-03 | Three times 700.00 is 2100.00. The amount equals the limit and the test is not more than, so true. |
+| REF-fin.loan_within_limit-05 | edge | `status active, requested 2100.01, contributions [700.00]` | `false` | S-03 | 2100.01 is one cent above 2100.00, so false. |
+| REF-fin.loan_within_limit-06 | edge | `status active, requested 0.01, contributions [0.00]` | `false` | S-03 | Contributions of 0.00 give a limit of 0.00. 0.01 is above it, so false. |
+| REF-fin.loan_within_limit-07 | refusal | `status paused, requested 1400.00, contributions [200.00, 250.00, 150.00, 100.00]` | `refused` | S-02 §2 | paused is not one of the allowed values active, lapsed or suspended. |
+| REF-fin.loan_within_limit-08 | refusal | `status active, requested 0.00, contributions [200.00, 250.00, 150.00, 100.00]` | `refused` | S-02 §2 | requested 0.00 breaks the more than 0.00 rule. |
+
+### fin.farmer_net_payout@1
+
+Signature: `fin.farmer_net_payout@1(kilos: integer, price_per_kilo: decimal, credit: decimal) -> decimal`. Formula 4.
+
+Rule: the payment for the kilos delivered, rounded to 2 places, less the input credit, and never below 0.00. Kilos has no negatives, the price is more than 0.000 with at most 3 places, credit has no negatives and 2 places.
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.farmer_net_payout-01 | normal | `kilos 853, price_per_kilo 0.437, credit 120.00` | `252.76` | S-01 §4 | 853 x 0.437 = 372.761, rounded to 372.76. 372.76 - 120.00 = 252.76. |
+| REF-fin.farmer_net_payout-02 | normal | `kilos 853, price_per_kilo 0.437, credit 400.00` | `0.00` | S-01 §4 | 372.76 - 400.00 = -27.24, which is below zero, so the result is 0.00. |
+| REF-fin.farmer_net_payout-03 | edge | `kilos 0, price_per_kilo 0.437, credit 0.00` | `0.00` | S-03 | 0 kilos pay 0.00. 0.00 - 0.00 = 0.00. |
+| REF-fin.farmer_net_payout-04 | edge | `kilos 100, price_per_kilo 1.000, credit 100.00` | `0.00` | S-03 | 100 x 1.000 = 100.000, rounded 100.00. 100.00 - 100.00 = 0.00. A credit equal to the payment leaves nothing. |
+| REF-fin.farmer_net_payout-05 | edge | `kilos 1, price_per_kilo 0.005, credit 0.00` | `0.01` | S-03 | 1 x 0.005 = 0.005, exactly on the half of 0.01. Away from zero gives 0.01. Mode-dependent: half-even and half-down give 0.00. |
+| REF-fin.farmer_net_payout-06 | edge | `kilos 1000000, price_per_kilo 0.001, credit 0.00` | `1000.00` | S-03 | 1000000 x 0.001 = 1000.000, rounded 1000.00. A large number of kilos at the smallest price. |
+| REF-fin.farmer_net_payout-07 | refusal | `kilos 853, price_per_kilo 0.4375, credit 120.00` | `refused` | S-02 §4 | 0.4375 has four places and breaks the at most 3 decimal places rule. |
+| REF-fin.farmer_net_payout-08 | refusal | `kilos 853, price_per_kilo 0.000, credit 120.00` | `refused` | S-02 §4 | 0.000 breaks the more than 0.000 rule. |
+
+### fin.late_filing_penalty@1
+
+Signature: `fin.late_filing_penalty@1(amount: decimal, due: date, filed: date) -> decimal`. Formula 6.
+
+Rule: a penalty on the amount due that steps up with the days late counted by `date.late_days@1`: 0.00 when on time, 2 percent up to 30 days, 5 percent from 31 to 90, 10 percent above 90, each rounded to 2 places. It calls `date.late_days@1` and so needs that function in the library.
+
+Provisional: example-formulas.md writes the call as `late_days@1`; the name `date.late_days@1` follows the reference of the first ten functions and is a proposal (Open question 8).
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.late_filing_penalty-01 | normal | `amount 8400.00, due 2026-03-31, filed 2026-05-15` | `420.00` | S-01 §6 | Filed 45 days late. 45 is not 0, not above 90, above 30, so 5 percent. 8400.00 x 0.05 = 420.00. |
+| REF-fin.late_filing_penalty-02 | normal | `amount 8400.00, due 2026-03-31, filed 2026-04-12` | `168.00` | S-01 §6 | Filed 12 days late. 12 is not above 30, so 2 percent. 8400.00 x 0.02 = 168.00. |
+| REF-fin.late_filing_penalty-03 | edge | `amount 8400.00, due 2026-03-31, filed 2026-03-31` | `0.00` | S-03 | 0 days late, so no penalty: 0.00. |
+| REF-fin.late_filing_penalty-04 | edge | `amount 8400.00, due 2026-03-31, filed 2026-04-30` | `168.00` | S-03 | 30 days late. 30 is not above 30, so 2 percent: 168.00. |
+| REF-fin.late_filing_penalty-05 | edge | `amount 8400.00, due 2026-03-31, filed 2026-05-01` | `420.00` | S-03 | 31 days late. 31 is above 30 and not above 90, so 5 percent: 420.00. |
+| REF-fin.late_filing_penalty-06 | edge | `amount 8400.00, due 2026-03-31, filed 2026-06-29` | `420.00` | S-03 | 30 + 31 + 29 = 90 days late. 90 is not above 90, so 5 percent: 420.00. |
+| REF-fin.late_filing_penalty-07 | edge | `amount 8400.00, due 2026-03-31, filed 2026-06-30` | `840.00` | S-03 | 91 days late. 91 is above 90, so 10 percent: 840.00. |
+| REF-fin.late_filing_penalty-08 | refusal | `amount 8400.005, due 2026-03-31, filed 2026-05-15` | `refused` | S-02 §6 | 8400.005 has three places and breaks the 2 decimal places rule. |
+
+### fin.interest_step@1
+
+Signature: `fin.interest_step@1(balance: decimal) -> decimal`. Formula 7.
+
+Rule: the monthly interest rate of the band the balance falls in: 0.010 under 1000.00, 0.015 from 1000.00 under 5000.00, 0.020 from 5000.00. Balance has no negatives and 2 places.
+
+Provisional: example-formulas.md publishes this as `interest_step@1` with no library. The prefix `fin.` is proposed here (Open question 8).
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.interest_step-01 | normal | `balance 3217.45` | `0.015` | S-01 §7 | 3217.45 is not under 1000.00 but is under 5000.00, so 0.015. |
+| REF-fin.interest_step-02 | normal | `balance 640.00` | `0.010` | S-01 §7 | 640.00 is under 1000.00, so 0.010. |
+| REF-fin.interest_step-03 | edge | `balance 5000.00` | `0.020` | S-01 §7 | 5000.00 is not under 5000.00, so the top band: 0.020. |
+| REF-fin.interest_step-04 | edge | `balance 1000.00` | `0.015` | S-03 | 1000.00 is not under 1000.00, so the middle band: 0.015. |
+| REF-fin.interest_step-05 | edge | `balance 999.99` | `0.010` | S-03 | 999.99 is under 1000.00, so 0.010. |
+| REF-fin.interest_step-06 | edge | `balance 4999.99` | `0.015` | S-03 | 4999.99 is under 5000.00, so 0.015. |
+| REF-fin.interest_step-07 | refusal | `balance -1.00` | `refused` | S-02 §7 | -1.00 breaks the no negatives rule. |
+| REF-fin.interest_step-08 | refusal | `balance 1000.005` | `refused` | S-02 §7 | 1000.005 has three places and breaks the 2 decimal places rule. |
+
+### fin.monthly_interest@1
+
+Signature: `fin.monthly_interest@1(balance: decimal) -> decimal`. Formula 8.
+
+Rule: the interest charged for a month: the balance times the rate of `fin.interest_step@1`, rounded to 2 places. It calls `fin.interest_step@1`. Balance has no negatives and 2 places.
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.monthly_interest-01 | normal | `balance 3217.45` | `48.26` | S-01 §8 | Rate 0.015. 3217.45 x 0.015 = 48.26175, rounded 48.26. |
+| REF-fin.monthly_interest-02 | normal | `balance 640.00` | `6.40` | S-03 | Rate 0.010. 640.00 x 0.010 = 6.400, rounded 6.40. |
+| REF-fin.monthly_interest-03 | normal | `balance 5000.00` | `100.00` | S-03 | Rate 0.020. 5000.00 x 0.020 = 100.000, rounded 100.00. |
+| REF-fin.monthly_interest-04 | edge | `balance 0.00` | `0.00` | S-03 | Rate 0.010. 0.00 x 0.010 = 0.00. |
+| REF-fin.monthly_interest-05 | edge | `balance 999.99` | `10.00` | S-03 | Rate 0.010. 999.99 x 0.010 = 9.9999, rounded 10.00. The top of the lowest band. |
+| REF-fin.monthly_interest-06 | edge | `balance 0.50` | `0.01` | S-03 | Rate 0.010. 0.50 x 0.010 = 0.005, exactly on the half of 0.01. Away from zero gives 0.01. Mode-dependent: half-even and half-down give 0.00. |
+| REF-fin.monthly_interest-07 | edge | `balance 1000.00` | `15.00` | S-03 | Rate 0.015. 1000.00 x 0.015 = 15.000, rounded 15.00. The first balance of the middle band. |
+| REF-fin.monthly_interest-08 | refusal | `balance 3217.455` | `refused` | S-02 §8 | 3217.455 has three places and breaks the 2 decimal places rule. |
+
+### edu.term_grade@1
+
+Signature: `edu.term_grade@1(scores: list of integer) -> text`. Formula 10.
+
+Rule: a letter grade from the average of the term's scores: A from 80, B from 65, C from 50, F below 50. Scores has at least one value and each is 0 to 100.
+
+Provisional: The prefix `edu.` is a proposal (Open question 8).
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-edu.term_grade-01 | normal | `scores [72, 85, 64, 91, 77]` | `B` | S-01 §10 | 72 + 85 + 64 + 91 + 77 = 389. 389 / 5 = 77.8. Not 80 or more, 65 or more, so B. |
+| REF-edu.term_grade-02 | normal | `scores [90, 85, 80]` | `A` | S-03 | 90 + 85 + 80 = 255. 255 / 3 = 85. 85 is 80 or more, so A. |
+| REF-edu.term_grade-03 | edge | `scores [80]` | `A` | S-03 | One score of 80. The average is 80, which is 80 or more, so A. |
+| REF-edu.term_grade-04 | edge | `scores [65]` | `B` | S-03 | One score of 65. The average 65 is not 80 or more and is 65 or more, so B. |
+| REF-edu.term_grade-05 | edge | `scores [50]` | `C` | S-03 | One score of 50. The average 50 is not 65 or more and is 50 or more, so C. |
+| REF-edu.term_grade-06 | edge | `scores [49]` | `F` | S-03 | One score of 49. The average 49 is under 50, so F. |
+| REF-edu.term_grade-07 | refusal | `scores [72, 104]` | `refused` | S-02 §10 | 104 is above 100 and breaks the range rule 0 to 100. |
+| REF-edu.term_grade-08 | refusal | `scores []` | `refused` | S-02 §10 | An empty list breaks the at least one rule. |
+
+### fin.interim_payment@1
+
+Signature: `fin.interim_payment@1(contract: decimal, percent_complete: float, paid: decimal) -> decimal`. Formula 14.
+
+Rule: the certified share of a contract, with ten percent held back, less what was already paid, never below 0.00. The float share becomes a decimal of 2 places first. Contract is more than 0.00, percent complete is 0.0f to 1.0f, paid has no negatives; money has 2 places.
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.interim_payment-01 | normal | `contract 183500.00, percent_complete 0.37f, paid 52000.00` | `9105.50` | S-01 §14 | The float 0.37f becomes the decimal 0.37. 183500.00 x 0.37 = 67895.00. Times 0.90 is 61105.50. Less 52000.00 is 9105.50. |
+| REF-fin.interim_payment-02 | normal | `contract 100000.00, percent_complete 0.50f, paid 0.00` | `45000.00` | S-03 | 100000.00 x 0.50 = 50000.00. Times 0.90 is 45000.00. Less 0.00 is 45000.00. |
+| REF-fin.interim_payment-03 | edge | `contract 183500.00, percent_complete 0.37f, paid 70000.00` | `0.00` | S-03 | 61105.50 - 70000.00 = -8894.50, which is below zero, so 0.00. More was paid than is now due. |
+| REF-fin.interim_payment-04 | edge | `contract 5000.00, percent_complete 0.0f, paid 0.00` | `0.00` | S-03 | 0.0f is the decimal 0.00. 5000.00 x 0.00 = 0.00. The lowest end of the range. |
+| REF-fin.interim_payment-05 | edge | `contract 2000.00, percent_complete 1.0f, paid 0.00` | `1800.00` | S-03 | 1.0f is the decimal 1.00. 2000.00 x 1.00 x 0.90 = 1800.00. The highest end of the range: ten percent is still held back. |
+| REF-fin.interim_payment-06 | edge | `contract 1000.00, percent_complete 0.375f, paid 0.00` | `342.00` | S-03 | 0.375f is exactly on the half of 0.01 when made a decimal of 2 places. Away from zero gives 0.38. 1000.00 x 0.38 x 0.90 = 342.00. Mode-dependent: half-even gives 0.38 and 342.00, half-down gives 0.37 and 333.00. |
+| REF-fin.interim_payment-07 | refusal | `contract 183500.00, percent_complete 1.2f, paid 52000.00` | `refused` | S-02 §14 | 1.2f is above 1.0f and breaks the range rule 0.0f to 1.0f. |
+| REF-fin.interim_payment-08 | refusal | `contract 0.00, percent_complete 0.37f, paid 0.00` | `refused` | S-02 §14 | contract 0.00 breaks the more than 0.00 rule. |
+
+### fin.lending_data_ok@1
+
+Signature: `fin.lending_data_ok@1(balances: list of decimal, floor: decimal) -> boolean`. Formula 16.
+
+Rule: whether the weekly balances of a statement are enough and good enough: at least 6 of them, an average of at least the floor, and none below 0.00. Balances has at least one value with 2 places each and may hold a negative one, which the check then fails; floor has no negatives and 2 places.
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-fin.lending_data_ok-01 | normal | `balances [420.00, 380.50, 95.25, 510.00, 440.75, 300.00, 465.50, 389.00], floor 350.00` | `true` | S-01 §16 | 8 balances sum to 3001.00 and the average is 375.125. 8 is at least 6, 375.125 is at least 350.00, and the lowest, 95.25, is not below 0.00, so true. |
+| REF-fin.lending_data_ok-02 | normal | `balances [420.00, 380.50, 95.25, 510.00, 440.75, 300.00, 465.50, 389.00], floor 400.00` | `false` | S-03 | The average 375.125 is below the floor 400.00, so false. |
+| REF-fin.lending_data_ok-03 | edge | `balances [500.00, 500.00, 500.00, 500.00, 500.00], floor 100.00` | `false` | S-03 | 5 balances are fewer than 6, so false even though the average is above the floor. |
+| REF-fin.lending_data_ok-04 | edge | `balances [350.00, 350.00, 350.00, 350.00, 350.00, 350.00], floor 350.00` | `true` | S-03 | Exactly 6 balances, an average of 350.00 that equals the floor, and a lowest of 350.00: true. |
+| REF-fin.lending_data_ok-05 | edge | `balances [400.00, 400.00, 400.00, 400.00, 400.00, -0.01], floor 100.00` | `false` | S-03 | 6 balances, an average of 333.33 above the floor, but the lowest is -0.01, which is below 0.00, so false. A negative balance is accepted as input and then fails the check. |
+| REF-fin.lending_data_ok-06 | edge | `balances [0.00, 0.00, 0.00, 0.00, 0.00, 0.00], floor 0.00` | `true` | S-03 | 6 balances of 0.00: the average 0.00 equals the floor 0.00 and the lowest 0.00 is not below 0.00, so true. |
+| REF-fin.lending_data_ok-07 | refusal | `balances [420.00, n/a], floor 350.00` | `refused` | S-02 §16 | n/a is text in a list of decimal and breaks the type rule. |
+| REF-fin.lending_data_ok-08 | refusal | `balances [], floor 350.00` | `refused` | S-02 §16 | An empty list breaks the at least one rule. |
+
+### member.voting_right@1
+
+Signature: `member.voting_right@1(joined: date, on: date, paid_up: boolean, suspended: boolean, role: text) -> boolean`. Formula 18.
+
+Rule: whether a member may vote: not suspended, not a guest, and either an officer or paid up with six or more whole months of membership. Role is one of member, officer or guest.
+
+Provisional: The prefix `member.` is a proposal (Open question 8). How `months_between` counts a joining on the 29th to 31st into a shorter month is not stated (Open question 6).
+
+Tolerance: exact.
+
+| Id | Kind | Inputs | Expected | Source | Working |
+|---|---|---|---|---|---|
+| REF-member.voting_right-01 | normal | `joined 2026-01-20, on 2026-09-15, paid_up true, suspended false, role member` | `true` | S-01 §18 | 20 Jan to 15 Sep is 7 whole months. Not suspended, not a guest, paid up with 7 months, which is 6 or more, so true. |
+| REF-member.voting_right-02 | normal | `joined 2026-01-20, on 2026-09-15, paid_up true, suspended true, role member` | `false` | S-01 §18 | The same member suspended: the first test fails, so false. |
+| REF-member.voting_right-03 | edge | `joined 2026-09-15, on 2026-09-15, paid_up false, suspended false, role officer` | `true` | S-03 | An officer needs neither payment nor months: not suspended, not a guest, officer, so true on the day of joining. |
+| REF-member.voting_right-04 | edge | `joined 2020-01-01, on 2026-01-01, paid_up true, suspended false, role guest` | `false` | S-03 | A guest never votes, however long and however paid: false. |
+| REF-member.voting_right-05 | edge | `joined 2026-03-15, on 2026-09-15, paid_up true, suspended false, role member` | `true` | S-03 | 15 Mar to 15 Sep is exactly 6 whole months, which is 6 or more, so true. |
+| REF-member.voting_right-06 | edge | `joined 2026-03-16, on 2026-09-15, paid_up true, suspended false, role member` | `false` | S-03 | 16 Mar to 15 Sep is 5 whole months and 30 days, so 5, which is under 6, so false. |
+| REF-member.voting_right-07 | refusal | `joined 2026-01-20, on 2026-09-15, suspended false, role member, paid_up not given` | `refused` | S-02 §18 | paid_up is required and is not given. |
+| REF-member.voting_right-08 | refusal | `joined 2026-01-20, on 2026-09-15, paid_up true, suspended false, role visitor` | `refused` | S-02 §18 | visitor is not one of the allowed values member, officer or guest. |
+
 ## Sources
 
 One row per source id used. The next writer copies these rows to [sources.md](../1.%20requirements/sources.md). The case lists give the function and the case numbers.
 
 | Id | Kind | Where | Cases resting on it |
 |---|---|---|---|
-| S-01 | In-repo worked example | `documentation/1. requirements/example-formulas.md`, the "Worked example" paragraph of sections 1, 3, 5, 9, 11, 12, 13, 15, 17 and 19 | fin.balance_after_payment 01, 02; fin.equal_share 01; date.late_days 01, 02; fin.flat_instalment 01; fin.prorate_fee 01; fin.straight_line_value 01; fin.coverage_ratio 01; fin.proportional_share 01; stats.spread 01; math.remainder 01 |
-| S-02 | In-repo input rules and invalid examples | `documentation/1. requirements/example-formulas.md`, the input table and the "Invalid example" paragraph of the same sections | fin.balance_after_payment 07, 08; fin.equal_share 06, 07, 08; date.late_days 07, 08; fin.flat_instalment 07, 08; fin.prorate_fee 07, 08; fin.straight_line_value 07, 08; fin.coverage_ratio 07, 08; fin.proportional_share 07; stats.spread 07, 08; math.remainder 06, 07, 08 |
-| S-03 | Hand calculation | The Working column of the case, on this page, shown step by step | fin.balance_after_payment 03 to 06; fin.equal_share 02 to 05; date.late_days 03 to 06; fin.flat_instalment 02 to 06; fin.prorate_fee 02 to 06; fin.straight_line_value 02 to 06; fin.coverage_ratio 02 to 06; fin.proportional_share 02 to 06 and 08; stats.spread 02 to 06; math.remainder 02 to 05 |
+| S-01 | In-repo worked example | `documentation/1. requirements/example-formulas.md`, the "Worked example" paragraph of sections 1 to 19 | fin.balance_after_payment 01, 02; fin.equal_share 01; date.late_days 01, 02; fin.flat_instalment 01; fin.prorate_fee 01; fin.straight_line_value 01; fin.coverage_ratio 01; fin.proportional_share 01; stats.spread 01; math.remainder 01; fin.loan_within_limit 01; fin.farmer_net_payout 01, 02; fin.late_filing_penalty 01, 02; fin.interest_step 01 to 03; fin.monthly_interest 01; edu.term_grade 01; fin.interim_payment 01; fin.lending_data_ok 01; member.voting_right 01, 02 |
+| S-02 | In-repo input rules and invalid examples | `documentation/1. requirements/example-formulas.md`, the input table and the "Invalid example" paragraph of the same sections | fin.balance_after_payment 07, 08; fin.equal_share 06, 07, 08; date.late_days 07, 08; fin.flat_instalment 07, 08; fin.prorate_fee 07, 08; fin.straight_line_value 07, 08; fin.coverage_ratio 07, 08; fin.proportional_share 07; stats.spread 07, 08; math.remainder 06, 07, 08; fin.loan_within_limit 07, 08; fin.farmer_net_payout 07, 08; fin.late_filing_penalty 08; fin.interest_step 07, 08; fin.monthly_interest 08; edu.term_grade 07, 08; fin.interim_payment 07, 08; fin.lending_data_ok 07, 08; member.voting_right 07, 08 |
+| S-03 | Hand calculation | The Working column of the case, on this page, shown step by step | fin.balance_after_payment 03 to 06; fin.equal_share 02 to 05; date.late_days 03 to 06; fin.flat_instalment 02 to 06; fin.prorate_fee 02 to 06; fin.straight_line_value 02 to 06; fin.coverage_ratio 02 to 06; fin.proportional_share 02 to 06 and 08; stats.spread 02 to 06; math.remainder 02 to 05; fin.loan_within_limit 02 to 06; fin.farmer_net_payout 03 to 06; fin.late_filing_penalty 03 to 07; fin.interest_step 04 to 06; fin.monthly_interest 02 to 07; edu.term_grade 02 to 06; fin.interim_payment 02 to 06; fin.lending_data_ok 02 to 06; member.voting_right 03 to 06 |
 
 No outside source was opened for this page, so no public worked example is cited. A figure taken from one later gets the next id, with its address, and the case is put in the writer's own words.
 
@@ -288,16 +484,21 @@ No outside source was opened for this page, so no public worked example is cited
 
 These are for the owner. None is answered on this page.
 
-1. Rounding mode default. This page uses half away from zero, as example-formulas.md states. Five cases sit on a half and change with the mode (table under Tolerances). The decision is exact-money.md open question 1.
+1. Rounding mode default. This page uses half away from zero, as example-formulas.md states. Eight cases sit on a half and change with the mode (table under Tolerances). The decision is exact-money.md open question 1.
 2. Refusal wording. A refused case passes on "no result and one plain sentence". The sentence is not fixed, and neither is how an input that is not a date, such as 2026-02-30, is worded.
 3. Float tolerance against zero. A relative error is meaningless when the expected result is `0.0f`. This page asks for exactly `0.0f`. Is that the rule, or does the float function carry an absolute error too?
 4. Float ratio on a half. 100.05 / 100.00 is exactly 1.0005 as a decimal, and half away from zero gives 1.001 at 3 places, but dividing the two as binary floats and rounding gives 1.0. No case is written until the owner says which is right (exact-money.md open question 8, the same question for a conversion).
 5. A negative share. `fin.equal_share@1` applies no clamp: expenses above deposits give a negative result by the formula. Whether that is allowed or refused is not stated, so there is no case.
 6. Dates in the wrong order and leap anniversaries. `fin.prorate_fee@1` with `joined` after `period_end`, and `fin.straight_line_value@1` with `on` before `bought`, have no stated result. How `years_between` counts an anniversary of 29 February in a year with no 29 February is also not stated. No case until decided.
 7. Units above the total, and a total of zero. `fin.proportional_share@1` with `units` above the sum of `all_units` gives a share above the call amount, and `all_units` of `[0]` divides by zero. Case 08 refuses the second. Does the formulas page add an input rule (the sum is more than 0), and is the first allowed?
-8. Names. The prefix `date.` for `late_days@1`, the general names `stats.spread` with `values` and `math.remainder` with `value` and `divisor`, and the range 1 to 100 for the divisor (it comes from bag_size) are proposals. Whether a general `stats` or `math` function takes negatives, as the formulas page's no negatives rule would not allow, is not decided.
+8. Names. The prefix `date.` for `late_days@1`, the prefix `fin.` for `interest_step@1`, the libraries `edu.` for `term_grade` and `member.` for `voting_right`, the names of the other six functions of the nine, the general names `stats.spread` with `values` and `math.remainder` with `value` and `divisor`, and the range 1 to 100 for the divisor (it comes from bag_size) are proposals. Whether a general `stats` or `math` function takes negatives, as the formulas page's no negatives rule would not allow, is not decided.
 9. Places per currency. Every money case uses 2 places, as exact-money.md open question 3 assumes.
+10. Negative balances in `fin.lending_data_ok@1`. Formula 16 gives `balances` no no negatives rule, so a negative balance is accepted as input and then fails the function's own test `min(balances) >= 0.00` (case 05 records this). With a no negatives rule the test could never fail and a negative balance would be refused instead. Which is meant?
+11. A float made a decimal on a half. `fin.interim_payment@1` case 06 uses 0.375f, which a binary float holds exactly, so it sits exactly on the half of 0.01 when made a decimal of 2 places. A float that is only near a half (0.285f) is the question of open question 4 and has no case.
+12. Calling another function. `fin.late_filing_penalty@1` and `fin.monthly_interest@1` call `date.late_days@1` and `fin.interest_step@1` at version 1. A fix to a called function ships as its next version, so the cases of the callers stay true; whether a caller must move to the new version of its callee, and when, is the builder's choice (decision 10) and has no case here.
 
 ## How the figures were checked
 
-Every figure was worked by hand first, as shown in the Working column. A throwaway script outside the repo then recomputed all 80 cases with Python's decimal module at 100 digits, rounding half away from zero (ROUND_HALF_UP), applying each function's input rules to decide the refusals, counting whole years and days with the calendar, and computing the float ratio in binary floats against the exact decimal ratio at a relative error of 1e-9. It also re-ran the cases under half-even and half-down to find the five mode-dependent ones, and it read this page back to check that each case's kind, inputs and expected result match its own, that every id appears once, and that each source id's case list above is right.
+Every figure was worked by hand first, as shown in the Working column. A throwaway script outside the repo then recomputed all 152 cases with Python's decimal module at 100 digits, rounding half away from zero (ROUND_HALF_UP), applying each function's input rules to decide the refusals, counting whole years and days with the calendar, and computing the float ratio in binary floats against the exact decimal ratio at a relative error of 1e-9. It also re-ran the cases under half-even and half-down to find the eight mode-dependent ones, and it read this page back to check that each case's kind, inputs and expected result match its own, that every id appears once, and that each source id's case list above is right.
+
+The 72 cases of the other nine functions were checked the same way after the first 80: each was worked by hand with the Working shown, a second throwaway script (outside the repo) re-implemented the nine functions with Python's decimal module and the calendar, recomputed every expected figure and every refusal, and checked that each case marked mode-dependent changes under half-even or half-down and that no other case does. The data files and the tables of the section The other nine functions were then written from the same list, so a case has one text. No figure was taken from the library under test.

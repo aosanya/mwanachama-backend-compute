@@ -17,8 +17,8 @@ func loadReference(t *testing.T) map[string][]Case {
 
 func TestEveryRecordedCaseReplaysAgainstTheLibrary(t *testing.T) {
 	versions := loadReference(t)
-	if len(versions) != 10 {
-		t.Fatalf("the reference page has 10 functions and %d data files were read", len(versions))
+	if len(versions) != 19 {
+		t.Fatalf("the reference page has 19 functions and %d data files were read", len(versions))
 	}
 	for _, key := range SortedKeys(versions) {
 		function, found := Find(key)

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "REF-fin.interest_step-01",
+    "kind": "normal",
+    "inputs": {
+      "balance": "3217.45"
+    },
+    "expected": "0.015",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.interest_step-02",
+    "kind": "normal",
+    "inputs": {
+      "balance": "640.00"
+    },
+    "expected": "0.010",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.interest_step-03",
+    "kind": "edge",
+    "inputs": {
+      "balance": "5000.00"
+    },
+    "expected": "0.020",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.interest_step-04",
+    "kind": "edge",
+    "inputs": {
+      "balance": "1000.00"
+    },
+    "expected": "0.015",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interest_step-05",
+    "kind": "edge",
+    "inputs": {
+      "balance": "999.99"
+    },
+    "expected": "0.010",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interest_step-06",
+    "kind": "edge",
+    "inputs": {
+      "balance": "4999.99"
+    },
+    "expected": "0.015",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interest_step-07",
+    "kind": "refusal",
+    "inputs": {
+      "balance": "-1.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.interest_step-08",
+    "kind": "refusal",
+    "inputs": {
+      "balance": "1000.005"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

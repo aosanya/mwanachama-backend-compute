@@ -1,0 +1,82 @@
+[
+  {
+    "id": "REF-fin.monthly_interest-01",
+    "kind": "normal",
+    "inputs": {
+      "balance": "3217.45"
+    },
+    "expected": "48.26",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.monthly_interest-02",
+    "kind": "normal",
+    "inputs": {
+      "balance": "640.00"
+    },
+    "expected": "6.40",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-03",
+    "kind": "normal",
+    "inputs": {
+      "balance": "5000.00"
+    },
+    "expected": "100.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-04",
+    "kind": "edge",
+    "inputs": {
+      "balance": "0.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-05",
+    "kind": "edge",
+    "inputs": {
+      "balance": "999.99"
+    },
+    "expected": "10.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-06",
+    "kind": "edge",
+    "inputs": {
+      "balance": "0.50"
+    },
+    "expected": "0.01",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-07",
+    "kind": "edge",
+    "inputs": {
+      "balance": "1000.00"
+    },
+    "expected": "15.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.monthly_interest-08",
+    "kind": "refusal",
+    "inputs": {
+      "balance": "3217.455"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

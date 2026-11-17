@@ -1,0 +1,98 @@
+[
+  {
+    "id": "REF-fin.late_filing_penalty-01",
+    "kind": "normal",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-05-15"
+    },
+    "expected": "420.00",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-02",
+    "kind": "normal",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-04-12"
+    },
+    "expected": "168.00",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-03",
+    "kind": "edge",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-03-31"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-04",
+    "kind": "edge",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-04-30"
+    },
+    "expected": "168.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-05",
+    "kind": "edge",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-05-01"
+    },
+    "expected": "420.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-06",
+    "kind": "edge",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-06-29"
+    },
+    "expected": "420.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-07",
+    "kind": "edge",
+    "inputs": {
+      "amount": "8400.00",
+      "due": "2026-03-31",
+      "filed": "2026-06-30"
+    },
+    "expected": "840.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.late_filing_penalty-08",
+    "kind": "refusal",
+    "inputs": {
+      "amount": "8400.005",
+      "due": "2026-03-31",
+      "filed": "2026-05-15"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

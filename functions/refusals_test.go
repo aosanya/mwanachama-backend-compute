@@ -29,6 +29,22 @@ var refusalCodes = map[string]string{
 	"REF-math.remainder-06":            "too-small",
 	"REF-math.remainder-07":            "no-negatives",
 	"REF-math.remainder-08":            "wrong-type",
+	"REF-fin.loan_within_limit-07":     "not-allowed",
+	"REF-fin.loan_within_limit-08":     "too-small",
+	"REF-fin.farmer_net_payout-07":     "decimal-places",
+	"REF-fin.farmer_net_payout-08":     "too-small",
+	"REF-fin.late_filing_penalty-08":   "decimal-places",
+	"REF-fin.interest_step-07":         "no-negatives",
+	"REF-fin.interest_step-08":         "decimal-places",
+	"REF-fin.monthly_interest-08":      "decimal-places",
+	"REF-edu.term_grade-07":            "too-large",
+	"REF-edu.term_grade-08":            "list-too-short",
+	"REF-fin.interim_payment-07":       "too-large",
+	"REF-fin.interim_payment-08":       "too-small",
+	"REF-fin.lending_data_ok-07":       "wrong-type",
+	"REF-fin.lending_data_ok-08":       "list-too-short",
+	"REF-member.voting_right-07":       "required",
+	"REF-member.voting_right-08":       "not-allowed",
 }
 
 func codeOf(out Outcome) string {
@@ -94,8 +110,8 @@ func TestEveryFunctionStartsAtVersionOneWithAUniqueKey(t *testing.T) {
 		}
 		keys[candidate.Key()] = true
 	}
-	if len(keys) != 10 {
-		t.Errorf("the library has %d functions, want 10", len(keys))
+	if len(keys) != 19 {
+		t.Errorf("the library has %d functions, want 19", len(keys))
 	}
 }
 

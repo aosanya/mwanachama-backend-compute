@@ -1,0 +1,98 @@
+[
+  {
+    "id": "REF-fin.interim_payment-01",
+    "kind": "normal",
+    "inputs": {
+      "contract": "183500.00",
+      "percent_complete": "0.37",
+      "paid": "52000.00"
+    },
+    "expected": "9105.50",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.interim_payment-02",
+    "kind": "normal",
+    "inputs": {
+      "contract": "100000.00",
+      "percent_complete": "0.50",
+      "paid": "0.00"
+    },
+    "expected": "45000.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interim_payment-03",
+    "kind": "edge",
+    "inputs": {
+      "contract": "183500.00",
+      "percent_complete": "0.37",
+      "paid": "70000.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interim_payment-04",
+    "kind": "edge",
+    "inputs": {
+      "contract": "5000.00",
+      "percent_complete": "0.0",
+      "paid": "0.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interim_payment-05",
+    "kind": "edge",
+    "inputs": {
+      "contract": "2000.00",
+      "percent_complete": "1.0",
+      "paid": "0.00"
+    },
+    "expected": "1800.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interim_payment-06",
+    "kind": "edge",
+    "inputs": {
+      "contract": "1000.00",
+      "percent_complete": "0.375",
+      "paid": "0.00"
+    },
+    "expected": "342.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.interim_payment-07",
+    "kind": "refusal",
+    "inputs": {
+      "contract": "183500.00",
+      "percent_complete": "1.2",
+      "paid": "52000.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.interim_payment-08",
+    "kind": "refusal",
+    "inputs": {
+      "contract": "0.00",
+      "percent_complete": "0.37",
+      "paid": "0.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

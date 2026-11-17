@@ -1,0 +1,138 @@
+[
+  {
+    "id": "REF-fin.lending_data_ok-01",
+    "kind": "normal",
+    "inputs": {
+      "balances": [
+        "420.00",
+        "380.50",
+        "95.25",
+        "510.00",
+        "440.75",
+        "300.00",
+        "465.50",
+        "389.00"
+      ],
+      "floor": "350.00"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-02",
+    "kind": "normal",
+    "inputs": {
+      "balances": [
+        "420.00",
+        "380.50",
+        "95.25",
+        "510.00",
+        "440.75",
+        "300.00",
+        "465.50",
+        "389.00"
+      ],
+      "floor": "400.00"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-03",
+    "kind": "edge",
+    "inputs": {
+      "balances": [
+        "500.00",
+        "500.00",
+        "500.00",
+        "500.00",
+        "500.00"
+      ],
+      "floor": "100.00"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-04",
+    "kind": "edge",
+    "inputs": {
+      "balances": [
+        "350.00",
+        "350.00",
+        "350.00",
+        "350.00",
+        "350.00",
+        "350.00"
+      ],
+      "floor": "350.00"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-05",
+    "kind": "edge",
+    "inputs": {
+      "balances": [
+        "400.00",
+        "400.00",
+        "400.00",
+        "400.00",
+        "400.00",
+        "-0.01"
+      ],
+      "floor": "100.00"
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-06",
+    "kind": "edge",
+    "inputs": {
+      "balances": [
+        "0.00",
+        "0.00",
+        "0.00",
+        "0.00",
+        "0.00",
+        "0.00"
+      ],
+      "floor": "0.00"
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-07",
+    "kind": "refusal",
+    "inputs": {
+      "balances": [
+        "420.00",
+        "n/a"
+      ],
+      "floor": "350.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.lending_data_ok-08",
+    "kind": "refusal",
+    "inputs": {
+      "balances": [],
+      "floor": "350.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

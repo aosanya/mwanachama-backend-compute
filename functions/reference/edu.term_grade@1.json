@@ -1,0 +1,103 @@
+[
+  {
+    "id": "REF-edu.term_grade-01",
+    "kind": "normal",
+    "inputs": {
+      "scores": [
+        "72",
+        "85",
+        "64",
+        "91",
+        "77"
+      ]
+    },
+    "expected": "B",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-edu.term_grade-02",
+    "kind": "normal",
+    "inputs": {
+      "scores": [
+        "90",
+        "85",
+        "80"
+      ]
+    },
+    "expected": "A",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-edu.term_grade-03",
+    "kind": "edge",
+    "inputs": {
+      "scores": [
+        "80"
+      ]
+    },
+    "expected": "A",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-edu.term_grade-04",
+    "kind": "edge",
+    "inputs": {
+      "scores": [
+        "65"
+      ]
+    },
+    "expected": "B",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-edu.term_grade-05",
+    "kind": "edge",
+    "inputs": {
+      "scores": [
+        "50"
+      ]
+    },
+    "expected": "C",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-edu.term_grade-06",
+    "kind": "edge",
+    "inputs": {
+      "scores": [
+        "49"
+      ]
+    },
+    "expected": "F",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-edu.term_grade-07",
+    "kind": "refusal",
+    "inputs": {
+      "scores": [
+        "72",
+        "104"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-edu.term_grade-08",
+    "kind": "refusal",
+    "inputs": {
+      "scores": []
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "REF-fin.farmer_net_payout-01",
+    "kind": "normal",
+    "inputs": {
+      "kilos": "853",
+      "price_per_kilo": "0.437",
+      "credit": "120.00"
+    },
+    "expected": "252.76",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-02",
+    "kind": "normal",
+    "inputs": {
+      "kilos": "853",
+      "price_per_kilo": "0.437",
+      "credit": "400.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-03",
+    "kind": "edge",
+    "inputs": {
+      "kilos": "0",
+      "price_per_kilo": "0.437",
+      "credit": "0.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-04",
+    "kind": "edge",
+    "inputs": {
+      "kilos": "100",
+      "price_per_kilo": "1.000",
+      "credit": "100.00"
+    },
+    "expected": "0.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-05",
+    "kind": "edge",
+    "inputs": {
+      "kilos": "1",
+      "price_per_kilo": "0.005",
+      "credit": "0.00"
+    },
+    "expected": "0.01",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-06",
+    "kind": "edge",
+    "inputs": {
+      "kilos": "1000000",
+      "price_per_kilo": "0.001",
+      "credit": "0.00"
+    },
+    "expected": "1000.00",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-07",
+    "kind": "refusal",
+    "inputs": {
+      "kilos": "853",
+      "price_per_kilo": "0.4375",
+      "credit": "120.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.farmer_net_payout-08",
+    "kind": "refusal",
+    "inputs": {
+      "kilos": "853",
+      "price_per_kilo": "0.000",
+      "credit": "120.00"
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]

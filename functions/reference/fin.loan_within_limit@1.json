@@ -1,0 +1,126 @@
+[
+  {
+    "id": "REF-fin.loan_within_limit-01",
+    "kind": "normal",
+    "inputs": {
+      "status": "active",
+      "requested": "1400.00",
+      "contributions": [
+        "200.00",
+        "250.00",
+        "150.00",
+        "100.00"
+      ]
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-01"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-02",
+    "kind": "normal",
+    "inputs": {
+      "status": "active",
+      "requested": "2500.00",
+      "contributions": [
+        "200.00",
+        "250.00",
+        "150.00",
+        "100.00"
+      ]
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-03",
+    "kind": "edge",
+    "inputs": {
+      "status": "lapsed",
+      "requested": "100.00",
+      "contributions": [
+        "500.00"
+      ]
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-04",
+    "kind": "edge",
+    "inputs": {
+      "status": "active",
+      "requested": "2100.00",
+      "contributions": [
+        "700.00"
+      ]
+    },
+    "expected": "true",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-05",
+    "kind": "edge",
+    "inputs": {
+      "status": "active",
+      "requested": "2100.01",
+      "contributions": [
+        "700.00"
+      ]
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-06",
+    "kind": "edge",
+    "inputs": {
+      "status": "active",
+      "requested": "0.01",
+      "contributions": [
+        "0.00"
+      ]
+    },
+    "expected": "false",
+    "tolerance": "exact",
+    "source": "S-03"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-07",
+    "kind": "refusal",
+    "inputs": {
+      "status": "paused",
+      "requested": "1400.00",
+      "contributions": [
+        "200.00",
+        "250.00",
+        "150.00",
+        "100.00"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  },
+  {
+    "id": "REF-fin.loan_within_limit-08",
+    "kind": "refusal",
+    "inputs": {
+      "status": "active",
+      "requested": "0.00",
+      "contributions": [
+        "200.00",
+        "250.00",
+        "150.00",
+        "100.00"
+      ]
+    },
+    "expected": "refused",
+    "tolerance": "exact",
+    "source": "S-02"
+  }
+]
