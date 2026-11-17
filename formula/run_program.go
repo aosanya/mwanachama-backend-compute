@@ -14,6 +14,11 @@ type Runtime interface {
 	Apply(library string, name string, version int, args []Value) (Value, *Problem)
 }
 
+type MeteredRuntime interface {
+	Runtime
+	ApplyMetered(library string, name string, version int, args []Value, meter *Meter) (Value, *Problem)
+}
+
 type Options struct {
 	Limits  limit.Settings
 	Numbers number.Settings
@@ -85,6 +90,17 @@ func (p *Program) Apply(args []Value) (Value, *Problem) {
 		return Value{}, &Problem{Code: codeBadInput, Sentence: "The function needs " + strconv.Itoa(len(p.inputs)) + " arguments and was given " + strconv.Itoa(len(args)) + ".", Path: Path{}}
 	}
 	return p.start(append([]Value{}, args...), NewMeter(p.options.Limits.Cost))
+}
+
+func (p *Program) ApplyMetered(args []Value, meter *Meter) (Value, *Problem) {
+	if len(args) != len(p.inputs) {
+		return Value{}, &Problem{Code: codeBadInput, Sentence: "The function needs " + strconv.Itoa(len(p.inputs)) + " arguments and was given " + strconv.Itoa(len(args)) + ".", Path: Path{}}
+	}
+	if meter.depth > p.options.Limits.CallDepth {
+		refused := limit.Refusal{Limit: limit.CallDepthLimit, Value: p.options.Limits.CallDepth}
+		return Value{}, &Problem{Code: codeCallTooDeep, Sentence: refused.Sentence(), Part: p.whole, Path: Path{}}
+	}
+	return p.start(append([]Value{}, args...), meter)
 }
 
 func (p *Program) start(slots []Value, meter *Meter) (Value, *Problem) {

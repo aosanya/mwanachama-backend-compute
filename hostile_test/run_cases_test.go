@@ -192,6 +192,14 @@ func (l *loopRuntime) Apply(lib string, name string, version int, args []formula
 	return l.programs[name].Apply(args)
 }
 
+func (l *loopRuntime) ApplyMetered(lib string, name string, version int, args []formula.Value, meter *formula.Meter) (formula.Value, *formula.Problem) {
+	l.calls++
+	if l.calls > 2000 {
+		return formula.Value{}, &formula.Problem{Code: hostStopped, Sentence: "The host stopped the loop."}
+	}
+	return l.programs[name].ApplyMetered(args, meter)
+}
+
 func loopProgram(t *testing.T, bodies map[string]string) (*loopRuntime, map[string]*formula.Program) {
 	t.Helper()
 	runtimeValue := &loopRuntime{library: hostileLibrary(), programs: map[string]*formula.Program{}}
@@ -237,7 +245,7 @@ func TestSelfCallsSlippedPastTheSaveCheckAreStopped(t *testing.T) {
 			case problem.Code != "too-costly" && problem.Code != "call-too-deep":
 				failure = "got " + shown(*problem)
 			}
-			settle(t, c.id, "ISS-72", failure)
+			settle(t, c.id, "", failure)
 		})
 	}
 }

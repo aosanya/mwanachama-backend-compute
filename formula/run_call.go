@@ -104,7 +104,7 @@ func (c *runCompiler) function(node Call, steps []runStep, site runSite) runStep
 		if problem := f.charge(signature.Cost); problem != nil {
 			return Value{}, problem
 		}
-		result, failure := runtime.Apply(libraryName, node.Name, version, args)
+		result, failure := applyCallee(runtime, f, signature.Cost, libraryName, node.Name, version, args)
 		if failure != nil {
 			if failure.Part == "" {
 				failure.Part = Format(Tree{Root: node})
@@ -120,6 +120,24 @@ func (c *runCompiler) function(node Call, steps []runStep, site runSite) runStep
 		}
 		return result, nil
 	}
+}
+
+func applyCallee(runtime Runtime, f *runFrame, declared int, library string, name string, version int, args []Value) (Value, *Problem) {
+	metered, isMetered := runtime.(MeteredRuntime)
+	if !isMetered {
+		return runtime.Apply(library, name, version, args)
+	}
+	callee := f.meter.callee(declared)
+	result, failure := metered.ApplyMetered(library, name, version, args, callee)
+	if failure != nil {
+		return result, failure
+	}
+	if extra := callee.Spent() - declared; extra > 0 {
+		if problem := f.charge(extra); problem != nil {
+			return Value{}, problem
+		}
+	}
+	return result, nil
 }
 
 func runRound(args []Value, settings number.Settings) (Value, *runFault) {

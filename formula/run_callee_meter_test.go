@@ -29,11 +29,11 @@ func (r *loopingRuntime) ApplyMetered(library string, name string, version int, 
 	return r.programs[name].ApplyMetered(args, meter)
 }
 
-func newLoopingRuntime(t *testing.T, bodies map[string]string) *loopingRuntime {
+func newLoopingRuntime(t *testing.T, declared int, bodies map[string]string) *loopingRuntime {
 	t.Helper()
 	var functions []fakeFunction
 	for name := range bodies {
-		functions = append(functions, fakeFunction{"", name, 1, Signature{Params: decimalParams(1), Result: TypeDecimal, Cost: 1}})
+		functions = append(functions, fakeFunction{"", name, 1, Signature{Params: decimalParams(1), Result: TypeDecimal, Cost: declared}})
 	}
 	runtime := &loopingRuntime{fakeLibrary: fakeLibrary{functions: functions}, programs: map[string]*Program{}, stopAt: 5000}
 	for name, body := range bodies {
@@ -59,7 +59,7 @@ func TestAChainOfCalleesIsStoppedByTheRunThatStartedIt(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
-			runtime := newLoopingRuntime(t, c.bodies)
+			runtime := newLoopingRuntime(t, 1, c.bodies)
 			_, problem := runtime.programs[c.entry].Run(map[string]Value{"total": DecimalValue(number.NewDecimal(100, 2))})
 			if problem == nil {
 				t.Fatalf("the loop returned a value")
@@ -75,7 +75,7 @@ func TestAChainOfCalleesIsStoppedByTheRunThatStartedIt(t *testing.T) {
 }
 
 func TestACalleeIsChargedAtLeastItsDeclaredCostAndNeverTwice(t *testing.T) {
-	runtime := newLoopingRuntime(t, map[string]string{"g": "total + 1"})
+	runtime := newLoopingRuntime(t, 10, map[string]string{"g": "total + 1"})
 	caller, problems := Plan(mustParse(t, "g@1(total)"), inputs("total", "decimal"), runtime, DefaultOptions())
 	if len(problems) != 0 {
 		t.Fatalf("caller did not plan: %+v", problems)
@@ -84,9 +84,23 @@ func TestACalleeIsChargedAtLeastItsDeclaredCostAndNeverTwice(t *testing.T) {
 	if _, problem := caller.RunMetered(map[string]Value{"total": DecimalValue(number.NewDecimal(100, 2))}, meter); problem != nil {
 		t.Fatalf("unexpected %s", problem.Sentence)
 	}
-	static := caller.Cost()
-	if meter.Spent() > static {
-		t.Fatalf("the run spent %d and the static cost is %d", meter.Spent(), static)
+	if meter.Spent() != caller.Cost() {
+		t.Fatalf("the run spent %d and the static cost is %d", meter.Spent(), caller.Cost())
+	}
+}
+
+func TestACalleeThatSpendsMoreThanItDeclaredIsChargedForTheDifference(t *testing.T) {
+	runtime := newLoopingRuntime(t, 1, map[string]string{"g": "total + 1"})
+	caller, problems := Plan(mustParse(t, "g@1(total)"), inputs("total", "decimal"), runtime, DefaultOptions())
+	if len(problems) != 0 {
+		t.Fatalf("caller did not plan: %+v", problems)
+	}
+	meter := NewMeter(DefaultOptions().Limits.Cost)
+	if _, problem := caller.RunMetered(map[string]Value{"total": DecimalValue(number.NewDecimal(100, 2))}, meter); problem != nil {
+		t.Fatalf("unexpected %s", problem.Sentence)
+	}
+	if meter.Spent() <= caller.Cost() {
+		t.Fatalf("the run spent %d and the static cost is %d: the callee's extra work was not charged", meter.Spent(), caller.Cost())
 	}
 }
 
