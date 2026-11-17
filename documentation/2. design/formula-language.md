@@ -10,7 +10,6 @@ Status: written on 2026-11-17 from the nineteen example formulas. The owner has 
 
 ## What this page does not decide
 
-- The input rules and checks of a function, and Validate, which tests a row of inputs. A later section of this page covers them.
 - The engine that runs a formula, and the time limit of a run.
 - The batch run, its row limit and its result shape.
 - The hash function. This page only says what the hash is taken of.
@@ -230,7 +229,7 @@ The rules for a call:
 - Arguments are positional. There are 1 to 8 of them. Their count and types are checked against the callee's signature. An integer is accepted for a decimal parameter.
 - A function that calls another may call only a version that is already saved and published. So a function can never call itself, and there are no cycles.
 - A chain of calls is at most 4 calls long. The chain counts from this formula to the last function that calls no other. A formula that calls a function which calls three more has a chain of 4.
-- Every call checks the callee's own input rules. Those rules are specified in a later section of this page.
+- Every call checks the callee's own input rules. Those rules are specified under Input rules, checks and Validate.
 - A call costs the callee's cost, as defined under Limits.
 
 ### Built-in functions
@@ -278,7 +277,7 @@ Every limit is a number. Parse stops at the first limit it meets and gives one p
 | Distinct names a formula reads, which are its inputs | 8 | Check | `too-many-inputs` |
 | Arguments in one call | 8 | Check | `wrong-argument-count` |
 | Items in a list written in a formula | 99, held by the node limit | Parse, Check | `too-many-nodes` |
-| Items in a list value | 1000 (proposed) | Validate, in the later section | not defined here |
+| Items in a list value | 1000 (proposed) | Validate, under Input rules, checks and Validate | `list-too-long` |
 | Text literal, in characters | 200 | Parse, Check | `too-long` |
 | Integer literal, in digits | 18 | Parse, Check | `too-many-digits` |
 | Decimal literal, in digits | 30 | Parse, Check | `too-many-digits` |
@@ -299,7 +298,7 @@ The limit names are `formula length`, `depth`, `node`, `input`, `text length`, `
 Cost is counted from the tree, before any run.
 
 - Each node costs 1.
-- `sum`, `count`, `avg`, `min` and `max` add the number of items of their list. For a list written in the formula that is its item count. For any other list it is 1000, until the input rules of the later section declare a smaller size.
+- `sum`, `count`, `avg`, `min` and `max` add the number of items of their list. For a list written in the formula that is its item count. For any other list it is 1000, until a `max-items` rule of the function's definition declares a smaller size.
 - A call to an agency function or a library function adds the callee's cost. The cost of an agency function is counted when it is saved. A library declares the cost of each of its functions.
 
 A run never costs more than its count, because the count already assumes the largest lists. So a run has no cost problem.
@@ -386,6 +385,8 @@ A problem from Parse has no tree to point into. Its `part` is empty, its `path` 
 | `number-too-big` | A run | A result over its digit limit, or a float that is not finite. | `` The part `{part}` gives a number with more than {18 or 60} digits. `` |
 | `empty-list` | A run | `min`, `max` or `avg` of an empty list. | `` The part `{part}` needs a list with at least one item, and the list is empty. `` |
 
+The codes of Validate and of a refused definition are listed under Input rules, checks and Validate.
+
 The words `{what}` of `bad-syntax` come from this set: `the formula is empty`, `text is not valid UTF-8`, `unexpected character {c}` (a character outside the language is written `U+` and its code, such as `U+200B`), `unexpected control character`, `missing closing bracket`, `a : is missing`, `the formula ends after an operator`, `text is not closed`, `text ends inside an escape`, `text has an unknown escape`, `a number cannot have a leading zero`, `a version is a whole number from 1 to 999999`, `a name must be followed by brackets to be a call`, `two parts are side by side with no operator between them`.
 
 The words `{what}` of `bad-tree` come from this set: `the kind {kind} is not in the language`, `the field {field} is missing`, `the field {field} is not allowed`, `the operator {op} is not in the language`, `the value {value} is not a {type}`, `the name {name} is not a valid name`, `the part has {n} children and needs {m}`, `the text is not a tree`.
@@ -396,7 +397,792 @@ A call to a name that is none of these, such as `import`, `eval`, `now`, `random
 
 ## Input rules, checks and Validate
 
-Specified in the next section of this page, written separately.
+The owner decided that the rules for the inputs of a function and the checks over them are part of the function's definition, not of the step that calls it. So every caller, whether a step in a workflow, a bulk run or an AI chat tool, is held to the same rules.
+Validate runs before any calculation and lists every problem at once, never only the first. Each problem names the input, the value received and the rule broken, as a plain sentence and a code a program can read.
+Everything below that goes beyond those decisions is proposed.
+
+### What a definition holds
+
+A definition holds the function's inputs and its checks. It is stored with the function's version, so a changed rule ships as a new version, as a changed formula does (proposed).
+
+| Field | Meaning | Limits |
+|---|---|---|
+| `inputs` | The inputs, in declaration order. | 0 to 8 inputs. |
+| `inputs[].name` | The name the formula reads. The pattern of a name in the standard shape. | 1 to 40 characters, unique in the definition. |
+| `inputs[].type` | One of `integer`, `decimal`, `float`, `text`, `boolean`, `date`, `list of integer`, `list of decimal`. | One type. |
+| `inputs[].rules` | The rules of the input, each an object with a `rule` field and its parameters. | 0 to 8 rules, each rule name at most once. |
+| `checks` | The checks, in declaration order. | 0 to 8 checks. |
+| `checks[].formula` | A boolean formula in the language of this page, saved in its standard text. It reads inputs of this definition only. It obeys every limit under Limits, so at most 500 characters, 100 nodes, depth 12 and cost 20000. | See Limits. |
+| `checks[].message` | The plain words a person reads when the check fails, written without a final full stop. | 1 to 120 characters, no line break. |
+
+The worked definition is formula 1, balance after payment. Both inputs are required, may not be negative and have at most 2 decimal places. The two checks are invented for this example.
+
+```json
+{
+  "inputs": [
+    {
+      "name": "balance",
+      "type": "decimal",
+      "rules": [
+        {"rule": "required"},
+        {"rule": "no-negatives"},
+        {"rule": "decimal-places", "places": 2}
+      ]
+    },
+    {
+      "name": "payment",
+      "type": "decimal",
+      "rules": [
+        {"rule": "required"},
+        {"rule": "no-negatives"},
+        {"rule": "decimal-places", "places": 2}
+      ]
+    }
+  ],
+  "checks": [
+    {"formula": "payment > 0", "message": "The payment must be more than zero"},
+    {"formula": "payment <= balance + 1000.00", "message": "The payment cannot be more than 1000.00 above the balance"}
+  ]
+}
+```
+
+### The rules
+
+Six rules are decided: required, type, allowed range, no negatives, number of decimal places and allowed values. The list rules at least one element and at most n elements are the two list rules the example formulas use. A rule on a list input that is written once for the items, such as a range, is applied to every item.
+
+| Order | Rule | Applies to | Parameters | Limits | Code |
+|---|---|---|---|---|---|
+| 1 | `required` | every type | none | none | `required` |
+| 2 | `type` | every type. It is the `type` field of the input, not a rule object. | none | see "How a value is read" | `wrong-type` |
+| 3 | `min-items` | list of integer, list of decimal | `items`, a whole number | 1 to 1000 | `list-too-short` |
+| 4 | `max-items` | list of integer, list of decimal | `items`, a whole number | 1 to 1000. A list with no `max-items` rule is held to 1000. | `list-too-long` |
+| 5 | `no-negatives` | integer, decimal, float, list of integer, list of decimal | none | none | `no-negatives` |
+| 6 | `range` | the same types as `no-negatives` | `min` and `max`, each decimal text; `min_exclusive` and `max_exclusive`, each true or false, false when left out | at least one of `min` and `max`; a bound has at most 30 digits and at most 10 places | `too-small`, `too-large` |
+| 7 | `decimal-places` | decimal, list of decimal | `places`, a whole number | 0 to 10 | `decimal-places` |
+| 8 | `allowed-values` | text, integer | `values`, a list of texts | 1 to 20 values, each at most 200 characters, all different | `not-allowed` |
+
+Notes on the rules:
+
+- `required` on a list input means the list must be present. An empty list that is present is given. A list input without `required` that is not present counts as an empty list.
+- Every input that is not a list must carry `required`. A definition that leaves it out is refused on save with `input-needs-required`, because the formula cannot be calculated without a value (proposed; see the open questions).
+- `min-items` and `max-items` count the items of the list. The count is tested even when some items have the wrong type.
+- `no-negatives`, `range`, `decimal-places` and `allowed-values` on a list input are applied to each item. The problem names the item by its position, counted from 1.
+- `range` compares by value, as exact decimals, never as binary floats. `12.5` and `12.50` are equal. With `min_exclusive` true the bound itself is refused, which reads `more than 0.00`. A date has no range rule (proposed).
+- `decimal-places` means at most `places` places, counted in the text received. A value with fewer places is accepted: `45.2` passes 2 places. `0.4370` has 4 places and fails 3 places, because the digits received are kept (proposed).
+- `allowed-values` compares the characters exactly, and a different case is a different value: `"Active"` is not `"active"`.
+- A value is negative when it is below zero. `-0.00` equals zero and is not negative.
+
+What each rule says, with one valid and one invalid invented row. The rows are formulas named in the examples below.
+
+| Rule | Sentence | Valid | Invalid |
+|---|---|---|---|
+| `required` | `` `payment` was not given. It is required. `` | payment 45.25 (`rules-required-valid`) | payment not given (`rules-required-missing`) |
+| `type` | `` `kilos` is 1237.5. It must be a whole number with at most 18 digits. `` | kilos 1237 (`rules-type-valid`) | kilos 1237.5 (`rules-type-invalid`) |
+| `min-items` | `` `yields` has 0 items. It needs at least 1 item. `` | 3 yields (`rules-list-at-least-one-valid`) | no yields (`rules-list-at-least-one-invalid`) |
+| `max-items` | `` `scores` has 13 items. It can have at most 12 items. `` | 12 scores (`rules-list-at-most-valid`) | 13 scores (`rules-list-too-long`) |
+| `no-negatives` | `` `payment` is -5.00. It cannot be negative. `` | balance 0.00 (`rules-no-negatives-valid`) | payment -5.00 (`rules-no-negatives-invalid`) |
+| `range` | `` `members` is 0. It must be from 1 to 500. `` | members 7 and 500 (`rules-range-valid`, `rules-range-edge-valid`) | members 0 and 501 (`rules-range-too-small`, `rules-range-too-large`) |
+| `decimal-places` | `` `payment` is 5.125. It can have at most 2 decimal places. `` | payment 45.2 (`rules-decimal-places-valid`) | payment 5.125 (`rules-decimal-places-invalid`) |
+| `allowed-values` | `` `status` is "paused". It must be one of "active", "lapsed", "suspended". `` | status "lapsed" (`rules-allowed-values-valid`) | status "paused" (`rules-allowed-values-invalid`) |
+| a rule on each item | `` Item 2 of `scores` is 104. It must be from 0 to 100. `` | 5 scores in range (`rules-each-item-valid`) | an item of 104 (`rules-each-item-too-large`) |
+| a check | `` The payment must be more than zero. `payment` is 0.00. `` | payment 2400.00 over 7 months (`rules-check-valid`) | payment 0.00 (`rules-check-failed`) |
+
+### How a value is read
+
+A row gives each input as received text. The library never reads a number from a program's number type, because a binary number cannot keep `5.125` or `45.20` as written. A host that holds a number passes the digits as they were written.
+
+| What the row holds | Meaning |
+|---|---|
+| The name is not in the row | The input is not given. |
+| The name with a text | The input is given, and the text is the value received. An empty text is given. |
+| The name with a list of texts | A list input is given, and each item is a text. An empty list is given. |
+
+The value received is shown in a problem as exact text:
+
+- A text is shown as it was received, character for character: `5.125` stays `5.125`, `-5.00` stays `-5.00`, `0.4370` stays `0.4370`. A text input is shown without quotes in the `value` field, and with double quotes inside a sentence.
+- An input that is not given has `given` false and `value` null.
+- A list is shown as its items between `[` and `]`, separated by `, `: `[2400.50, 3100.25]`. An empty list is `[]`. After the 20th item the text goes on with `, ...` before `]`.
+- A problem about one item of a list names the item by its position, counted from 1, and shows the text of that item alone.
+- A text longer than 200 characters is shown as its first 200 characters followed by `...` (proposed).
+
+How the type rule reads the text:
+
+| Type | Accepted text | Refused |
+|---|---|---|
+| integer | An optional `-`, then 1 to 18 digits. No leading zero unless the number is `0`. | `-0`, `+5`, `1237.5`, `1e3`, `1,200`, a space, an empty text. |
+| decimal | An optional `-`, digits, and optionally a dot with 1 or more digits after it. At most 30 digits in all. No leading zero unless the whole part is `0`. | `.5`, `5.`, `1e3`, `1,5`, `+5`, a space, an empty text, more than 30 digits. |
+| float | The same text as a decimal. It is read as an approximate number after it passes. | The same as a decimal. |
+| text | 0 to 200 characters with no control character. | More than 200 characters, any control character. |
+| boolean | `true` or `false`, in lowercase. | `True`, `yes`, `1`, an empty text. |
+| date | `YYYY-MM-DD`, a day that exists. | `2026-02-30`, `31/03/2026`, an empty text. |
+| list of integer, list of decimal | A list whose items each read as the element type. | A text received for a list input, a list received for another type. |
+
+How the other rules read the text:
+
+- Decimal places are the digits after the dot in the text, trailing zeros included. An integer has 0 places.
+- Range, no negatives and the comparisons in checks read the value of the text as an exact decimal.
+- Allowed values compare the characters of the text.
+
+A value that has passed its type rule is calculated as that type, with its digits as received: `5.125` is the decimal `5.125` and `45.2` is the decimal `45.2`.
+
+### The Validate problem
+
+Validate tests one row against one definition and gives a list of problems. A problem is one object. The fields are always written, in this order, and the value is null where it does not apply.
+
+```json
+{
+  "input": "payment",
+  "item": null,
+  "given": true,
+  "value": "-5.00",
+  "rule": "no-negatives",
+  "sentence": "`payment` is -5.00. It cannot be negative.",
+  "code": "no-negatives",
+  "check": null
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `input` | The name of the input. Null for a problem of a check. |
+| `item` | The position, from 1 to 1000, of the list item the problem is about. Null when the problem is about the whole input. |
+| `given` | True when the name was in the row, false when it was not. Null for a problem of a check. |
+| `value` | The value received, as exact text, or null when the input was not given. For a list it is the list as shown above, and for a list item it is the text of that item. Null for a problem of a check. |
+| `rule` | The rule broken: `required`, `type`, `min-items`, `max-items`, `no-negatives`, `range`, `decimal-places`, `allowed-values`, `check`, `known-input` or `batch`. |
+| `sentence` | One plain sentence a treasurer can read. It names the input in backticks and gives the value received. |
+| `code` | A code from the table below, lowercase letters, digits and hyphens, 1 to 40 characters. |
+| `check` | The standard text of the formula of the check. Null for any problem that is not of a check. |
+
+A problem of a check has `input`, `given` and `value` null, because a check can read several inputs. Its sentence gives the message of the check and then the values received of the inputs the check reads, such as `` The payment must be more than zero. `payment` is 0.00. ``
+
+```json
+{
+  "input": null,
+  "item": null,
+  "given": null,
+  "value": null,
+  "rule": "check",
+  "sentence": "The payment must be more than zero. `payment` is 0.00.",
+  "code": "check-failed",
+  "check": "payment > 0"
+}
+```
+
+This is the shape that the per-row results of a batch run carry. The batch page names six parts: the input, whether it was given, the value received, the rule broken, a sentence and a code. They are the same fields, in the same order. This page adds `item` and `check`, which are null in an ordinary problem. See "Differences to settle".
+
+### The order of problems, and what stops what
+
+Validate tests every rule of every input and never stops at the first problem. The problems come in this order:
+
+1. The inputs in the order of the definition. For each input, its rules in the order of the table of rules: `required`, `type`, `min-items`, `max-items`, `no-negatives`, `range`, `decimal-places`, `allowed-values`.
+2. For a list input, `required`, `type`, `min-items` and `max-items` come once for the list. Then the items come in position order, and for each item its `type`, then `no-negatives`, `range`, `decimal-places` and `allowed-values`.
+3. Every name in the row that is not an input of the definition, in the order of its characters. Each gives `unknown-input`.
+4. The checks in the order of the definition.
+
+What one problem of an input does to the other rules of the same input:
+
+- An input that is not given gets `required` and nothing else. It gets no `type`, no range and no other problem. The exception is a list input without `required`: it counts as an empty list and gets `min-items` when that rule is present, with `given` false.
+- An input whose text fails the type rule gets `wrong-type` and nothing else, because the text cannot be read as a number, a date or the like. It gets no `no-negatives`, no range, no places and no allowed values.
+- An item of a list that fails the type rule gets `wrong-type` and nothing else for that item. The other items are still tested, and so are `min-items` and `max-items`.
+- A list received for an input that is not a list, or a text received for a list input, gets `wrong-type` and nothing else.
+- Every other pair of rules is independent. A value that is both below zero and below the range gets both `no-negatives` and `too-small`. A value of `-5.125` with 2 places gets `no-negatives` and `decimal-places`, in that order.
+- A problem in one input never stops another input from being tested.
+
+What a problem does to the checks:
+
+- A check runs only when every input it reads had no problem. A list input has a problem when the list or any of its items has one.
+- A check that is skipped gives no problem. A skipped check is never invented as a failure, so the list is complete for what could be tested. After the inputs are fixed, a check can then give a problem that the first list did not show.
+- A check that runs gives `check-failed` when it is false.
+- A check that runs and cannot be worked out, for example by a division by zero, gives `check-error`. Its sentence carries the sentence of that problem. The codes `divide-by-zero`, `number-too-big` and `empty-list` are never codes of Validate; they stay codes of a run, as listed under Every code.
+- An unknown name does not stop a check.
+
+Validate returns an empty list when the row is clean. The formula is calculated only then. A row with one problem or more is never calculated (law 7 on `documentation/4. qa/laws.md`). The most one row can give from declared inputs is 24016 problems: 8 list inputs of 3001 problems each, which is 1000 items with 3 each and 1 for the list, and 8 checks. Unknown names add one each. There is no cap on the list (proposed), because a list that is cut is not complete.
+
+Rules on one input when it is a list, shown on formula 10: the input `scores` is a list of integer with `min-items` 1, `max-items` 12 and a `range` of 0 to 100. The row `["-3", "104", "abc"]` gives 3 problems at once, one per item, in position order (`rules-each-item-three-problems`).
+
+### Sentences
+
+A sentence names the input in backticks and gives the value received. A value of type text is written between double quotes in a sentence, and every other value as received. A sentence for an item starts with `Item {n} of` and the name.
+
+Check messages are written by the builder. Three examples with the sentence each gives:
+
+| Message | Check formula | Sentence when it fails |
+|---|---|---|
+| The payment must be more than zero | `payment > 0` | `` The payment must be more than zero. `payment` is 0.00. `` |
+| The loan must be at least 100.00 | `principal >= 100.00` | `` The loan must be at least 100.00. `principal` is 50.00. `` |
+| The interest cannot be more than the amount borrowed | `principal * monthly_rate * months <= principal` | `` The interest cannot be more than the amount borrowed. `principal` is 50.00, `monthly_rate` is 0.050 and `months` is 60. `` |
+
+The values are given for each name the check reads, in the order the names first appear in the standard text of the check, joined by `, ` and the word `and` before the last.
+
+### Every code of Validate
+
+Codes of a Validate problem.
+
+| Code | Rule | When | Sentence | Example |
+|---|---|---|---|---|
+| `required` | `required` | The name is not in the row. | `` `{input}` was not given. It is required. `` | `rules-required-missing` |
+| `wrong-type` | `type` | The text cannot be read as the type. | `` `{input}` is {value}. It must be {type words}. `` | `rules-type-invalid` |
+| `too-small` | `range` | The value is below `min`, or equal to it when `min_exclusive`. | `` `{input}` is {value}. It must be {min text}. `` | `rules-range-too-small` |
+| `too-large` | `range` | The value is above `max`, or equal to it when `max_exclusive`. | `` `{input}` is {value}. It must be {max text}. `` | `rules-range-too-large` |
+| `no-negatives` | `no-negatives` | The value is below zero. | `` `{input}` is {value}. It cannot be negative. `` | `rules-no-negatives-invalid` |
+| `decimal-places` | `decimal-places` | The text has more places than `places`. | `` `{input}` is {value}. It can have at most {n} decimal places. `` | `rules-decimal-places-invalid` |
+| `not-allowed` | `allowed-values` | The text is not one of the values. | `` `{input}` is "{value}". It must be one of {values}. `` | `rules-allowed-values-invalid` |
+| `list-too-short` | `min-items` | The list has fewer than `items` items. | `` `{input}` has {n} items. It needs at least {items} items. `` | `rules-list-at-least-one-invalid` |
+| `list-too-long` | `max-items` | The list has more than `items` items, or more than 1000. | `` `{input}` has {n} items. It can have at most {items} items. `` | `rules-list-too-long` |
+| `check-failed` | `check` | A check that ran is false. | `{message}. {values}.` | `rules-check-failed` |
+| `check-error` | `check` | A check that ran cannot be worked out. | `The check "{message}" could not be worked out: {run sentence}` | `rules-check-error` |
+| `unknown-input` | `known-input` | A name in the row is not an input of the definition. | `` `{input}` is not an input of this function. Its inputs are: {names}. `` | `rules-unknown-input` |
+
+The words in the sentences:
+
+- `{type words}` is: `a whole number with at most 18 digits`, `a decimal number with at most 30 digits, such as 12.50`, `a number with at most 30 digits, such as 0.37`, `text of at most 200 characters`, `true or false`, `a date written like 2026-03-31`, `a list of whole numbers`, `a list of decimal numbers`. For an item of a list the element's words are used.
+- `{min text}` and `{max text}` are: `from {min} to {max}` when both bounds are given and neither is exclusive; otherwise for `too-small` `{min} or more`, or `more than {min}` when `min_exclusive`; and for `too-large` `{max} or less`, or `less than {max}` when `max_exclusive`.
+- The places sentence reads `It can have at most {n} decimal places.` for 2 or more, `It can have at most 1 decimal place.` for 1, and `It cannot have decimal places.` for 0.
+- `{items}` and `{n}` read `1 item` for 1 and `{n} items` otherwise.
+- A list that is not given gives `` `{input}` was not given, so it has 0 items. It needs at least {items} items. ``
+
+Codes of a row that the batch stopped. They belong to the batch page and are proposed. The row has no input, item, given or value, its `rule` is `batch`, and its stage is `batch` on that page.
+
+| Code | When | Sentence | Status |
+|---|---|---|---|
+| `batch-limit-reached` | The row was never started because the batch reached its limit. | `This row was not worked because the batch reached its limit.` | proposed |
+| `batch-cancelled` | The row was never started because the caller cancelled the batch. | `This row was not worked because the batch was cancelled.` | proposed |
+
+`divide-by-zero`, `number-too-big` and `empty-list` are codes of a run, not of Validate, and they stay as listed under Every code. A check that meets one of them gives `check-error`.
+
+### Refusing a definition on save
+
+A definition is tested when the function is saved. This is a Check rule for the definition itself. A definition that cannot be satisfied, or that contradicts itself, is refused and nothing is stored. The problems are the problem of Check: `code`, `sentence`, `part` and `path`. For a problem of the definition, `part` is its place, such as `inputs.bag_size.range` or `checks.1`, and `path` is null. For a problem inside the formula of a check, the code, part and path are those of Check on that formula and the sentence starts with `Check {n}: `, where n counts from 1.
+
+| Code | When | Sentence | Example |
+|---|---|---|---|
+| `input-repeated` | Two inputs have the same name. | `` The input `{name}` is declared more than once. `` | none |
+| `bad-input-name` | A name breaks the pattern of a name. | `` `{name}` is not a valid input name. A name has 1 to 40 lowercase letters, digits and underscores and starts with a letter. `` | none |
+| `too-many-inputs` | More than 8 inputs. | `This function goes over the input limit of 8.` | none |
+| `rule-repeated` | A rule appears twice in one input. | `` The rule {rule} is given twice for `{input}`. `` | none |
+| `rule-not-for-type` | A rule on a type it does not apply to. | `` `{input}` is {type}, so it cannot have the rule {rule}. `` | none |
+| `bad-rule-parameter` | A parameter is missing, is not a number or text of the right kind, or is outside its limit. | `` The rule {rule} of `{input}` needs {what}. `` | none |
+| `places-too-many` | `places` above 10. | `` The rule decimal-places of `{input}` allows {n} places. The most is 10. `` | `rules-definition-places-too-many` |
+| `range-reversed` | `min` above `max`, or equal to it with an exclusive end. | `` The range of `{input}` has a minimum of {min} above its maximum of {max}. `` | `rules-definition-range-reversed` |
+| `items-reversed` | `min-items` above `max-items`. | `` `{input}` needs at least {a} items and at most {b}. `` | none |
+| `allowed-values-empty` | `values` has 0 values. | `` The allowed values of `{input}` list no value. A list holds 1 to 20 values. `` | `rules-definition-allowed-values-empty` |
+| `allowed-values-too-many` | `values` has more than 20 values. | `` The allowed values of `{input}` list {n} values. The most is 20. `` | none |
+| `allowed-values-repeat` | A value is listed twice. | `` The value "{value}" is listed twice for `{input}`. `` | none |
+| `rules-contradict` | An allowed value that another rule of the input refuses. | `` No value can meet the rules of `{input}`: the allowed value {value} breaks the rule {rule}. `` | none |
+| `input-needs-required` | An input that is not a list has no `required`. | `` `{input}` is not a list, so it needs the rule required. `` | `rules-definition-input-needs-required` |
+| `too-many-checks` | More than 8 checks. | `This function goes over the check limit of 8.` | none |
+| `bad-message` | A message with 0 characters, more than 120, or a line break. | `Check {n} needs a message of 1 to 120 characters on one line.` | none |
+| `check-not-boolean` | The formula of a check is not true or false. | `` Check {n} must be true or false, and `{formula}` is {type}. `` | `rules-definition-check-not-boolean` |
+| `unknown-name` | A check reads a name that is not an input. This is the code of Check, with `Check {n}: ` before its sentence. | `` Check {n}: The name `{name}` is not an input of this function. Its inputs are: {names}. `` | `rules-definition-check-unknown-name` |
+
+A check formula that has any other problem of Check keeps its own code. A check may call built-in functions only (proposed). Check gives at most 20 problems for a definition, as it does for a formula.
+
+A definition with a `max-items` rule lowers the cost of its list input from 1000 items to that number, for the cost of a formula that reads it.
+
+### Examples
+
+Each example below is a formula with its case line. The definition the row is validated against is in the table before it, and the row received is on the lines after it. A row that is clean gives the result of the formula. A row with problems gives the list, in order, and the formula is not calculated.
+
+#### Balance after payment, formula 1
+
+| Input | Type | Rules |
+|---|---|---|
+| `balance` | decimal | required, no-negatives, decimal-places 2 |
+| `payment` | decimal | required, no-negatives, decimal-places 2 |
+
+| Check | Formula | Message |
+|---|---|---|
+| 1 | `payment > 0` | The payment must be more than zero |
+| 2 | `payment <= balance + 1000.00` | The payment cannot be more than 1000.00 above the balance |
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-required-valid
+
+Received: `balance` 120.50 and `payment` 45.25. No problem. The result is `75.25`.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-required-missing
+
+Received: `balance` 200.00, and `payment` not in the row. Problem `required`, input `payment`, not given, value null: `payment` was not given. It is required. Both checks read `payment`, so neither runs.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-required-and-bad-together
+
+Received: `payment` -5.00, and `balance` not in the row. 2 problems, in input order. Problem `required`, input `balance`, not given: `balance` was not given. It is required. Problem `no-negatives`, input `payment`, received -5.00: `payment` is -5.00. It cannot be negative.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-no-negatives-valid
+
+Received: `balance` 0.00 and `payment` 45.25. Zero is not negative. No problem. The result is `0.00`.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-no-negatives-invalid
+
+Received: `balance` 80.00 and `payment` -5.00. Problem `no-negatives`, input `payment`, received -5.00: `payment` is -5.00. It cannot be negative. The checks read `payment` and are skipped.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-decimal-places-valid
+
+Received: `balance` 120.50 and `payment` 45.2. One place is below the limit of 2. No problem. The result is `75.30`.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-decimal-places-invalid
+
+Received: `balance` 60.00 and `payment` 5.125. Problem `decimal-places`, input `payment`, received 5.125: `payment` is 5.125. It can have at most 2 decimal places.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-three-problems-at-once
+
+Received: `balance` -1.00 and `payment` -5.125. The list has 3 problems and nothing stops at the first. Problem `no-negatives`, input `balance`, received -1.00: `balance` is -1.00. It cannot be negative. Problem `no-negatives`, input `payment`, received -5.125: `payment` is -5.125. It cannot be negative. Problem `decimal-places`, input `payment`, received -5.125: `payment` is -5.125. It can have at most 2 decimal places.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-check-failed
+
+Received: `balance` 120.50 and `payment` 0.00. Both inputs are clean, so both checks run. Check 1 is false and check 2 is true. Problem `check-failed`, rule `check`, check `payment > 0`: The payment must be more than zero. `payment` is 0.00.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-check-failed-second
+
+Received: `balance` 100.00 and `payment` 2000.00. Check 1 is true. Check 2 is false, because 2000.00 is more than 1100.00. Problem `check-failed`, check `payment <= balance + 1000.00`: The payment cannot be more than 1000.00 above the balance. `payment` is 2000.00 and `balance` is 100.00.
+
+#### Farmer net payout, formula 4
+
+| Input | Type | Rules |
+|---|---|---|
+| `kilos` | integer | required, no-negatives |
+| `price_per_kilo` | decimal | required, range more than 0.000, decimal-places 3 |
+| `credit` | decimal | required, no-negatives, decimal-places 2 |
+
+```formula
+max([0.00, round(kilos * price_per_kilo, 2) - credit])
+```
+case: rules-decimal-places-boundary-valid
+
+Received: `kilos` 853, `price_per_kilo` 0.437 and `credit` 120.00. Three places is the limit and is accepted. No problem. The result is `252.76`.
+
+```formula
+max([0.00, round(kilos * price_per_kilo, 2) - credit])
+```
+case: rules-decimal-places-trailing-zero
+
+Received: `kilos` 853, `price_per_kilo` 0.4370 and `credit` 120.00. The text has 4 places because the zero is kept. Problem `decimal-places`, input `price_per_kilo`, received 0.4370: `price_per_kilo` is 0.4370. It can have at most 3 decimal places.
+
+```formula
+max([0.00, round(kilos * price_per_kilo, 2) - credit])
+```
+case: rules-different-codes-at-once
+
+Received: `kilos` -3 and `price_per_kilo` 0.0005, and `credit` not in the row. 3 problems with 3 different codes, in input order. Problem `no-negatives`, input `kilos`, received -3: `kilos` is -3. It cannot be negative. Problem `decimal-places`, input `price_per_kilo`, received 0.0005: `price_per_kilo` is 0.0005. It can have at most 3 decimal places. Problem `required`, input `credit`, not given: `credit` was not given. It is required.
+
+#### Seed bags left over, formula 19
+
+| Input | Type | Rules |
+|---|---|---|
+| `kilos` | integer | required, no-negatives |
+| `bag_size` | integer | required, range 1 to 100 |
+
+```formula
+kilos % bag_size
+```
+case: rules-type-valid
+
+Received: `kilos` 1237 and `bag_size` 50. No problem. The result is `37`.
+
+```formula
+kilos % bag_size
+```
+case: rules-type-invalid
+
+Received: `kilos` 1237.5 and `bag_size` 50. Problem `wrong-type`, input `kilos`, received 1237.5: `kilos` is 1237.5. It must be a whole number with at most 18 digits. `kilos` gets no `no-negatives` problem, because its text cannot be read as a whole number.
+
+```formula
+kilos % bag_size
+```
+case: rules-type-other-inputs-still-tested
+
+Received: `kilos` abc and `bag_size` 0. 2 problems. Problem `wrong-type`, input `kilos`, received abc: `kilos` is abc. It must be a whole number with at most 18 digits. Problem `too-small`, input `bag_size`, received 0: `bag_size` is 0. It must be from 1 to 100.
+
+```formula
+kilos % bag_size
+```
+case: rules-unknown-input
+
+Received: `kilos` 1237, `bag_size` 50 and `bag_weight` 3. Problem `unknown-input`, input `bag_weight`, given, received 3, rule `known-input`: `bag_weight` is not an input of this function. Its inputs are: kilos, bag_size. The formula is not calculated.
+
+#### Late days, formula 5
+
+| Input | Type | Rules |
+|---|---|---|
+| `due` | date | required |
+| `filed` | date | required |
+
+```formula
+max([0, days_between(due, filed)])
+```
+case: rules-type-date-valid
+
+Received: `due` 2026-03-31 and `filed` 2026-05-15. No problem. The result is `45`.
+
+```formula
+max([0, days_between(due, filed)])
+```
+case: rules-type-date-invalid
+
+Received: `due` 2026-03-31 and `filed` 2026-02-30. There is no 30 February. Problem `wrong-type`, input `filed`, received 2026-02-30: `filed` is 2026-02-30. It must be a date written like 2026-03-31.
+
+```formula
+max([0, days_between(due, filed)])
+```
+case: rules-required-date-missing
+
+Received: `due` 2026-03-31, and `filed` not in the row. Problem `required`, input `filed`, not given: `filed` was not given. It is required.
+
+#### Voting right, formula 18
+
+| Input | Type | Rules |
+|---|---|---|
+| `joined` | date | required |
+| `on` | date | required |
+| `paid_up` | boolean | required |
+| `suspended` | boolean | required |
+| `role` | text | required, allowed-values "member", "officer", "guest" |
+
+```formula
+!suspended && role != "guest" && (role == "officer" || paid_up && months_between(joined, on) >= 6)
+```
+case: rules-required-boolean-missing
+
+Received: `joined` 2026-01-20, `on` 2026-09-15, `suspended` false and `role` member, and `paid_up` not in the row. Problem `required`, input `paid_up`, not given: `paid_up` was not given. It is required.
+
+#### Loan limit check, formula 2
+
+| Input | Type | Rules |
+|---|---|---|
+| `status` | text | required, allowed-values "active", "lapsed", "suspended" |
+| `requested` | decimal | required, range more than 0.00, decimal-places 2 |
+| `contributions` | list of decimal | min-items 1, no-negatives |
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-allowed-values-valid
+
+Received: `status` lapsed, `requested` 1400.00 and `contributions` [200.00, 250.00, 150.00, 100.00]. No problem. The status is allowed, though it is not "active". The result is `false`.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-allowed-values-invalid
+
+Received: `status` paused, `requested` 1400.00 and `contributions` [200.00, 250.00, 150.00, 100.00]. Problem `not-allowed`, input `status`, received paused: `status` is "paused". It must be one of "active", "lapsed", "suspended".
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-allowed-values-case-differs
+
+Received: `status` Active, `requested` 1400.00 and `contributions` [200.00]. A different case is a different text. Problem `not-allowed`, input `status`, received Active: `status` is "Active". It must be one of "active", "lapsed", "suspended".
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-range-exclusive-valid
+
+Received: `status` active, `requested` 0.01 and `contributions` [200.00]. 0.01 is more than 0.00. No problem. The result is `true`.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-range-exclusive-invalid
+
+Received: `status` active, `requested` 0.00 and `contributions` [200.00]. The bound itself is refused. Problem `too-small`, input `requested`, received 0.00: `requested` is 0.00. It must be more than 0.00.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-no-negatives-list-item-valid
+
+Received: `status` active, `requested` 1400.00 and `contributions` [200.00, 250.00, 150.00, 100.00]. No problem. The result is `true`.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-no-negatives-list-item-invalid
+
+Received: `status` active, `requested` 1400.00 and `contributions` [200.00, -50.00]. Problem `no-negatives`, input `contributions`, item 2, received -50.00: Item 2 of `contributions` is -50.00. It cannot be negative.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-list-at-least-one-not-given
+
+Received: `status` active and `requested` 1400.00, and `contributions` not in the row. The list has no `required` rule, so it counts as empty. Problem `list-too-short`, input `contributions`, not given, value null, rule `min-items`: `contributions` was not given, so it has 0 items. It needs at least 1 item.
+
+#### Plot yield spread, formula 17
+
+| Input | Type | Rules |
+|---|---|---|
+| `yields` | list of decimal | min-items 1, no-negatives, decimal-places 2 |
+
+```formula
+max(yields) - min(yields)
+```
+case: rules-list-at-least-one-valid
+
+Received: `yields` [2400.50, 3100.25, 2750.00]. No problem. The result is `699.75`.
+
+```formula
+max(yields) - min(yields)
+```
+case: rules-list-at-least-one-invalid
+
+Received: `yields` []. The list is given and has 0 items. Problem `list-too-short`, input `yields`, received [], rule `min-items`: `yields` has 0 items. It needs at least 1 item.
+
+```formula
+max(yields) - min(yields)
+```
+case: rules-decimal-places-list-item-invalid
+
+Received: `yields` [2400.505, 3100.25]. Problem `decimal-places`, input `yields`, item 1, received 2400.505: Item 1 of `yields` is 2400.505. It can have at most 2 decimal places.
+
+#### Fund share per member, formula 3
+
+| Input | Type | Rules |
+|---|---|---|
+| `deposits` | list of decimal | min-items 1, no-negatives |
+| `expenses` | list of decimal | no-negatives |
+| `members` | integer | required, range 1 to 500 |
+
+```formula
+round((sum(deposits) - sum(expenses)) / members, 2)
+```
+case: rules-range-valid
+
+Received: `deposits` [500.00, 750.00, 1250.50], `expenses` [120.25, 80.00] and `members` 7. No problem. The result is `328.61`.
+
+```formula
+round((sum(deposits) - sum(expenses)) / members, 2)
+```
+case: rules-range-edge-valid
+
+Received: the same lists and `members` 500. The upper bound is allowed. 2300.25 / 500 is 4.6005, rounded to `4.60`.
+
+```formula
+round((sum(deposits) - sum(expenses)) / members, 2)
+```
+case: rules-range-too-small
+
+Received: the same lists and `members` 0. Problem `too-small`, input `members`, received 0: `members` is 0. It must be from 1 to 500.
+
+```formula
+round((sum(deposits) - sum(expenses)) / members, 2)
+```
+case: rules-range-too-large
+
+Received: the same lists and `members` 501. Problem `too-large`, input `members`, received 501: `members` is 501. It must be from 1 to 500.
+
+```formula
+round((sum(deposits) - sum(expenses)) / members, 2)
+```
+case: rules-list-not-given-is-empty
+
+Received: `deposits` [500.00, 750.00, 1250.50] and `members` 7, and `expenses` not in the row. `expenses` has no `min-items` and no `required`, so it counts as empty. No problem. The result is `357.21`.
+
+#### Term grade, formula 10
+
+| Input | Type | Rules |
+|---|---|---|
+| `scores` | list of integer | min-items 1, max-items 12, range 0 to 100 |
+
+The `max-items` of 12 is added here to show the rule. The requirements page gives only at least one and the range.
+
+```formula
+avg(scores) >= 80 ? "A" : avg(scores) >= 65 ? "B" : avg(scores) >= 50 ? "C" : "F"
+```
+case: rules-each-item-valid
+
+Received: `scores` [72, 85, 64, 91, 77]. No problem. The result is `"B"`.
+
+```formula
+avg(scores) >= 80 ? "A" : avg(scores) >= 65 ? "B" : avg(scores) >= 50 ? "C" : "F"
+```
+case: rules-each-item-too-large
+
+Received: `scores` [72, 104]. Problem `too-large`, input `scores`, item 2, received 104: Item 2 of `scores` is 104. It must be from 0 to 100.
+
+```formula
+avg(scores) >= 80 ? "A" : avg(scores) >= 65 ? "B" : avg(scores) >= 50 ? "C" : "F"
+```
+case: rules-each-item-three-problems
+
+Received: `scores` [-3, 104, abc]. 3 problems, in item order. Problem `too-small`, item 1, received -3: Item 1 of `scores` is -3. It must be from 0 to 100. Problem `too-large`, item 2, received 104: Item 2 of `scores` is 104. It must be from 0 to 100. Problem `wrong-type`, item 3, received abc: Item 3 of `scores` is abc. It must be a whole number with at most 18 digits.
+
+```formula
+avg(scores) >= 80 ? "A" : avg(scores) >= 65 ? "B" : avg(scores) >= 50 ? "C" : "F"
+```
+case: rules-list-at-most-valid
+
+Received: `scores` with 12 items, each 70. The list is at the limit of 12. No problem. The average is 70 and the result is `"B"`.
+
+```formula
+avg(scores) >= 80 ? "A" : avg(scores) >= 65 ? "B" : avg(scores) >= 50 ? "C" : "F"
+```
+case: rules-list-too-long
+
+Received: `scores` with 13 items, each 70. Problem `list-too-long`, input `scores`, received [70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70], rule `max-items`: `scores` has 13 items. It can have at most 12 items.
+
+#### Lending data check, formula 16
+
+| Input | Type | Rules |
+|---|---|---|
+| `balances` | list of decimal | min-items 1, decimal-places 2 |
+| `floor` | decimal | required, no-negatives, decimal-places 2 |
+
+```formula
+count(balances) >= 6 && avg(balances) >= floor && min(balances) >= 0.00
+```
+case: rules-type-list-item-valid
+
+Received: `balances` [420.00, 380.50, 95.25, 510.00, 440.75, 300.00, 465.50, 389.00] and `floor` 350.00. No problem. The result is `true`.
+
+```formula
+count(balances) >= 6 && avg(balances) >= floor && min(balances) >= 0.00
+```
+case: rules-type-list-item-invalid
+
+Received: `balances` [420.00, n/a] and `floor` 350.00. Problem `wrong-type`, input `balances`, item 2, received n/a: Item 2 of `balances` is n/a. It must be a decimal number with at most 30 digits, such as 12.50.
+
+#### Flat-rate loan instalment, formula 9
+
+| Input | Type | Rules |
+|---|---|---|
+| `principal` | decimal | required, range more than 0.00, decimal-places 2 |
+| `monthly_rate` | decimal | required, range 0.000 to 0.050, decimal-places 3 |
+| `months` | integer | required, range 1 to 60 |
+
+| Check | Formula | Message |
+|---|---|---|
+| 1 | `principal >= 100.00` | The loan must be at least 100.00 |
+| 2 | `principal * monthly_rate * months <= principal` | The interest cannot be more than the amount borrowed |
+
+```formula
+round((principal + principal * monthly_rate * months) / months, 2)
+```
+case: rules-check-valid
+
+Received: `principal` 2400.00, `monthly_rate` 0.012 and `months` 7. Both checks run and are true: the interest is 201.60. The result is `371.66`.
+
+```formula
+round((principal + principal * monthly_rate * months) / months, 2)
+```
+case: rules-check-two-failed
+
+Received: `principal` 50.00, `monthly_rate` 0.050 and `months` 60. The inputs are clean. Both checks run and both are false, so there are 2 problems, in the order the checks are declared. Problem `check-failed`, check `principal >= 100.00`: The loan must be at least 100.00. `principal` is 50.00. Problem `check-failed`, check `principal * monthly_rate * months <= principal`: The interest cannot be more than the amount borrowed. `principal` is 50.00, `monthly_rate` is 0.050 and `months` is 60.
+
+```formula
+round((principal + principal * monthly_rate * months) / months, 2)
+```
+case: rules-check-skipped-input-problem
+
+Received: `principal` 50.00, `monthly_rate` 0.06 and `months` 7. `monthly_rate` has a problem. Check 1 reads only `principal`, so it runs and is false. Check 2 reads `monthly_rate`, so it is skipped and gives nothing. Problem `too-large`, input `monthly_rate`, received 0.06: `monthly_rate` is 0.06. It must be from 0.000 to 0.050. Problem `check-failed`, check `principal >= 100.00`: The loan must be at least 100.00. `principal` is 50.00.
+
+```formula
+round((principal + principal * monthly_rate * months) / months, 2)
+```
+case: rules-check-skipped-all
+
+Received: `principal` -1.00, `monthly_rate` 0.012 and `months` 7. `principal` has a problem and both checks read it, so both are skipped. Neither failure is invented, though check 1 would have been false. Problem `too-small`, input `principal`, received -1.00: `principal` is -1.00. It must be more than 0.00.
+
+#### A check that cannot be worked out
+
+| Input | Type | Rules |
+|---|---|---|
+| `total` | decimal | required, no-negatives, decimal-places 2 |
+| `people` | integer | required |
+
+| Check | Formula | Message |
+|---|---|---|
+| 1 | `total / people >= 1.00` | Each person must get at least 1.00 |
+
+```formula
+round(total / people, 2)
+```
+case: rules-check-error
+
+Received: `total` 10.00 and `people` 0. Both inputs are clean, so the check runs and divides by zero. Problem `check-error`, check `total / people >= 1.00`: The check "Each person must get at least 1.00" could not be worked out: The part `total / people` divides by zero.
+
+```formula
+round(total / people, 2)
+```
+case: rules-check-division-valid
+
+Received: `total` 100.00 and `people` 3. The check divides to 33.33333333333333333333, which is at least 1.00, so it is true. No problem. The result is `33.33`.
+
+#### Definitions that are refused
+
+Each definition below is refused on save. The formula is the one of the function, and the problem is the problem of the definition.
+
+```formula
+kilos % bag_size
+```
+case: rules-definition-range-reversed
+
+`bag_size` has the rule range with `min` 100 and `max` 1. Problem `range-reversed`, part `inputs.bag_size.range`: The range of `bag_size` has a minimum of 100 above its maximum of 1.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-definition-places-too-many
+
+`payment` has the rule decimal-places with `places` 11. Problem `places-too-many`, part `inputs.payment.decimal-places`: The rule decimal-places of `payment` allows 11 places. The most is 10.
+
+```formula
+status == "active" && requested <= 3 * sum(contributions)
+```
+case: rules-definition-allowed-values-empty
+
+`status` has the rule allowed-values with `values` []. Problem `allowed-values-empty`, part `inputs.status.allowed-values`: The allowed values of `status` list no value. A list holds 1 to 20 values.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-definition-check-unknown-name
+
+Check 1 is `payment <= limit`, and `limit` is not an input. Problem `unknown-name`, part `limit`, path `[1]`: Check 1: The name `limit` is not an input of this function. Its inputs are: balance, payment.
+
+```formula
+payment >= balance ? 0.00 : balance - payment
+```
+case: rules-definition-check-not-boolean
+
+Check 1 is `payment + 1`. Problem `check-not-boolean`, part `checks.1`: Check 1 must be true or false, and `payment + 1` is decimal.
+
+```formula
+kilos % bag_size
+```
+case: rules-definition-input-needs-required
+
+`bag_size` is an integer with the rule range 1 to 100 and no `required`. Problem `input-needs-required`, part `inputs.bag_size`: `bag_size` is not a list, so it needs the rule required.
 
 ## Examples
 
@@ -967,6 +1753,52 @@ type Library interface {
 	Versions(library string, name string) []int
 }
 
+type Rule struct {
+	Name         string
+	Min          *string
+	Max          *string
+	MinExclusive bool
+	MaxExclusive bool
+	Places       *int
+	Values       []string
+	Items        *int
+}
+
+type InputDecl struct {
+	Name  string
+	Type  Type
+	Rules []Rule
+}
+
+type CheckDecl struct {
+	Formula string
+	Message string
+}
+
+type Definition struct {
+	Inputs []InputDecl
+	Checks []CheckDecl
+}
+
+type Received struct {
+	Text  string
+	Items []string
+	List  bool
+}
+
+type Row map[string]Received
+
+type RowProblem struct {
+	Input    *string
+	Item     *int
+	Given    *bool
+	Value    *string
+	Rule     string
+	Sentence string
+	Code     string
+	Check    *string
+}
+
 func Parse(text string) (Tree, []Problem)
 
 func Format(tree Tree) string
@@ -978,12 +1810,19 @@ func PartAt(tree Tree, path Path) (Part, bool)
 func TreeFromJSON(data []byte) (Tree, []Problem)
 
 func TreeToJSON(tree Tree) []byte
+
+func CheckDefinition(definition Definition) []Problem
+
+func Validate(definition Definition, row Row) []RowProblem
 ```
 
 Each node kind implements `Node`. A call to a built-in or an agency function has a nil `Library`. A call with no version has a nil `Version`. `Line` and `Column` are set by Parse only. For an agency function, `Library` is the empty name in `Function` and `Versions`.
 `Signature.CallDepth` is the longest chain of calls below the function: 0 when it calls no function.
 There is no Hash here. The publication's hash reads the standard text from `Format`. Which hash function it uses is decided with the publication.
-There is no Validate and no run here. They come with the later section and the batch page.
+There is no run here. It comes with the batch page.
+`CheckDefinition` tests a definition when a function is saved. It gives the problems of Check, and it calls `Check` on each check formula with the definition's inputs as its `[]Input`.
+`Validate` gives an empty, non-nil list when the row is clean, and the formula is calculated only then. It is called only with a definition that `CheckDefinition` accepted. A `RowProblem` holds the fields of the Validate problem in their order; a pointer is nil where the JSON has null.
+The page's `Input` and `Problem` already belong to Check, so the definition's input is `InputDecl` and the problem of a row is `RowProblem` (see Differences to settle).
 
 ## Left out on purpose
 
@@ -1019,6 +1858,16 @@ Each is chosen provisionally on this page and is marked proposed.
 8. Whether to add a float literal, a date literal, a negative number, integer division, or any other part under "Left out on purpose".
 9. Whether a name that equals a built-in name, such as an input called `max`, is allowed. It is allowed here because a call always has brackets (proposed).
 10. Whether the problem sentences should be translated. They are English only here.
+11. Whether an input that is not a list may be optional. Here every such input needs `required`, and a definition without it is refused with `input-needs-required`, because no stand-in value exists (proposed). The other choice is a `default` field on the input.
+12. Whether `decimal-places` means at most `places` or exactly `places`. Here it is at most, and trailing zeros in the text count: `0.4370` fails 3 places (proposed).
+13. Whether a problem of a check should carry the names and values of the inputs it reads as fields. Here `input`, `given` and `value` are null and the sentence carries the values (proposed).
+14. Whether Validate may list no problem for a check it skipped. Here a skipped check gives nothing, so a second Validate after a fix can show a new `check-failed` (proposed). The other choice is a problem with the code `check-skipped`.
+15. Whether the list of problems of a row is capped. Here it is not, and the most is 24016 plus one per unknown name (proposed).
+16. Whether a check may call an agency function or a library function. Here it may call built-ins only, because Validate takes no library (proposed).
+17. Whether a date input may have a range, and whether `allowed-values` may apply to a list of text. Neither is needed by an example, so neither exists here.
+18. Whether a text longer than 200 characters, or a list of more than 20 items, is cut when shown in a problem. Here it is cut, with `...` (proposed).
+19. Whether a name in a row that is not an input is a problem. Here it is `unknown-input`, so a host that merges shared inputs into rows must pass only declared names (proposed).
+20. Whether a blank text for a text input, such as a text of spaces, is given. Here it is given, and `required` does not refuse it (proposed).
 
 ## Differences to settle
 
@@ -1041,3 +1890,12 @@ Pages other than this one disagree with it in these places. The owners of those 
 15. `2. design/library-versioning.md` shows the scan sentence with the prefix `Error:` and a mention of publish. Here the Check sentence has no prefix. The wording after it is the same. It does not say how a built-in is versioned. Here a built-in has no version and belongs to the language version.
 16. `4. qa/exact-money.md` names several rounding modes and leaves division and float conversion open. Here `round` has only half away from zero, division gives 20 places, and a float is converted through its shortest text. For positive numbers half away from zero equals half-up. For negative numbers it does not equal "half toward positive infinity". The decimal and float refusal there has a free wording. Here it is the sentence of `float-decimal-mix`.
 17. Check takes the function's input names and types as a second argument. The assignment named two arguments, a tree and a library, but a tree cannot be type-checked without the input types.
+18. `2. design/batch-evaluation.md` names six parts of a problem. The Validate problem here has eight fields: the same six in the same order (input, given, value, rule, sentence, code), with `item` after `input` and `check` at the end, which are null in an ordinary problem. A problem of a check has `input`, `given` and `value` null. The batch page and `4. qa/bulk-runs.md` can keep writing `input (value) code`, and add the item position for a list.
+19. The batch page says a calculation failure carries its reason "in the same problem form". A run problem here has the shape `code`, `sentence`, `part` and `path`. Proposed: in a batch row the run problem is carried as a Validate problem with `input`, `item`, `given`, `value` and `check` null, `rule` `calculation`, its sentence and its code, so a row has one form. The same holds for `batch-limit-reached` and `batch-cancelled`, with `rule` `batch`.
+20. The batch page orders problems by input declaration order, then rule order. Here the order adds two steps after the inputs: unknown names, then checks. The rule order inside an input is the order of the rule table, which gives `no-negatives` before `decimal-places`, as `4. qa/bulk-runs.md` BR-24 row 4 lists them.
+21. Batch example A and `4. qa/bulk-runs.md` give formula 1 inputs that are required, not negative and of 2 places, with no checks. Here "2 decimal places" means at most 2, and the worked definition adds two checks, so a `payment` of 0.00 gives `check-failed` there and not here. The batch rows still hold for the definition without the checks.
+22. Batch example C writes the rule cell `pushed down: sum of contributions`. This page has no such rule. `total_contributions` is an ordinary decimal input here with `required`. Where a pushed-down declaration lives is left to the batch page, and a field of the definition is the proposed home.
+23. `1. requirements/example-formulas.md` writes rules in words. They map to this page as follows: "more than 0.00" is `range` with `min` 0.00 and `min_exclusive` true; "at least one" is `min-items` 1; "each in range 0 to 100" is a `range` rule written once on the list input; "may be empty" is a list with no `required` and no `min-items`; "2 decimal places each" is `decimal-places` on a list; "range 0.0f to 1.0f" is `range` with `min` 0.0 and `max` 1.0, because a float literal has no suffix here; "2 decimal places" is at most 2.
+24. `4. qa/laws.md` law 7 plants problems and expects the full list. A check problem is listed only when every input the check reads is clean, so the row generator must not expect a check problem for a row that also has a problem in an input the check reads. The code names `required`, `no-negatives` and `decimal-places` are as the batch page uses them.
+25. `4. qa/example-cases.md`: the `expected` cell compares codes only, so two problems of the same code on different inputs, such as `no-negatives` twice, cannot be told apart. Proposed: a Validate row also compares input and item. A Validate row needs a definition, and the case table has no column for one; `4. qa/formula-examples.md` lists the definitions in a section of its own until the case-table owner decides.
+26. The names `Input` and `Problem` are taken in the Go surface by Check, so the definition's input is `InputDecl` and the Validate problem is `RowProblem`. The signature is `Validate(definition Definition, row Row) []RowProblem`, with `CheckDefinition(definition Definition) []Problem` for the save.
