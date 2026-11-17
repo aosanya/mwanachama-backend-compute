@@ -1,10 +1,6 @@
 package examplecases
 
-import (
-	"strconv"
-	"strings"
-	"testing"
-)
+import "testing"
 
 const heldPath = "../testdata/formula-language.held.md"
 
@@ -34,21 +30,8 @@ func TestEveryCaseRunsAndGivesItsExpectedResultOrProblems(t *testing.T) {
 
 func compare(t *testing.T, c Case, outcome Outcome) {
 	t.Helper()
-	where := c.File + ":" + strconv.Itoa(c.Line)
-	if c.Expected.Result != nil {
-		if outcome.Result == nil {
-			t.Fatalf("%s: expected %s, got problems %v: %v", where, c.Expected.Result, outcome.Problems, outcome.Where)
-		}
-		if outcome.Result.String() != c.Expected.Result.String() {
-			t.Fatalf("%s: expected %s, got %s", where, c.Expected.Result, outcome.Result)
-		}
-		return
-	}
-	if outcome.Result != nil {
-		t.Fatalf("%s: expected problems %v, got the result %s", where, c.Expected.Problems, outcome.Result)
-	}
-	if strings.Join(outcome.Problems, ", ") != strings.Join(c.Expected.Problems, ", ") {
-		t.Fatalf("%s: expected problems %v, got %v: %v", where, c.Expected.Problems, outcome.Problems, outcome.Where)
+	if message := Mismatch(c, outcome); message != "" {
+		t.Fatal(message)
 	}
 }
 
