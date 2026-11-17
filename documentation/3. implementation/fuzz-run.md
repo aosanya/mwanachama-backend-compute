@@ -1,12 +1,12 @@
 # Parser fuzz run
 
-How the parser is fuzzed, and how to start each run. The engine and the parser are not chosen yet and the parser package is empty, so this page is the design of the run. Every name that depends on the engine reads "to be set by the engine choice".
+How the parser is fuzzed, and how to start each run. The run is built (ISS-34) in `hostile_test/`, see [hostile-suite.md](hostile-suite.md). The engine is our own (decision 23), and the parser package is `formula/`.
 
 Fuzzing uses Go's native fuzzing: `go test -fuzz`. No extra tool is installed.
 
 ## What is fuzzed
 
-The target is `FuzzParse`, a placeholder name, in the parser package. The package path is to be set by the engine choice. It calls the parser entry point with the input as a string.
+The target is `FuzzParse` in `hostile_test/`. It calls `Parse`, `Check`, `Plan` and `Run` with the input as a string.
 
 Three properties are checked on every input:
 
@@ -20,7 +20,7 @@ The sentence form is the parser-error sentence in [hostile-formulas.md](../4.%20
 
 ## Seeds
 
-The seed corpus lives in `testdata/fuzz/FuzzParse` inside the parser package. This is Go's own layout. Seeds are:
+The seed corpus lives in `hostile_test/testdata/fuzz/FuzzParse`. This is Go's own layout. Seeds are:
 
 - the valid example formulas
 - the near-parse cases (formulas one character away from valid)
@@ -49,7 +49,7 @@ Without `-fuzz`, `go test ./...` only replays the seeds and the saved failures. 
 
 ## Commands
 
-Run from the repo root. Replace `<parser-package>` with the package path, to be set by the engine choice.
+Run from the repo root, or use `make fuzz` and `make fuzz-nightly`.
 
 Normal check:
 
@@ -60,20 +60,20 @@ go test ./...
 Short run, before a merge:
 
 ```
-GOMEMLIMIT=1GiB go test -fuzz=FuzzParse -fuzztime=60s <parser-package>
+GOMEMLIMIT=1GiB go test -fuzz=FuzzParse -fuzztime=60s ./hostile_test
 ```
 
 Nightly run:
 
 ```
-GOMEMLIMIT=1GiB go test -fuzz=FuzzParse -fuzztime=30m <parser-package>
+GOMEMLIMIT=1GiB go test -fuzz=FuzzParse -fuzztime=30m ./hostile_test
 ```
 
 `go test -fuzz` accepts one package and one target per run, so the package path is required.
 
 ## When a run fails
 
-1. Go writes the failing input to `testdata/fuzz/FuzzParse/<hash>` in the parser package.
+1. Go writes the failing input to `hostile_test/testdata/fuzz/FuzzParse/<hash>`.
 2. Commit that file. It is a permanent case: every later `go test ./...` replays it.
 3. Add the same input as a new row in the matching group of [hostile-formulas.md](../4.%20qa/hostile-formulas.md), with the next free id.
 4. Fix it as a new version of the library. A published function is never edited (CLAUDE.md rule 4).
