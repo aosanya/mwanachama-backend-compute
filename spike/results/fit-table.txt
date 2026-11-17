@@ -1,0 +1,321 @@
+Fit table: tree for the block view, and print-back in the standard shape
+
+per formula (variants: 6 respacings of each formula)
+engine     formula  tree converts  tree equals own  idempotent  canonical  round-trips  reads as own  equals page text  remarks
+cel-go     1        yes            yes              yes         6/6        yes          yes           no                prints "(payment >= balance) ? 0.00 : (balance - payment)"
+cel-go     2        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     3        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     4        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     5        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     6        yes            yes              yes         6/6        yes          yes           no                prints "(late_days@1(due, filed) == 0) ? 0.00 : ((late_days@1(due, filed) > 90) ? (round(amount * 0.10, 2)) : ((late_days@1(due, filed) > 30) ? (round(amount * 0.05, 2)) : (round(amount * 0.02, 2))))"
+cel-go     7        yes            yes              yes         6/6        yes          yes           no                prints "(balance < 1000.00) ? 0.010 : ((balance < 5000.00) ? 0.015 : 0.020)"
+cel-go     8        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     9        yes            yes              yes         6/6        yes          yes           yes               
+cel-go     10       yes            yes              yes         6/6        yes          yes           no                prints "(avg(scores) >= 80) ? \"A\" : ((avg(scores) >= 65) ? \"B\" : ((avg(scores) >= 50) ? \"C\" : \"F\"))"
+cel-go     11       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     12       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     13       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     14       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     15       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     16       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     17       yes            yes              yes         6/6        yes          yes           yes               
+cel-go     18       yes            yes              yes         6/6        yes          yes           no                prints "!suspended && role != \"guest\" && (role == \"officer\" || paid_up && months_between(joined, on) >= 6)"
+cel-go     19       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  1        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  2        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  3        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  4        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  5        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  6        yes            yes              yes         6/6        yes          yes           no                prints "late_days@1(due, filed) == 0 ? 0.00 : (late_days@1(due, filed) > 90 ? round(amount * 0.10, 2) : (late_days@1(due, filed) > 30 ? round(amount * 0.05, 2) : round(amount * 0.02, 2)))"
+expr-lang  7        yes            yes              yes         6/6        yes          yes           no                prints "balance < 1000.00 ? 0.010 : (balance < 5000.00 ? 0.015 : 0.020)"
+expr-lang  8        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  9        yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  10       yes            yes              yes         6/6        yes          yes           no                prints "avg(scores) >= 80 ? \"A\" : (avg(scores) >= 65 ? \"B\" : (avg(scores) >= 50 ? \"C\" : \"F\"))"
+expr-lang  11       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  12       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  13       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  14       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  15       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  16       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  17       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  18       yes            yes              yes         6/6        yes          yes           yes               
+expr-lang  19       yes            yes              yes         6/6        yes          yes           yes               
+own        1        yes            yes              yes         6/6        yes          yes           yes               
+own        2        yes            yes              yes         6/6        yes          yes           yes               
+own        3        yes            yes              yes         6/6        yes          yes           yes               
+own        4        yes            yes              yes         6/6        yes          yes           yes               
+own        5        yes            yes              yes         6/6        yes          yes           yes               
+own        6        yes            yes              yes         6/6        yes          yes           yes               
+own        7        yes            yes              yes         6/6        yes          yes           yes               
+own        8        yes            yes              yes         6/6        yes          yes           yes               
+own        9        yes            yes              yes         6/6        yes          yes           yes               
+own        10       yes            yes              yes         6/6        yes          yes           yes               
+own        11       yes            yes              yes         6/6        yes          yes           yes               
+own        12       yes            yes              yes         6/6        yes          yes           yes               
+own        13       yes            yes              yes         6/6        yes          yes           yes               
+own        14       yes            yes              yes         6/6        yes          yes           yes               
+own        15       yes            yes              yes         6/6        yes          yes           yes               
+own        16       yes            yes              yes         6/6        yes          yes           yes               
+own        17       yes            yes              yes         6/6        yes          yes           yes               
+own        18       yes            yes              yes         6/6        yes          yes           no                prints "!suspended && role != \"guest\" && (role == \"officer\" || paid_up && months_between(joined, on) >= 6)"
+own        19       yes            yes              yes         6/6        yes          yes           yes               
+
+totals per engine
+engine     converts  tree equals own  idempotent  canonical formulas  canonical variants  round-trips  reads as own  equals page text
+cel-go     19/19     19/19            19/19       19/19               114/114             19/19        19/19         14/19
+expr-lang  19/19     19/19            19/19       19/19               114/114             19/19        19/19         16/19
+own        19/19     19/19            19/19       19/19               114/114             19/19        19/19         18/19
+
+reverse step (translate then reverse on the page text)
+engine     exact  probes that changed
+cel-go     19/19  2.0f -> 2f
+expr-lang  19/19  2f -> 2; 2.0f -> 2f
+
+raw nodes against neutral nodes in the 19 formulas
+engine     raw nodes  neutral nodes  folded away
+cel-go     234        220            14
+expr-lang  263        220            43
+own        220        220            0
+
+raw node kinds met in the 19 formulas
+engine     count  kinds
+cel-go     33     Call !_, Call _!=_, Call _%_, Call _&&_, Call _*_, Call _+_, Call _-_, Call _/_, Call _<=_, Call _<_, Call _==_, Call _>=_, Call _>_, Call _?_:_, Call _||_, Call avg, Call count, Call days_between, Call decimal, Call interest_step_v1, Call late_days_v1, Call max, Call min, Call months_between, Call round, Call sum, Call to_decimal, Call to_float, Call years_between, Ident, List, Literal int, Literal string
+expr-lang  9      ArrayNode, BinaryNode, BuiltinNode, CallNode, ConditionalNode, IdentifierNode, IntegerNode, StringNode, UnaryNode
+own        9      Binary, Call, Conditional, DecimalLiteral, IntegerLiteral, List, TextLiteral, Unary, Variable
+
+brackets (standard text per design page)
+engine     source               printed              standard text  tree equals own  round-trips  reads as own
+cel-go     !!a                  a                    no             no               yes          no
+cel-go     !(a && b)            !(a && b)            yes            yes              yes          yes
+cel-go     ((a))                a                    yes            yes              yes          yes
+cel-go     (a && b) || c        a && b || c          yes            yes              yes          yes
+cel-go     (a * b) / c          a * b / c            yes            yes              yes          yes
+cel-go     (a + b) * c          (a + b) * c          yes            yes              yes          yes
+cel-go     (a - b) - c          a - b - c            yes            yes              yes          yes
+cel-go     (a == b) < c         a == b < c           no             yes              yes          no
+cel-go     (a ? b : c) + d      (a ? b : c) + d      yes            yes              yes          yes
+cel-go     (a ? b : c) ? d : e  (a ? b : c) ? d : e  yes            yes              yes          yes
+cel-go     (a || b) && c        (a || b) && c        yes            yes              yes          yes
+cel-go     -(a + b)             -(a + b)             yes            yes              yes          yes
+cel-go     -a * b               -a * b               yes            yes              yes          yes
+cel-go     a && (b && c)        a && b && c          no             yes              no           no
+cel-go     a * (b / c)          a * (b / c)          yes            yes              yes          yes
+cel-go     a + (b * c)          a + b * c            yes            yes              yes          yes
+cel-go     a - (b - c)          a - (b - c)          yes            yes              yes          yes
+cel-go     a - b - c            a - b - c            yes            yes              yes          yes
+cel-go     a < b == c           a < b == c           yes            yes              yes          yes
+cel-go     a == (b < c)         a == (b < c)         no             yes              yes          yes
+cel-go     a == b < c           a == b < c           yes            no               yes          yes
+cel-go     a ? (b ? c : d) : e  a ? (b ? c : d) : e  yes            yes              yes          yes
+cel-go     a ? b : (c ? d : e)  a ? b : (c ? d : e)  no             yes              yes          yes
+cel-go     a ? b : c ? d : e    a ? b : (c ? d : e)  no             yes              yes          yes
+cel-go     a || (b && c)        a || b && c          yes            yes              yes          yes
+expr-lang  !!a                  !!a                  yes            yes              yes          yes
+expr-lang  !(a && b)            !(a && b)            yes            yes              yes          yes
+expr-lang  ((a))                a                    yes            yes              yes          yes
+expr-lang  (a && b) || c        (a && b) || c        no             yes              yes          yes
+expr-lang  (a * b) / c          a * b / c            yes            yes              yes          yes
+expr-lang  (a + b) * c          (a + b) * c          yes            yes              yes          yes
+expr-lang  (a - b) - c          a - b - c            yes            yes              yes          yes
+expr-lang  (a == b) < c         a == b < c           no             yes              yes          no
+expr-lang  (a ? b : c) + d      (a ? b : c) + d      yes            yes              yes          yes
+expr-lang  (a ? b : c) ? d : e  (a ? b : c) ? d : e  yes            yes              yes          yes
+expr-lang  (a || b) && c        (a || b) && c        yes            yes              yes          yes
+expr-lang  -(a + b)             -(a + b)             yes            yes              yes          yes
+expr-lang  -a * b               -a * b               yes            yes              yes          yes
+expr-lang  a && (b && c)        a && (b && c)        yes            yes              yes          yes
+expr-lang  a * (b / c)          a * (b / c)          yes            yes              yes          yes
+expr-lang  a + (b * c)          a + b * c            yes            yes              yes          yes
+expr-lang  a - (b - c)          a - (b - c)          yes            yes              yes          yes
+expr-lang  a - b - c            a - b - c            yes            yes              yes          yes
+expr-lang  a < b == c           a < b == c           yes            yes              yes          yes
+expr-lang  a == (b < c)         a == (b < c)         no             yes              yes          yes
+expr-lang  a == b < c           a == b < c           yes            no               yes          yes
+expr-lang  a ? (b ? c : d) : e  a ? (b ? c : d) : e  yes            yes              yes          yes
+expr-lang  a ? b : (c ? d : e)  a ? b : (c ? d : e)  no             yes              yes          yes
+expr-lang  a ? b : c ? d : e    a ? b : (c ? d : e)  no             yes              yes          yes
+expr-lang  a || (b && c)        a || (b && c)        no             yes              yes          yes
+own        !!a                  !!a                  yes            yes              yes          yes
+own        !(a && b)            !(a && b)            yes            yes              yes          yes
+own        ((a))                a                    yes            yes              yes          yes
+own        (a && b) || c        a && b || c          yes            yes              yes          yes
+own        (a * b) / c          a * b / c            yes            yes              yes          yes
+own        (a + b) * c          (a + b) * c          yes            yes              yes          yes
+own        (a - b) - c          a - b - c            yes            yes              yes          yes
+own        (a == b) < c         (a == b) < c         yes            yes              yes          yes
+own        (a ? b : c) + d      (a ? b : c) + d      yes            yes              yes          yes
+own        (a ? b : c) ? d : e  (a ? b : c) ? d : e  yes            yes              yes          yes
+own        (a || b) && c        (a || b) && c        yes            yes              yes          yes
+own        -(a + b)             -(a + b)             yes            yes              yes          yes
+own        -a * b               -a * b               yes            yes              yes          yes
+own        a && (b && c)        a && (b && c)        yes            yes              yes          yes
+own        a * (b / c)          a * (b / c)          yes            yes              yes          yes
+own        a + (b * c)          a + b * c            yes            yes              yes          yes
+own        a - (b - c)          a - (b - c)          yes            yes              yes          yes
+own        a - b - c            a - b - c            yes            yes              yes          yes
+own        a < b == c           a < b == c           yes            yes              yes          yes
+own        a == (b < c)         a == b < c           yes            yes              yes          yes
+own        a == b < c           a == b < c           yes            yes              yes          yes
+own        a ? (b ? c : d) : e  a ? (b ? c : d) : e  yes            yes              yes          yes
+own        a ? b : (c ? d : e)  a ? b : c ? d : e    yes            yes              yes          yes
+own        a ? b : c ? d : e    a ? b : c ? d : e    yes            yes              yes          yes
+own        a || (b && c)        a || b && c          yes            yes              yes          yes
+
+literal fidelity
+engine     source               printed              kept as standard  round-trips  reads as own  neutral tree
+cel-go     "a \"q\" b"          "a \"q\" b"          yes               yes          yes           literal:"a \"q\" b"
+cel-go     "two  spaces"        "two  spaces"        yes               yes          yes           literal:"two  spaces"
+cel-go     0.010                0.010                yes               yes          yes           literal:0.010
+cel-go     0.75f                0.75f                yes               yes          yes           literal:0.75f
+cel-go     0.90                 0.90                 yes               yes          yes           literal:0.90
+cel-go     1000.00              1000.00              yes               yes          yes           literal:1000.00
+cel-go     12.50                12.50                yes               yes          yes           literal:12.50
+cel-go     2.0f                 2f                   yes               yes          yes           literal:2f
+cel-go     2f                   2f                   yes               yes          yes           literal:2f
+cel-go     7                    7                    yes               yes          yes           literal:7
+cel-go     [0.00, 1000.00]      [0.00, 1000.00]      yes               yes          yes           list:(literal:0.00 literal:1000.00)
+cel-go     round(x * 0.010, 2)  round(x * 0.010, 2)  yes               yes          yes           call:round(binary:*(name:x literal:0.010) literal:2)
+cel-go     true                 true                 yes               yes          yes           literal:true
+cel-go     x * 0.90             x * 0.90             yes               yes          yes           binary:*(name:x literal:0.90)
+expr-lang  "a \"q\" b"          "a \"q\" b"          yes               yes          yes           literal:"a \"q\" b"
+expr-lang  "two  spaces"        "two  spaces"        yes               yes          yes           literal:"two  spaces"
+expr-lang  0.010                0.010                yes               yes          yes           literal:0.010
+expr-lang  0.75f                0.75f                yes               yes          yes           literal:0.75f
+expr-lang  0.90                 0.90                 yes               yes          yes           literal:0.90
+expr-lang  1000.00              1000.00              yes               yes          yes           literal:1000.00
+expr-lang  12.50                12.50                yes               yes          yes           literal:12.50
+expr-lang  2.0f                 2                    no                no           no            literal:2f
+expr-lang  2f                   2                    no                yes          no            literal:2
+expr-lang  7                    7                    yes               yes          yes           literal:7
+expr-lang  [0.00, 1000.00]      [0.00, 1000.00]      yes               yes          yes           list:(literal:0.00 literal:1000.00)
+expr-lang  round(x * 0.010, 2)  round(x * 0.010, 2)  yes               yes          yes           call:round(binary:*(name:x literal:0.010) literal:2)
+expr-lang  true                 true                 yes               yes          yes           literal:true
+expr-lang  x * 0.90             x * 0.90             yes               yes          yes           binary:*(name:x literal:0.90)
+own        "a \"q\" b"          "a \"q\" b"          yes               yes          yes           literal:"a \"q\" b"
+own        "two  spaces"        "two  spaces"        yes               yes          yes           literal:"two  spaces"
+own        0.010                0.010                yes               yes          yes           literal:0.010
+own        0.75f                0.75f                yes               yes          yes           literal:0.75f
+own        0.90                 0.90                 yes               yes          yes           literal:0.90
+own        1000.00              1000.00              yes               yes          yes           literal:1000.00
+own        12.50                12.50                yes               yes          yes           literal:12.50
+own        2.0f                 2f                   yes               yes          yes           literal:2f
+own        2f                   2f                   yes               yes          yes           literal:2f
+own        7                    7                    yes               yes          yes           literal:7
+own        [0.00, 1000.00]      [0.00, 1000.00]      yes               yes          yes           list:(literal:0.00 literal:1000.00)
+own        round(x * 0.010, 2)  round(x * 0.010, 2)  yes               yes          yes           call:round(binary:*(name:x literal:0.010) literal:2)
+own        true                 true                 yes               yes          yes           literal:true
+own        x * 0.90             x * 0.90             yes               yes          yes           binary:*(name:x literal:0.90)
+
+language parts the examples need
+engine     part                probe                 raw top node         neutral node
+cel-go     !                   !a                    Call !_              unary:!(name:a)
+cel-go     !=                  a != b                Call _!=_            binary:!=(name:a name:b)
+cel-go     %                   a % b                 Call _%_             binary:%(name:a name:b)
+cel-go     &&                  a && b                Call _&&_            binary:&&(name:a name:b)
+cel-go     *                   a * b                 Call _*_             binary:*(name:a name:b)
+cel-go     +                   a + b                 Call _+_             binary:+(name:a name:b)
+cel-go     -                   a - b                 Call _-_             binary:-(name:a name:b)
+cel-go     /                   a / b                 Call _/_             binary:/(name:a name:b)
+cel-go     <                   a < b                 Call _<_             binary:<(name:a name:b)
+cel-go     <=                  a <= b                Call _<=_            binary:<=(name:a name:b)
+cel-go     ==                  a == b                Call _==_            binary:==(name:a name:b)
+cel-go     >                   a > b                 Call _>_             binary:>(name:a name:b)
+cel-go     >=                  a >= b                Call _>=_            binary:>=(name:a name:b)
+cel-go     avg                 avg(x)                Call avg             call:avg(name:x)
+cel-go     boolean             true                  Literal bool         literal:true
+cel-go     brackets            (a)                   Ident                name:a
+cel-go     conditional         c ? a : b             Call _?_:_           conditional:?:(name:c name:a name:b)
+cel-go     count               count(x)              Call count           call:count(name:x)
+cel-go     days_between        days_between(a, b)    Call days_between    call:days_between(name:a name:b)
+cel-go     decimal             12.50                 Call decimal         literal:12.50
+cel-go     float               0.75f                 Literal double       literal:0.75f
+cel-go     integer             7                     Literal int          literal:7
+cel-go     list                [1, 2, 3]             List                 list:(literal:1 literal:2 literal:3)
+cel-go     max                 max(x)                Call max             call:max(name:x)
+cel-go     min                 min(x)                Call min             call:min(name:x)
+cel-go     months_between      months_between(a, b)  Call months_between  call:months_between(name:a name:b)
+cel-go     name                a                     Ident                name:a
+cel-go     nested conditional  c ? a : d ? b : e     Call _?_:_           conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+cel-go     round               round(x, 2)           Call round           call:round(name:x literal:2)
+cel-go     sum                 sum(x)                Call sum             call:sum(name:x)
+cel-go     text                "A"                   Literal string       literal:"A"
+cel-go     to_decimal          to_decimal(x, 2)      Call to_decimal      call:to_decimal(name:x literal:2)
+cel-go     to_float            to_float(x)           Call to_float        call:to_float(name:x)
+cel-go     unary minus         -a                    Call -_              unary:-(name:a)
+cel-go     versioned call      late_days@1(a, b)     Call late_days_v1    call:late_days@1(name:a name:b)
+cel-go     years_between       years_between(a, b)   Call years_between   call:years_between(name:a name:b)
+cel-go     ||                  a || b                Call _||_            binary:||(name:a name:b)
+expr-lang  !                   !a                    UnaryNode            unary:!(name:a)
+expr-lang  !=                  a != b                BinaryNode           binary:!=(name:a name:b)
+expr-lang  %                   a % b                 BinaryNode           binary:%(name:a name:b)
+expr-lang  &&                  a && b                BinaryNode           binary:&&(name:a name:b)
+expr-lang  *                   a * b                 BinaryNode           binary:*(name:a name:b)
+expr-lang  +                   a + b                 BinaryNode           binary:+(name:a name:b)
+expr-lang  -                   a - b                 BinaryNode           binary:-(name:a name:b)
+expr-lang  /                   a / b                 BinaryNode           binary:/(name:a name:b)
+expr-lang  <                   a < b                 BinaryNode           binary:<(name:a name:b)
+expr-lang  <=                  a <= b                BinaryNode           binary:<=(name:a name:b)
+expr-lang  ==                  a == b                BinaryNode           binary:==(name:a name:b)
+expr-lang  >                   a > b                 BinaryNode           binary:>(name:a name:b)
+expr-lang  >=                  a >= b                BinaryNode           binary:>=(name:a name:b)
+expr-lang  avg                 avg(x)                CallNode             call:avg(name:x)
+expr-lang  boolean             true                  BoolNode             literal:true
+expr-lang  brackets            (a)                   IdentifierNode       name:a
+expr-lang  conditional         c ? a : b             ConditionalNode      conditional:?:(name:c name:a name:b)
+expr-lang  count               count(x)              BuiltinNode          call:count(name:x)
+expr-lang  days_between        days_between(a, b)    CallNode             call:days_between(name:a name:b)
+expr-lang  decimal             12.50                 CallNode             literal:12.50
+expr-lang  float               0.75f                 FloatNode            literal:0.75f
+expr-lang  integer             7                     IntegerNode          literal:7
+expr-lang  list                [1, 2, 3]             ArrayNode            list:(literal:1 literal:2 literal:3)
+expr-lang  max                 max(x)                BuiltinNode          call:max(name:x)
+expr-lang  min                 min(x)                BuiltinNode          call:min(name:x)
+expr-lang  months_between      months_between(a, b)  CallNode             call:months_between(name:a name:b)
+expr-lang  name                a                     IdentifierNode       name:a
+expr-lang  nested conditional  c ? a : d ? b : e     ConditionalNode      conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+expr-lang  round               round(x, 2)           BuiltinNode          call:round(name:x literal:2)
+expr-lang  sum                 sum(x)                BuiltinNode          call:sum(name:x)
+expr-lang  text                "A"                   StringNode           literal:"A"
+expr-lang  to_decimal          to_decimal(x, 2)      CallNode             call:to_decimal(name:x literal:2)
+expr-lang  to_float            to_float(x)           CallNode             call:to_float(name:x)
+expr-lang  unary minus         -a                    UnaryNode            unary:-(name:a)
+expr-lang  versioned call      late_days@1(a, b)     CallNode             call:late_days@1(name:a name:b)
+expr-lang  years_between       years_between(a, b)   CallNode             call:years_between(name:a name:b)
+expr-lang  ||                  a || b                BinaryNode           binary:||(name:a name:b)
+own        !                   !a                    Unary                unary:!(name:a)
+own        !=                  a != b                Binary               binary:!=(name:a name:b)
+own        %                   a % b                 Binary               binary:%(name:a name:b)
+own        &&                  a && b                Binary               binary:&&(name:a name:b)
+own        *                   a * b                 Binary               binary:*(name:a name:b)
+own        +                   a + b                 Binary               binary:+(name:a name:b)
+own        -                   a - b                 Binary               binary:-(name:a name:b)
+own        /                   a / b                 Binary               binary:/(name:a name:b)
+own        <                   a < b                 Binary               binary:<(name:a name:b)
+own        <=                  a <= b                Binary               binary:<=(name:a name:b)
+own        ==                  a == b                Binary               binary:==(name:a name:b)
+own        >                   a > b                 Binary               binary:>(name:a name:b)
+own        >=                  a >= b                Binary               binary:>=(name:a name:b)
+own        avg                 avg(x)                Call                 call:avg(name:x)
+own        boolean             true                  BooleanLiteral       literal:true
+own        brackets            (a)                   Variable             name:a
+own        conditional         c ? a : b             Conditional          conditional:?:(name:c name:a name:b)
+own        count               count(x)              Call                 call:count(name:x)
+own        days_between        days_between(a, b)    Call                 call:days_between(name:a name:b)
+own        decimal             12.50                 DecimalLiteral       literal:12.50
+own        float               0.75f                 FloatLiteral         literal:0.75f
+own        integer             7                     IntegerLiteral       literal:7
+own        list                [1, 2, 3]             List                 list:(literal:1 literal:2 literal:3)
+own        max                 max(x)                Call                 call:max(name:x)
+own        min                 min(x)                Call                 call:min(name:x)
+own        months_between      months_between(a, b)  Call                 call:months_between(name:a name:b)
+own        name                a                     Variable             name:a
+own        nested conditional  c ? a : d ? b : e     Conditional          conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+own        round               round(x, 2)           Call                 call:round(name:x literal:2)
+own        sum                 sum(x)                Call                 call:sum(name:x)
+own        text                "A"                   TextLiteral          literal:"A"
+own        to_decimal          to_decimal(x, 2)      Call                 call:to_decimal(name:x literal:2)
+own        to_float            to_float(x)           Call                 call:to_float(name:x)
+own        unary minus         -a                    Unary                unary:-(name:a)
+own        versioned call      late_days@1(a, b)     Call                 call:late_days@1(name:a name:b)
+own        years_between       years_between(a, b)   Call                 call:years_between(name:a name:b)
+own        ||                  a || b                Binary               binary:||(name:a name:b)

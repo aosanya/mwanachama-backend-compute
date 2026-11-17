@@ -1,0 +1,878 @@
+=== RUN   TestFit
+=== RUN   TestFit/cel-go/formula-01
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "(payment >= balance) ? 0.00 : (balance - payment)"
+=== RUN   TestFit/cel-go/formula-02
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-03
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-04
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-05
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-06
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "(late_days@1(due, filed) == 0) ? 0.00 : ((late_days@1(due, filed) > 90) ? (round(amount * 0.10, 2)) : ((late_days@1(due, filed) > 30) ? (round(amount * 0.05, 2)) : (round(amount * 0.02, 2))))"
+=== RUN   TestFit/cel-go/formula-07
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "(balance < 1000.00) ? 0.010 : ((balance < 5000.00) ? 0.015 : 0.020)"
+=== RUN   TestFit/cel-go/formula-08
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-09
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-10
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "(avg(scores) >= 80) ? \"A\" : ((avg(scores) >= 65) ? \"B\" : ((avg(scores) >= 50) ? \"C\" : \"F\"))"
+=== RUN   TestFit/cel-go/formula-11
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-12
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-13
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-14
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-15
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-16
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-17
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/cel-go/formula-18
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "!suspended && role != \"guest\" && (role == \"officer\" || paid_up && months_between(joined, on) >= 6)"
+=== RUN   TestFit/cel-go/formula-19
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-01
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-02
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-03
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-04
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-05
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-06
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "late_days@1(due, filed) == 0 ? 0.00 : (late_days@1(due, filed) > 90 ? round(amount * 0.10, 2) : (late_days@1(due, filed) > 30 ? round(amount * 0.05, 2) : round(amount * 0.02, 2)))"
+=== RUN   TestFit/expr-lang/formula-07
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "balance < 1000.00 ? 0.010 : (balance < 5000.00 ? 0.015 : 0.020)"
+=== RUN   TestFit/expr-lang/formula-08
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-09
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-10
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "avg(scores) >= 80 ? \"A\" : (avg(scores) >= 65 ? \"B\" : (avg(scores) >= 50 ? \"C\" : \"F\"))"
+=== RUN   TestFit/expr-lang/formula-11
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-12
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-13
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-14
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-15
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-16
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-17
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-18
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/expr-lang/formula-19
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-01
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-02
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-03
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-04
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-05
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-06
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-07
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-08
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-09
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-10
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-11
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-12
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-13
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-14
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-15
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-16
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-17
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+=== RUN   TestFit/own/formula-18
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=no prints "!suspended && role != \"guest\" && (role == \"officer\" || paid_up && months_between(joined, on) >= 6)"
+=== RUN   TestFit/own/formula-19
+    fit_test.go:134: converts=yes sameAsOwn=yes idempotent=yes canonical=6/6 roundTrips=yes readsAsOwn=yes equalsPage=yes 
+--- PASS: TestFit (0.02s)
+    --- PASS: TestFit/cel-go/formula-01 (0.00s)
+    --- PASS: TestFit/cel-go/formula-02 (0.00s)
+    --- PASS: TestFit/cel-go/formula-03 (0.00s)
+    --- PASS: TestFit/cel-go/formula-04 (0.00s)
+    --- PASS: TestFit/cel-go/formula-05 (0.00s)
+    --- PASS: TestFit/cel-go/formula-06 (0.00s)
+    --- PASS: TestFit/cel-go/formula-07 (0.00s)
+    --- PASS: TestFit/cel-go/formula-08 (0.00s)
+    --- PASS: TestFit/cel-go/formula-09 (0.00s)
+    --- PASS: TestFit/cel-go/formula-10 (0.00s)
+    --- PASS: TestFit/cel-go/formula-11 (0.00s)
+    --- PASS: TestFit/cel-go/formula-12 (0.00s)
+    --- PASS: TestFit/cel-go/formula-13 (0.00s)
+    --- PASS: TestFit/cel-go/formula-14 (0.00s)
+    --- PASS: TestFit/cel-go/formula-15 (0.00s)
+    --- PASS: TestFit/cel-go/formula-16 (0.00s)
+    --- PASS: TestFit/cel-go/formula-17 (0.00s)
+    --- PASS: TestFit/cel-go/formula-18 (0.00s)
+    --- PASS: TestFit/cel-go/formula-19 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-01 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-02 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-03 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-04 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-05 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-06 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-07 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-08 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-09 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-10 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-11 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-12 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-13 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-14 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-15 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-16 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-17 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-18 (0.00s)
+    --- PASS: TestFit/expr-lang/formula-19 (0.00s)
+    --- PASS: TestFit/own/formula-01 (0.00s)
+    --- PASS: TestFit/own/formula-02 (0.00s)
+    --- PASS: TestFit/own/formula-03 (0.00s)
+    --- PASS: TestFit/own/formula-04 (0.00s)
+    --- PASS: TestFit/own/formula-05 (0.00s)
+    --- PASS: TestFit/own/formula-06 (0.00s)
+    --- PASS: TestFit/own/formula-07 (0.00s)
+    --- PASS: TestFit/own/formula-08 (0.00s)
+    --- PASS: TestFit/own/formula-09 (0.00s)
+    --- PASS: TestFit/own/formula-10 (0.00s)
+    --- PASS: TestFit/own/formula-11 (0.00s)
+    --- PASS: TestFit/own/formula-12 (0.00s)
+    --- PASS: TestFit/own/formula-13 (0.00s)
+    --- PASS: TestFit/own/formula-14 (0.00s)
+    --- PASS: TestFit/own/formula-15 (0.00s)
+    --- PASS: TestFit/own/formula-16 (0.00s)
+    --- PASS: TestFit/own/formula-17 (0.00s)
+    --- PASS: TestFit/own/formula-18 (0.00s)
+    --- PASS: TestFit/own/formula-19 (0.00s)
+=== RUN   TestInterfaces
+--- PASS: TestInterfaces (0.00s)
+=== RUN   TestBrackets
+=== RUN   TestBrackets/cel-go/(a_+_b)_*_c
+    fit_test.go:210: prints "(a + b) * c" standard "(a + b) * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_+_(b_*_c)
+    fit_test.go:210: prints "a + b * c" standard "a + b * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_-_(b_-_c)
+    fit_test.go:210: prints "a - (b - c)" standard "a - (b - c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_-_b)_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_-_b_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_*_b)_/_c
+    fit_test.go:210: prints "a * b / c" standard "a * b / c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_*_(b_/_c)
+    fit_test.go:210: prints "a * (b / c)" standard "a * (b / c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_||_(b_&&_c)
+    fit_test.go:210: prints "a || b && c" standard "a || b && c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_&&_b)_||_c
+    fit_test.go:210: prints "a && b || c" standard "a && b || c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_||_b)_&&_c
+    fit_test.go:210: prints "(a || b) && c" standard "(a || b) && c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_&&_(b_&&_c)
+    fit_test.go:210: prints "a && b && c" standard "a && (b && c)" standardText=no sameTreeAsOwn=yes roundTrips=no readsAsOwn=no
+=== RUN   TestBrackets/cel-go/!(a_&&_b)
+    fit_test.go:210: prints "!(a && b)" standard "!(a && b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/!!a
+    fit_test.go:210: prints "a" standard "!!a" standardText=no sameTreeAsOwn=no roundTrips=yes readsAsOwn=no
+=== RUN   TestBrackets/cel-go/-(a_+_b)
+    fit_test.go:210: prints "-(a + b)" standard "-(a + b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/-a_*_b
+    fit_test.go:210: prints "-a * b" standard "-a * b" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/((a))
+    fit_test.go:210: prints "a" standard "a" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_?_b_:_c)_?_d_:_e
+    fit_test.go:210: prints "(a ? b : c) ? d : e" standard "(a ? b : c) ? d : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_?_(b_?_c_:_d)_:_e
+    fit_test.go:210: prints "a ? (b ? c : d) : e" standard "a ? (b ? c : d) : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_?_b_:_(c_?_d_:_e)
+    fit_test.go:210: prints "a ? b : (c ? d : e)" standard "a ? b : c ? d : e" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_?_b_:_c_?_d_:_e
+    fit_test.go:210: prints "a ? b : (c ? d : e)" standard "a ? b : c ? d : e" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_?_b_:_c)_+_d
+    fit_test.go:210: prints "(a ? b : c) + d" standard "(a ? b : c) + d" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_==_b_<_c
+    fit_test.go:210: prints "a == b < c" standard "a == b < c" standardText=yes sameTreeAsOwn=no roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_<_b_==_c
+    fit_test.go:210: prints "a < b == c" standard "a < b == c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/a_==_(b_<_c)
+    fit_test.go:210: prints "a == (b < c)" standard "a == b < c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/cel-go/(a_==_b)_<_c
+    fit_test.go:210: prints "a == b < c" standard "(a == b) < c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=no
+=== RUN   TestBrackets/expr-lang/(a_+_b)_*_c
+    fit_test.go:210: prints "(a + b) * c" standard "(a + b) * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_+_(b_*_c)
+    fit_test.go:210: prints "a + b * c" standard "a + b * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_-_(b_-_c)
+    fit_test.go:210: prints "a - (b - c)" standard "a - (b - c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_-_b)_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_-_b_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_*_b)_/_c
+    fit_test.go:210: prints "a * b / c" standard "a * b / c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_*_(b_/_c)
+    fit_test.go:210: prints "a * (b / c)" standard "a * (b / c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_||_(b_&&_c)
+    fit_test.go:210: prints "a || (b && c)" standard "a || b && c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_&&_b)_||_c
+    fit_test.go:210: prints "(a && b) || c" standard "a && b || c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_||_b)_&&_c
+    fit_test.go:210: prints "(a || b) && c" standard "(a || b) && c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_&&_(b_&&_c)
+    fit_test.go:210: prints "a && (b && c)" standard "a && (b && c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/!(a_&&_b)
+    fit_test.go:210: prints "!(a && b)" standard "!(a && b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/!!a
+    fit_test.go:210: prints "!!a" standard "!!a" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/-(a_+_b)
+    fit_test.go:210: prints "-(a + b)" standard "-(a + b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/-a_*_b
+    fit_test.go:210: prints "-a * b" standard "-a * b" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/((a))
+    fit_test.go:210: prints "a" standard "a" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_?_b_:_c)_?_d_:_e
+    fit_test.go:210: prints "(a ? b : c) ? d : e" standard "(a ? b : c) ? d : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_?_(b_?_c_:_d)_:_e
+    fit_test.go:210: prints "a ? (b ? c : d) : e" standard "a ? (b ? c : d) : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_?_b_:_(c_?_d_:_e)
+    fit_test.go:210: prints "a ? b : (c ? d : e)" standard "a ? b : c ? d : e" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_?_b_:_c_?_d_:_e
+    fit_test.go:210: prints "a ? b : (c ? d : e)" standard "a ? b : c ? d : e" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_?_b_:_c)_+_d
+    fit_test.go:210: prints "(a ? b : c) + d" standard "(a ? b : c) + d" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_==_b_<_c
+    fit_test.go:210: prints "a == b < c" standard "a == b < c" standardText=yes sameTreeAsOwn=no roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_<_b_==_c
+    fit_test.go:210: prints "a < b == c" standard "a < b == c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/a_==_(b_<_c)
+    fit_test.go:210: prints "a == (b < c)" standard "a == b < c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/expr-lang/(a_==_b)_<_c
+    fit_test.go:210: prints "a == b < c" standard "(a == b) < c" standardText=no sameTreeAsOwn=yes roundTrips=yes readsAsOwn=no
+=== RUN   TestBrackets/own/(a_+_b)_*_c
+    fit_test.go:210: prints "(a + b) * c" standard "(a + b) * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_+_(b_*_c)
+    fit_test.go:210: prints "a + b * c" standard "a + b * c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_-_(b_-_c)
+    fit_test.go:210: prints "a - (b - c)" standard "a - (b - c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_-_b)_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_-_b_-_c
+    fit_test.go:210: prints "a - b - c" standard "a - b - c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_*_b)_/_c
+    fit_test.go:210: prints "a * b / c" standard "a * b / c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_*_(b_/_c)
+    fit_test.go:210: prints "a * (b / c)" standard "a * (b / c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_||_(b_&&_c)
+    fit_test.go:210: prints "a || b && c" standard "a || b && c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_&&_b)_||_c
+    fit_test.go:210: prints "a && b || c" standard "a && b || c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_||_b)_&&_c
+    fit_test.go:210: prints "(a || b) && c" standard "(a || b) && c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_&&_(b_&&_c)
+    fit_test.go:210: prints "a && (b && c)" standard "a && (b && c)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/!(a_&&_b)
+    fit_test.go:210: prints "!(a && b)" standard "!(a && b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/!!a
+    fit_test.go:210: prints "!!a" standard "!!a" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/-(a_+_b)
+    fit_test.go:210: prints "-(a + b)" standard "-(a + b)" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/-a_*_b
+    fit_test.go:210: prints "-a * b" standard "-a * b" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/((a))
+    fit_test.go:210: prints "a" standard "a" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_?_b_:_c)_?_d_:_e
+    fit_test.go:210: prints "(a ? b : c) ? d : e" standard "(a ? b : c) ? d : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_?_(b_?_c_:_d)_:_e
+    fit_test.go:210: prints "a ? (b ? c : d) : e" standard "a ? (b ? c : d) : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_?_b_:_(c_?_d_:_e)
+    fit_test.go:210: prints "a ? b : c ? d : e" standard "a ? b : c ? d : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_?_b_:_c_?_d_:_e
+    fit_test.go:210: prints "a ? b : c ? d : e" standard "a ? b : c ? d : e" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_?_b_:_c)_+_d
+    fit_test.go:210: prints "(a ? b : c) + d" standard "(a ? b : c) + d" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_==_b_<_c
+    fit_test.go:210: prints "a == b < c" standard "a == b < c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_<_b_==_c
+    fit_test.go:210: prints "a < b == c" standard "a < b == c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/a_==_(b_<_c)
+    fit_test.go:210: prints "a == b < c" standard "a == b < c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+=== RUN   TestBrackets/own/(a_==_b)_<_c
+    fit_test.go:210: prints "(a == b) < c" standard "(a == b) < c" standardText=yes sameTreeAsOwn=yes roundTrips=yes readsAsOwn=yes
+--- PASS: TestBrackets (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_+_b)_*_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_+_(b_*_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/a_-_(b_-_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_-_b)_-_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_-_b_-_c (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_*_b)_/_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_*_(b_/_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/a_||_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_&&_b)_||_c (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_||_b)_&&_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_&&_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/!(a_&&_b) (0.00s)
+    --- PASS: TestBrackets/cel-go/!!a (0.00s)
+    --- PASS: TestBrackets/cel-go/-(a_+_b) (0.00s)
+    --- PASS: TestBrackets/cel-go/-a_*_b (0.00s)
+    --- PASS: TestBrackets/cel-go/((a)) (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_?_b_:_c)_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/cel-go/a_?_(b_?_c_:_d)_:_e (0.00s)
+    --- PASS: TestBrackets/cel-go/a_?_b_:_(c_?_d_:_e) (0.00s)
+    --- PASS: TestBrackets/cel-go/a_?_b_:_c_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_?_b_:_c)_+_d (0.00s)
+    --- PASS: TestBrackets/cel-go/a_==_b_<_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_<_b_==_c (0.00s)
+    --- PASS: TestBrackets/cel-go/a_==_(b_<_c) (0.00s)
+    --- PASS: TestBrackets/cel-go/(a_==_b)_<_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_+_b)_*_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_+_(b_*_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_-_(b_-_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_-_b)_-_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_-_b_-_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_*_b)_/_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_*_(b_/_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_||_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_&&_b)_||_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_||_b)_&&_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_&&_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/!(a_&&_b) (0.00s)
+    --- PASS: TestBrackets/expr-lang/!!a (0.00s)
+    --- PASS: TestBrackets/expr-lang/-(a_+_b) (0.00s)
+    --- PASS: TestBrackets/expr-lang/-a_*_b (0.00s)
+    --- PASS: TestBrackets/expr-lang/((a)) (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_?_b_:_c)_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_?_(b_?_c_:_d)_:_e (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_?_b_:_(c_?_d_:_e) (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_?_b_:_c_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_?_b_:_c)_+_d (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_==_b_<_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_<_b_==_c (0.00s)
+    --- PASS: TestBrackets/expr-lang/a_==_(b_<_c) (0.00s)
+    --- PASS: TestBrackets/expr-lang/(a_==_b)_<_c (0.00s)
+    --- PASS: TestBrackets/own/(a_+_b)_*_c (0.00s)
+    --- PASS: TestBrackets/own/a_+_(b_*_c) (0.00s)
+    --- PASS: TestBrackets/own/a_-_(b_-_c) (0.00s)
+    --- PASS: TestBrackets/own/(a_-_b)_-_c (0.00s)
+    --- PASS: TestBrackets/own/a_-_b_-_c (0.00s)
+    --- PASS: TestBrackets/own/(a_*_b)_/_c (0.00s)
+    --- PASS: TestBrackets/own/a_*_(b_/_c) (0.00s)
+    --- PASS: TestBrackets/own/a_||_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/own/(a_&&_b)_||_c (0.00s)
+    --- PASS: TestBrackets/own/(a_||_b)_&&_c (0.00s)
+    --- PASS: TestBrackets/own/a_&&_(b_&&_c) (0.00s)
+    --- PASS: TestBrackets/own/!(a_&&_b) (0.00s)
+    --- PASS: TestBrackets/own/!!a (0.00s)
+    --- PASS: TestBrackets/own/-(a_+_b) (0.00s)
+    --- PASS: TestBrackets/own/-a_*_b (0.00s)
+    --- PASS: TestBrackets/own/((a)) (0.00s)
+    --- PASS: TestBrackets/own/(a_?_b_:_c)_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/own/a_?_(b_?_c_:_d)_:_e (0.00s)
+    --- PASS: TestBrackets/own/a_?_b_:_(c_?_d_:_e) (0.00s)
+    --- PASS: TestBrackets/own/a_?_b_:_c_?_d_:_e (0.00s)
+    --- PASS: TestBrackets/own/(a_?_b_:_c)_+_d (0.00s)
+    --- PASS: TestBrackets/own/a_==_b_<_c (0.00s)
+    --- PASS: TestBrackets/own/a_<_b_==_c (0.00s)
+    --- PASS: TestBrackets/own/a_==_(b_<_c) (0.00s)
+    --- PASS: TestBrackets/own/(a_==_b)_<_c (0.00s)
+=== RUN   TestLiteralFidelity
+=== RUN   TestLiteralFidelity/cel-go/12.50
+    fit_test.go:250: prints "12.50" standard "12.50" keeps=yes tree=literal:12.50
+=== RUN   TestLiteralFidelity/cel-go/0.010
+    fit_test.go:250: prints "0.010" standard "0.010" keeps=yes tree=literal:0.010
+=== RUN   TestLiteralFidelity/cel-go/0.90
+    fit_test.go:250: prints "0.90" standard "0.90" keeps=yes tree=literal:0.90
+=== RUN   TestLiteralFidelity/cel-go/1000.00
+    fit_test.go:250: prints "1000.00" standard "1000.00" keeps=yes tree=literal:1000.00
+=== RUN   TestLiteralFidelity/cel-go/x_*_0.90
+    fit_test.go:250: prints "x * 0.90" standard "x * 0.90" keeps=yes tree=binary:*(name:x literal:0.90)
+=== RUN   TestLiteralFidelity/cel-go/round(x_*_0.010,_2)
+    fit_test.go:250: prints "round(x * 0.010, 2)" standard "round(x * 0.010, 2)" keeps=yes tree=call:round(binary:*(name:x literal:0.010) literal:2)
+=== RUN   TestLiteralFidelity/cel-go/[0.00,_1000.00]
+    fit_test.go:250: prints "[0.00, 1000.00]" standard "[0.00, 1000.00]" keeps=yes tree=list:(literal:0.00 literal:1000.00)
+=== RUN   TestLiteralFidelity/cel-go/7
+    fit_test.go:250: prints "7" standard "7" keeps=yes tree=literal:7
+=== RUN   TestLiteralFidelity/cel-go/0.75f
+    fit_test.go:250: prints "0.75f" standard "0.75f" keeps=yes tree=literal:0.75f
+=== RUN   TestLiteralFidelity/cel-go/2f
+    fit_test.go:250: prints "2f" standard "2f" keeps=yes tree=literal:2f
+=== RUN   TestLiteralFidelity/cel-go/2.0f
+    fit_test.go:250: prints "2f" standard "2f" keeps=yes tree=literal:2f
+=== RUN   TestLiteralFidelity/cel-go/"a_\"q\"_b"
+    fit_test.go:250: prints "\"a \\\"q\\\" b\"" standard "\"a \\\"q\\\" b\"" keeps=yes tree=literal:"a \"q\" b"
+=== RUN   TestLiteralFidelity/cel-go/"two__spaces"
+    fit_test.go:250: prints "\"two  spaces\"" standard "\"two  spaces\"" keeps=yes tree=literal:"two  spaces"
+=== RUN   TestLiteralFidelity/cel-go/true
+    fit_test.go:250: prints "true" standard "true" keeps=yes tree=literal:true
+=== RUN   TestLiteralFidelity/expr-lang/12.50
+    fit_test.go:250: prints "12.50" standard "12.50" keeps=yes tree=literal:12.50
+=== RUN   TestLiteralFidelity/expr-lang/0.010
+    fit_test.go:250: prints "0.010" standard "0.010" keeps=yes tree=literal:0.010
+=== RUN   TestLiteralFidelity/expr-lang/0.90
+    fit_test.go:250: prints "0.90" standard "0.90" keeps=yes tree=literal:0.90
+=== RUN   TestLiteralFidelity/expr-lang/1000.00
+    fit_test.go:250: prints "1000.00" standard "1000.00" keeps=yes tree=literal:1000.00
+=== RUN   TestLiteralFidelity/expr-lang/x_*_0.90
+    fit_test.go:250: prints "x * 0.90" standard "x * 0.90" keeps=yes tree=binary:*(name:x literal:0.90)
+=== RUN   TestLiteralFidelity/expr-lang/round(x_*_0.010,_2)
+    fit_test.go:250: prints "round(x * 0.010, 2)" standard "round(x * 0.010, 2)" keeps=yes tree=call:round(binary:*(name:x literal:0.010) literal:2)
+=== RUN   TestLiteralFidelity/expr-lang/[0.00,_1000.00]
+    fit_test.go:250: prints "[0.00, 1000.00]" standard "[0.00, 1000.00]" keeps=yes tree=list:(literal:0.00 literal:1000.00)
+=== RUN   TestLiteralFidelity/expr-lang/7
+    fit_test.go:250: prints "7" standard "7" keeps=yes tree=literal:7
+=== RUN   TestLiteralFidelity/expr-lang/0.75f
+    fit_test.go:250: prints "0.75f" standard "0.75f" keeps=yes tree=literal:0.75f
+=== RUN   TestLiteralFidelity/expr-lang/2f
+    fit_test.go:250: prints "2" standard "2f" keeps=no tree=literal:2
+=== RUN   TestLiteralFidelity/expr-lang/2.0f
+    fit_test.go:250: prints "2" standard "2f" keeps=no tree=literal:2f
+=== RUN   TestLiteralFidelity/expr-lang/"a_\"q\"_b"
+    fit_test.go:250: prints "\"a \\\"q\\\" b\"" standard "\"a \\\"q\\\" b\"" keeps=yes tree=literal:"a \"q\" b"
+=== RUN   TestLiteralFidelity/expr-lang/"two__spaces"
+    fit_test.go:250: prints "\"two  spaces\"" standard "\"two  spaces\"" keeps=yes tree=literal:"two  spaces"
+=== RUN   TestLiteralFidelity/expr-lang/true
+    fit_test.go:250: prints "true" standard "true" keeps=yes tree=literal:true
+=== RUN   TestLiteralFidelity/own/12.50
+    fit_test.go:250: prints "12.50" standard "12.50" keeps=yes tree=literal:12.50
+=== RUN   TestLiteralFidelity/own/0.010
+    fit_test.go:250: prints "0.010" standard "0.010" keeps=yes tree=literal:0.010
+=== RUN   TestLiteralFidelity/own/0.90
+    fit_test.go:250: prints "0.90" standard "0.90" keeps=yes tree=literal:0.90
+=== RUN   TestLiteralFidelity/own/1000.00
+    fit_test.go:250: prints "1000.00" standard "1000.00" keeps=yes tree=literal:1000.00
+=== RUN   TestLiteralFidelity/own/x_*_0.90
+    fit_test.go:250: prints "x * 0.90" standard "x * 0.90" keeps=yes tree=binary:*(name:x literal:0.90)
+=== RUN   TestLiteralFidelity/own/round(x_*_0.010,_2)
+    fit_test.go:250: prints "round(x * 0.010, 2)" standard "round(x * 0.010, 2)" keeps=yes tree=call:round(binary:*(name:x literal:0.010) literal:2)
+=== RUN   TestLiteralFidelity/own/[0.00,_1000.00]
+    fit_test.go:250: prints "[0.00, 1000.00]" standard "[0.00, 1000.00]" keeps=yes tree=list:(literal:0.00 literal:1000.00)
+=== RUN   TestLiteralFidelity/own/7
+    fit_test.go:250: prints "7" standard "7" keeps=yes tree=literal:7
+=== RUN   TestLiteralFidelity/own/0.75f
+    fit_test.go:250: prints "0.75f" standard "0.75f" keeps=yes tree=literal:0.75f
+=== RUN   TestLiteralFidelity/own/2f
+    fit_test.go:250: prints "2f" standard "2f" keeps=yes tree=literal:2f
+=== RUN   TestLiteralFidelity/own/2.0f
+    fit_test.go:250: prints "2f" standard "2f" keeps=yes tree=literal:2f
+=== RUN   TestLiteralFidelity/own/"a_\"q\"_b"
+    fit_test.go:250: prints "\"a \\\"q\\\" b\"" standard "\"a \\\"q\\\" b\"" keeps=yes tree=literal:"a \"q\" b"
+=== RUN   TestLiteralFidelity/own/"two__spaces"
+    fit_test.go:250: prints "\"two  spaces\"" standard "\"two  spaces\"" keeps=yes tree=literal:"two  spaces"
+=== RUN   TestLiteralFidelity/own/true
+    fit_test.go:250: prints "true" standard "true" keeps=yes tree=literal:true
+--- PASS: TestLiteralFidelity (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/12.50 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/0.010 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/1000.00 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/x_*_0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/round(x_*_0.010,_2) (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/[0.00,_1000.00] (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/7 (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/0.75f (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/2f (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/2.0f (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/"a_\"q\"_b" (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/"two__spaces" (0.00s)
+    --- PASS: TestLiteralFidelity/cel-go/true (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/12.50 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/0.010 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/1000.00 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/x_*_0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/round(x_*_0.010,_2) (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/[0.00,_1000.00] (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/7 (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/0.75f (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/2f (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/2.0f (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/"a_\"q\"_b" (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/"two__spaces" (0.00s)
+    --- PASS: TestLiteralFidelity/expr-lang/true (0.00s)
+    --- PASS: TestLiteralFidelity/own/12.50 (0.00s)
+    --- PASS: TestLiteralFidelity/own/0.010 (0.00s)
+    --- PASS: TestLiteralFidelity/own/0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/own/1000.00 (0.00s)
+    --- PASS: TestLiteralFidelity/own/x_*_0.90 (0.00s)
+    --- PASS: TestLiteralFidelity/own/round(x_*_0.010,_2) (0.00s)
+    --- PASS: TestLiteralFidelity/own/[0.00,_1000.00] (0.00s)
+    --- PASS: TestLiteralFidelity/own/7 (0.00s)
+    --- PASS: TestLiteralFidelity/own/0.75f (0.00s)
+    --- PASS: TestLiteralFidelity/own/2f (0.00s)
+    --- PASS: TestLiteralFidelity/own/2.0f (0.00s)
+    --- PASS: TestLiteralFidelity/own/"a_\"q\"_b" (0.00s)
+    --- PASS: TestLiteralFidelity/own/"two__spaces" (0.00s)
+    --- PASS: TestLiteralFidelity/own/true (0.00s)
+=== RUN   TestParts
+=== RUN   TestParts/cel-go/integer
+    fit_test.go:294: raw=Literal int neutral=literal:7
+=== RUN   TestParts/cel-go/decimal
+    fit_test.go:294: raw=Call decimal neutral=literal:12.50
+=== RUN   TestParts/cel-go/float
+    fit_test.go:294: raw=Literal double neutral=literal:0.75f
+=== RUN   TestParts/cel-go/text
+    fit_test.go:294: raw=Literal string neutral=literal:"A"
+=== RUN   TestParts/cel-go/boolean
+    fit_test.go:294: raw=Literal bool neutral=literal:true
+=== RUN   TestParts/cel-go/name
+    fit_test.go:294: raw=Ident neutral=name:a
+=== RUN   TestParts/cel-go/list
+    fit_test.go:294: raw=List neutral=list:(literal:1 literal:2 literal:3)
+=== RUN   TestParts/cel-go/+
+    fit_test.go:294: raw=Call _+_ neutral=binary:+(name:a name:b)
+=== RUN   TestParts/cel-go/-
+    fit_test.go:294: raw=Call _-_ neutral=binary:-(name:a name:b)
+=== RUN   TestParts/cel-go/*
+    fit_test.go:294: raw=Call _*_ neutral=binary:*(name:a name:b)
+=== RUN   TestParts/cel-go//
+    fit_test.go:294: raw=Call _/_ neutral=binary:/(name:a name:b)
+=== RUN   TestParts/cel-go/%
+    fit_test.go:294: raw=Call _%_ neutral=binary:%(name:a name:b)
+=== RUN   TestParts/cel-go/>=
+    fit_test.go:294: raw=Call _>=_ neutral=binary:>=(name:a name:b)
+=== RUN   TestParts/cel-go/<=
+    fit_test.go:294: raw=Call _<=_ neutral=binary:<=(name:a name:b)
+=== RUN   TestParts/cel-go/>
+    fit_test.go:294: raw=Call _>_ neutral=binary:>(name:a name:b)
+=== RUN   TestParts/cel-go/<
+    fit_test.go:294: raw=Call _<_ neutral=binary:<(name:a name:b)
+=== RUN   TestParts/cel-go/==
+    fit_test.go:294: raw=Call _==_ neutral=binary:==(name:a name:b)
+=== RUN   TestParts/cel-go/!=
+    fit_test.go:294: raw=Call _!=_ neutral=binary:!=(name:a name:b)
+=== RUN   TestParts/cel-go/&&
+    fit_test.go:294: raw=Call _&&_ neutral=binary:&&(name:a name:b)
+=== RUN   TestParts/cel-go/||
+    fit_test.go:294: raw=Call _||_ neutral=binary:||(name:a name:b)
+=== RUN   TestParts/cel-go/!
+    fit_test.go:294: raw=Call !_ neutral=unary:!(name:a)
+=== RUN   TestParts/cel-go/unary_minus
+    fit_test.go:294: raw=Call -_ neutral=unary:-(name:a)
+=== RUN   TestParts/cel-go/brackets
+    fit_test.go:294: raw=Ident neutral=name:a
+=== RUN   TestParts/cel-go/conditional
+    fit_test.go:294: raw=Call _?_:_ neutral=conditional:?:(name:c name:a name:b)
+=== RUN   TestParts/cel-go/nested_conditional
+    fit_test.go:294: raw=Call _?_:_ neutral=conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+=== RUN   TestParts/cel-go/round
+    fit_test.go:294: raw=Call round neutral=call:round(name:x literal:2)
+=== RUN   TestParts/cel-go/sum
+    fit_test.go:294: raw=Call sum neutral=call:sum(name:x)
+=== RUN   TestParts/cel-go/count
+    fit_test.go:294: raw=Call count neutral=call:count(name:x)
+=== RUN   TestParts/cel-go/avg
+    fit_test.go:294: raw=Call avg neutral=call:avg(name:x)
+=== RUN   TestParts/cel-go/min
+    fit_test.go:294: raw=Call min neutral=call:min(name:x)
+=== RUN   TestParts/cel-go/max
+    fit_test.go:294: raw=Call max neutral=call:max(name:x)
+=== RUN   TestParts/cel-go/to_float
+    fit_test.go:294: raw=Call to_float neutral=call:to_float(name:x)
+=== RUN   TestParts/cel-go/to_decimal
+    fit_test.go:294: raw=Call to_decimal neutral=call:to_decimal(name:x literal:2)
+=== RUN   TestParts/cel-go/days_between
+    fit_test.go:294: raw=Call days_between neutral=call:days_between(name:a name:b)
+=== RUN   TestParts/cel-go/months_between
+    fit_test.go:294: raw=Call months_between neutral=call:months_between(name:a name:b)
+=== RUN   TestParts/cel-go/years_between
+    fit_test.go:294: raw=Call years_between neutral=call:years_between(name:a name:b)
+=== RUN   TestParts/cel-go/versioned_call
+    fit_test.go:294: raw=Call late_days_v1 neutral=call:late_days@1(name:a name:b)
+=== RUN   TestParts/expr-lang/integer
+    fit_test.go:294: raw=IntegerNode neutral=literal:7
+=== RUN   TestParts/expr-lang/decimal
+    fit_test.go:294: raw=CallNode neutral=literal:12.50
+=== RUN   TestParts/expr-lang/float
+    fit_test.go:294: raw=FloatNode neutral=literal:0.75f
+=== RUN   TestParts/expr-lang/text
+    fit_test.go:294: raw=StringNode neutral=literal:"A"
+=== RUN   TestParts/expr-lang/boolean
+    fit_test.go:294: raw=BoolNode neutral=literal:true
+=== RUN   TestParts/expr-lang/name
+    fit_test.go:294: raw=IdentifierNode neutral=name:a
+=== RUN   TestParts/expr-lang/list
+    fit_test.go:294: raw=ArrayNode neutral=list:(literal:1 literal:2 literal:3)
+=== RUN   TestParts/expr-lang/+
+    fit_test.go:294: raw=BinaryNode neutral=binary:+(name:a name:b)
+=== RUN   TestParts/expr-lang/-
+    fit_test.go:294: raw=BinaryNode neutral=binary:-(name:a name:b)
+=== RUN   TestParts/expr-lang/*
+    fit_test.go:294: raw=BinaryNode neutral=binary:*(name:a name:b)
+=== RUN   TestParts/expr-lang//
+    fit_test.go:294: raw=BinaryNode neutral=binary:/(name:a name:b)
+=== RUN   TestParts/expr-lang/%
+    fit_test.go:294: raw=BinaryNode neutral=binary:%(name:a name:b)
+=== RUN   TestParts/expr-lang/>=
+    fit_test.go:294: raw=BinaryNode neutral=binary:>=(name:a name:b)
+=== RUN   TestParts/expr-lang/<=
+    fit_test.go:294: raw=BinaryNode neutral=binary:<=(name:a name:b)
+=== RUN   TestParts/expr-lang/>
+    fit_test.go:294: raw=BinaryNode neutral=binary:>(name:a name:b)
+=== RUN   TestParts/expr-lang/<
+    fit_test.go:294: raw=BinaryNode neutral=binary:<(name:a name:b)
+=== RUN   TestParts/expr-lang/==
+    fit_test.go:294: raw=BinaryNode neutral=binary:==(name:a name:b)
+=== RUN   TestParts/expr-lang/!=
+    fit_test.go:294: raw=BinaryNode neutral=binary:!=(name:a name:b)
+=== RUN   TestParts/expr-lang/&&
+    fit_test.go:294: raw=BinaryNode neutral=binary:&&(name:a name:b)
+=== RUN   TestParts/expr-lang/||
+    fit_test.go:294: raw=BinaryNode neutral=binary:||(name:a name:b)
+=== RUN   TestParts/expr-lang/!
+    fit_test.go:294: raw=UnaryNode neutral=unary:!(name:a)
+=== RUN   TestParts/expr-lang/unary_minus
+    fit_test.go:294: raw=UnaryNode neutral=unary:-(name:a)
+=== RUN   TestParts/expr-lang/brackets
+    fit_test.go:294: raw=IdentifierNode neutral=name:a
+=== RUN   TestParts/expr-lang/conditional
+    fit_test.go:294: raw=ConditionalNode neutral=conditional:?:(name:c name:a name:b)
+=== RUN   TestParts/expr-lang/nested_conditional
+    fit_test.go:294: raw=ConditionalNode neutral=conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+=== RUN   TestParts/expr-lang/round
+    fit_test.go:294: raw=BuiltinNode neutral=call:round(name:x literal:2)
+=== RUN   TestParts/expr-lang/sum
+    fit_test.go:294: raw=BuiltinNode neutral=call:sum(name:x)
+=== RUN   TestParts/expr-lang/count
+    fit_test.go:294: raw=BuiltinNode neutral=call:count(name:x)
+=== RUN   TestParts/expr-lang/avg
+    fit_test.go:294: raw=CallNode neutral=call:avg(name:x)
+=== RUN   TestParts/expr-lang/min
+    fit_test.go:294: raw=BuiltinNode neutral=call:min(name:x)
+=== RUN   TestParts/expr-lang/max
+    fit_test.go:294: raw=BuiltinNode neutral=call:max(name:x)
+=== RUN   TestParts/expr-lang/to_float
+    fit_test.go:294: raw=CallNode neutral=call:to_float(name:x)
+=== RUN   TestParts/expr-lang/to_decimal
+    fit_test.go:294: raw=CallNode neutral=call:to_decimal(name:x literal:2)
+=== RUN   TestParts/expr-lang/days_between
+    fit_test.go:294: raw=CallNode neutral=call:days_between(name:a name:b)
+=== RUN   TestParts/expr-lang/months_between
+    fit_test.go:294: raw=CallNode neutral=call:months_between(name:a name:b)
+=== RUN   TestParts/expr-lang/years_between
+    fit_test.go:294: raw=CallNode neutral=call:years_between(name:a name:b)
+=== RUN   TestParts/expr-lang/versioned_call
+    fit_test.go:294: raw=CallNode neutral=call:late_days@1(name:a name:b)
+=== RUN   TestParts/own/integer
+    fit_test.go:294: raw=IntegerLiteral neutral=literal:7
+=== RUN   TestParts/own/decimal
+    fit_test.go:294: raw=DecimalLiteral neutral=literal:12.50
+=== RUN   TestParts/own/float
+    fit_test.go:294: raw=FloatLiteral neutral=literal:0.75f
+=== RUN   TestParts/own/text
+    fit_test.go:294: raw=TextLiteral neutral=literal:"A"
+=== RUN   TestParts/own/boolean
+    fit_test.go:294: raw=BooleanLiteral neutral=literal:true
+=== RUN   TestParts/own/name
+    fit_test.go:294: raw=Variable neutral=name:a
+=== RUN   TestParts/own/list
+    fit_test.go:294: raw=List neutral=list:(literal:1 literal:2 literal:3)
+=== RUN   TestParts/own/+
+    fit_test.go:294: raw=Binary neutral=binary:+(name:a name:b)
+=== RUN   TestParts/own/-
+    fit_test.go:294: raw=Binary neutral=binary:-(name:a name:b)
+=== RUN   TestParts/own/*
+    fit_test.go:294: raw=Binary neutral=binary:*(name:a name:b)
+=== RUN   TestParts/own//
+    fit_test.go:294: raw=Binary neutral=binary:/(name:a name:b)
+=== RUN   TestParts/own/%
+    fit_test.go:294: raw=Binary neutral=binary:%(name:a name:b)
+=== RUN   TestParts/own/>=
+    fit_test.go:294: raw=Binary neutral=binary:>=(name:a name:b)
+=== RUN   TestParts/own/<=
+    fit_test.go:294: raw=Binary neutral=binary:<=(name:a name:b)
+=== RUN   TestParts/own/>
+    fit_test.go:294: raw=Binary neutral=binary:>(name:a name:b)
+=== RUN   TestParts/own/<
+    fit_test.go:294: raw=Binary neutral=binary:<(name:a name:b)
+=== RUN   TestParts/own/==
+    fit_test.go:294: raw=Binary neutral=binary:==(name:a name:b)
+=== RUN   TestParts/own/!=
+    fit_test.go:294: raw=Binary neutral=binary:!=(name:a name:b)
+=== RUN   TestParts/own/&&
+    fit_test.go:294: raw=Binary neutral=binary:&&(name:a name:b)
+=== RUN   TestParts/own/||
+    fit_test.go:294: raw=Binary neutral=binary:||(name:a name:b)
+=== RUN   TestParts/own/!
+    fit_test.go:294: raw=Unary neutral=unary:!(name:a)
+=== RUN   TestParts/own/unary_minus
+    fit_test.go:294: raw=Unary neutral=unary:-(name:a)
+=== RUN   TestParts/own/brackets
+    fit_test.go:294: raw=Variable neutral=name:a
+=== RUN   TestParts/own/conditional
+    fit_test.go:294: raw=Conditional neutral=conditional:?:(name:c name:a name:b)
+=== RUN   TestParts/own/nested_conditional
+    fit_test.go:294: raw=Conditional neutral=conditional:?:(name:c name:a conditional:?:(name:d name:b name:e))
+=== RUN   TestParts/own/round
+    fit_test.go:294: raw=Call neutral=call:round(name:x literal:2)
+=== RUN   TestParts/own/sum
+    fit_test.go:294: raw=Call neutral=call:sum(name:x)
+=== RUN   TestParts/own/count
+    fit_test.go:294: raw=Call neutral=call:count(name:x)
+=== RUN   TestParts/own/avg
+    fit_test.go:294: raw=Call neutral=call:avg(name:x)
+=== RUN   TestParts/own/min
+    fit_test.go:294: raw=Call neutral=call:min(name:x)
+=== RUN   TestParts/own/max
+    fit_test.go:294: raw=Call neutral=call:max(name:x)
+=== RUN   TestParts/own/to_float
+    fit_test.go:294: raw=Call neutral=call:to_float(name:x)
+=== RUN   TestParts/own/to_decimal
+    fit_test.go:294: raw=Call neutral=call:to_decimal(name:x literal:2)
+=== RUN   TestParts/own/days_between
+    fit_test.go:294: raw=Call neutral=call:days_between(name:a name:b)
+=== RUN   TestParts/own/months_between
+    fit_test.go:294: raw=Call neutral=call:months_between(name:a name:b)
+=== RUN   TestParts/own/years_between
+    fit_test.go:294: raw=Call neutral=call:years_between(name:a name:b)
+=== RUN   TestParts/own/versioned_call
+    fit_test.go:294: raw=Call neutral=call:late_days@1(name:a name:b)
+--- PASS: TestParts (0.00s)
+    --- PASS: TestParts/cel-go/integer (0.00s)
+    --- PASS: TestParts/cel-go/decimal (0.00s)
+    --- PASS: TestParts/cel-go/float (0.00s)
+    --- PASS: TestParts/cel-go/text (0.00s)
+    --- PASS: TestParts/cel-go/boolean (0.00s)
+    --- PASS: TestParts/cel-go/name (0.00s)
+    --- PASS: TestParts/cel-go/list (0.00s)
+    --- PASS: TestParts/cel-go/+ (0.00s)
+    --- PASS: TestParts/cel-go/- (0.00s)
+    --- PASS: TestParts/cel-go/* (0.00s)
+    --- PASS: TestParts/cel-go// (0.00s)
+    --- PASS: TestParts/cel-go/% (0.00s)
+    --- PASS: TestParts/cel-go/>= (0.00s)
+    --- PASS: TestParts/cel-go/<= (0.00s)
+    --- PASS: TestParts/cel-go/> (0.00s)
+    --- PASS: TestParts/cel-go/< (0.00s)
+    --- PASS: TestParts/cel-go/== (0.00s)
+    --- PASS: TestParts/cel-go/!= (0.00s)
+    --- PASS: TestParts/cel-go/&& (0.00s)
+    --- PASS: TestParts/cel-go/|| (0.00s)
+    --- PASS: TestParts/cel-go/! (0.00s)
+    --- PASS: TestParts/cel-go/unary_minus (0.00s)
+    --- PASS: TestParts/cel-go/brackets (0.00s)
+    --- PASS: TestParts/cel-go/conditional (0.00s)
+    --- PASS: TestParts/cel-go/nested_conditional (0.00s)
+    --- PASS: TestParts/cel-go/round (0.00s)
+    --- PASS: TestParts/cel-go/sum (0.00s)
+    --- PASS: TestParts/cel-go/count (0.00s)
+    --- PASS: TestParts/cel-go/avg (0.00s)
+    --- PASS: TestParts/cel-go/min (0.00s)
+    --- PASS: TestParts/cel-go/max (0.00s)
+    --- PASS: TestParts/cel-go/to_float (0.00s)
+    --- PASS: TestParts/cel-go/to_decimal (0.00s)
+    --- PASS: TestParts/cel-go/days_between (0.00s)
+    --- PASS: TestParts/cel-go/months_between (0.00s)
+    --- PASS: TestParts/cel-go/years_between (0.00s)
+    --- PASS: TestParts/cel-go/versioned_call (0.00s)
+    --- PASS: TestParts/expr-lang/integer (0.00s)
+    --- PASS: TestParts/expr-lang/decimal (0.00s)
+    --- PASS: TestParts/expr-lang/float (0.00s)
+    --- PASS: TestParts/expr-lang/text (0.00s)
+    --- PASS: TestParts/expr-lang/boolean (0.00s)
+    --- PASS: TestParts/expr-lang/name (0.00s)
+    --- PASS: TestParts/expr-lang/list (0.00s)
+    --- PASS: TestParts/expr-lang/+ (0.00s)
+    --- PASS: TestParts/expr-lang/- (0.00s)
+    --- PASS: TestParts/expr-lang/* (0.00s)
+    --- PASS: TestParts/expr-lang// (0.00s)
+    --- PASS: TestParts/expr-lang/% (0.00s)
+    --- PASS: TestParts/expr-lang/>= (0.00s)
+    --- PASS: TestParts/expr-lang/<= (0.00s)
+    --- PASS: TestParts/expr-lang/> (0.00s)
+    --- PASS: TestParts/expr-lang/< (0.00s)
+    --- PASS: TestParts/expr-lang/== (0.00s)
+    --- PASS: TestParts/expr-lang/!= (0.00s)
+    --- PASS: TestParts/expr-lang/&& (0.00s)
+    --- PASS: TestParts/expr-lang/|| (0.00s)
+    --- PASS: TestParts/expr-lang/! (0.00s)
+    --- PASS: TestParts/expr-lang/unary_minus (0.00s)
+    --- PASS: TestParts/expr-lang/brackets (0.00s)
+    --- PASS: TestParts/expr-lang/conditional (0.00s)
+    --- PASS: TestParts/expr-lang/nested_conditional (0.00s)
+    --- PASS: TestParts/expr-lang/round (0.00s)
+    --- PASS: TestParts/expr-lang/sum (0.00s)
+    --- PASS: TestParts/expr-lang/count (0.00s)
+    --- PASS: TestParts/expr-lang/avg (0.00s)
+    --- PASS: TestParts/expr-lang/min (0.00s)
+    --- PASS: TestParts/expr-lang/max (0.00s)
+    --- PASS: TestParts/expr-lang/to_float (0.00s)
+    --- PASS: TestParts/expr-lang/to_decimal (0.00s)
+    --- PASS: TestParts/expr-lang/days_between (0.00s)
+    --- PASS: TestParts/expr-lang/months_between (0.00s)
+    --- PASS: TestParts/expr-lang/years_between (0.00s)
+    --- PASS: TestParts/expr-lang/versioned_call (0.00s)
+    --- PASS: TestParts/own/integer (0.00s)
+    --- PASS: TestParts/own/decimal (0.00s)
+    --- PASS: TestParts/own/float (0.00s)
+    --- PASS: TestParts/own/text (0.00s)
+    --- PASS: TestParts/own/boolean (0.00s)
+    --- PASS: TestParts/own/name (0.00s)
+    --- PASS: TestParts/own/list (0.00s)
+    --- PASS: TestParts/own/+ (0.00s)
+    --- PASS: TestParts/own/- (0.00s)
+    --- PASS: TestParts/own/* (0.00s)
+    --- PASS: TestParts/own// (0.00s)
+    --- PASS: TestParts/own/% (0.00s)
+    --- PASS: TestParts/own/>= (0.00s)
+    --- PASS: TestParts/own/<= (0.00s)
+    --- PASS: TestParts/own/> (0.00s)
+    --- PASS: TestParts/own/< (0.00s)
+    --- PASS: TestParts/own/== (0.00s)
+    --- PASS: TestParts/own/!= (0.00s)
+    --- PASS: TestParts/own/&& (0.00s)
+    --- PASS: TestParts/own/|| (0.00s)
+    --- PASS: TestParts/own/! (0.00s)
+    --- PASS: TestParts/own/unary_minus (0.00s)
+    --- PASS: TestParts/own/brackets (0.00s)
+    --- PASS: TestParts/own/conditional (0.00s)
+    --- PASS: TestParts/own/nested_conditional (0.00s)
+    --- PASS: TestParts/own/round (0.00s)
+    --- PASS: TestParts/own/sum (0.00s)
+    --- PASS: TestParts/own/count (0.00s)
+    --- PASS: TestParts/own/avg (0.00s)
+    --- PASS: TestParts/own/min (0.00s)
+    --- PASS: TestParts/own/max (0.00s)
+    --- PASS: TestParts/own/to_float (0.00s)
+    --- PASS: TestParts/own/to_decimal (0.00s)
+    --- PASS: TestParts/own/days_between (0.00s)
+    --- PASS: TestParts/own/months_between (0.00s)
+    --- PASS: TestParts/own/years_between (0.00s)
+    --- PASS: TestParts/own/versioned_call (0.00s)
+=== RUN   TestRawKindsOfTheNineteen
+    fit_test.go:327: cel-go raw node kinds (33): Call !_, Call _!=_, Call _%_, Call _&&_, Call _*_, Call _+_, Call _-_, Call _/_, Call _<=_, Call _<_, Call _==_, Call _>=_, Call _>_, Call _?_:_, Call _||_, Call avg, Call count, Call days_between, Call decimal, Call interest_step_v1, Call late_days_v1, Call max, Call min, Call months_between, Call round, Call sum, Call to_decimal, Call to_float, Call years_between, Ident, List, Literal int, Literal string
+    fit_test.go:327: expr-lang raw node kinds (9): ArrayNode, BinaryNode, BuiltinNode, CallNode, ConditionalNode, IdentifierNode, IntegerNode, StringNode, UnaryNode
+    fit_test.go:327: own raw node kinds (9): Binary, Call, Conditional, DecimalLiteral, IntegerLiteral, List, TextLiteral, Unary, Variable
+--- PASS: TestRawKindsOfTheNineteen (0.00s)
+=== RUN   TestReverseStep
+    fit_test.go:362: cel-go reverse(translate(page text)) exact on 19 of 19; extra probes changed: [2.0f -> 2f]
+    fit_test.go:362: expr-lang reverse(translate(page text)) exact on 19 of 19; extra probes changed: [2f -> 2 2.0f -> 2f]
+--- PASS: TestReverseStep (0.00s)
+=== RUN   TestRespaceKeepsTokens
+--- PASS: TestRespaceKeepsTokens (0.00s)
+PASS
+ok  	github.com/aosanya/mwanachama-backend-compute/spike/fit	0.247s
