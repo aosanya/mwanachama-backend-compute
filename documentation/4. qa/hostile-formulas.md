@@ -49,7 +49,7 @@ Must hold for every input: never panic, always return a plain sentence naming th
 |---|---|---|---|
 | P01 | Random printable text, for example `qz(( ,, 4 4 ;;` | The formula cannot be read: {what is wrong} at line 1, column {m}. | save |
 | P02 | Random bytes, including invalid UTF-8 such as `0xFF 0xFE 0xC0` | The formula cannot be read: text is not valid UTF-8 at line {n}, column {m}. | save |
-| P03 | A NUL byte in the middle of a good formula, `1 + <NUL> 2` | The formula cannot be read: unexpected NUL character at line 1, column 5. | save |
+| P03 | A NUL byte in the middle of a good formula, `1 + <NUL> 2` | The formula cannot be read: unexpected control character at line 1, column 5. | save |
 | P04 | Deeply nested brackets, `((((((...1...))))))` nested past the depth limit | This formula goes over the depth limit of {value}. | save |
 | P05 | Deeply nested brackets that are never closed, `((((((((` repeated | The formula cannot be read: missing closing bracket at line {n}, column {m}. Memory stays within the limits; no stack overflow. | save |
 | P06 | Deeply nested lists, `[[[[[[...]]]]]]` past the depth limit | This formula goes over the depth limit of {value}. | save |
@@ -168,7 +168,7 @@ A batch is a list of rows, each holding a formula and its inputs. Hostile rows m
 - Is a name such as `__proto__` refused when saved, or treated as any other input name?
 - Does a formula over the cost limit reach a run at all? The language page counts cost from the tree before any run, so a run never has a cost problem there, while decision 19 allows a stop at run time. The cases C02, C04, C06 and C13 keep a run row until the owner says which holds.
 
-Settled by the owner's decisions and removed from this list: the time limit does not exist (decision 19), and a refused formula is stored as a draft that cannot be published (decision 12).
+Settled by the owner's decisions and removed from this list: the time limit does not exist (decision 19), a refused formula is stored as a draft that cannot be published (decision 12), and a NUL byte is read as an unexpected control character, because the language page owns the set of words, a NUL is one of the control characters, and Parse is unchanged.
 
 ## Failures found by fuzzing
 

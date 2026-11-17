@@ -34,7 +34,7 @@ var totalInput = []formula.Input{{Name: "total", Type: formula.TypeDecimal}}
 var parserCases = []saveCase{
 	{id: "P01", text: "qz(( ,, 4 4 ;;", code: "bad-syntax", prefix: "The formula cannot be read: "},
 	{id: "P02", text: "1 + \xff\xfe\xc0", code: "bad-syntax", prefix: "The formula cannot be read: text is not valid UTF-8 at line "},
-	{id: "P03", text: "1 + \x00 2", code: "bad-syntax", sentence: cannotBeRead("unexpected NUL character", 1, 5), known: "ISS-75"},
+	{id: "P03", text: "1 + \x00 2", code: "bad-syntax", sentence: cannotBeRead("unexpected control character", 1, 5)},
 	{id: "P04", text: nested(13, "(", ")", "1"), code: "too-deep", sentence: limitSentence("depth", 12)},
 	{id: "P04", text: nested(240, "(", ")", "1"), code: "too-deep", sentence: limitSentence("depth", 12)},
 	{id: "P05", text: strings.Repeat("(", 8) + "1", code: "bad-syntax", sentence: cannotBeRead("missing closing bracket", 1, 10)},
