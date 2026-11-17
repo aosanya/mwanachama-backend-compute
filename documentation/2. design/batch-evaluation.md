@@ -31,7 +31,7 @@ Everything else on this page is a proposal or an open question and says so.
 | Chunk rule | Rows are cut into consecutive chunks of `ChunkSize` rows; one worker takes a whole chunk and works its rows in order | Proposed |
 | Chunk size | Default 100 when 0 is given; allowed 1 to 10,000 and not above the rows-per-call maximum; anything else is refused with `bad-chunk-size` | Proposed |
 | Workers | Default 1 when 0 is given; allowed 1 to 64; anything else is refused with `bad-workers` | Proposed |
-| Rows per call | At most 10,000; more is refused with `too-many-rows` | Provisional: proposed, until the limits are set |
+| Rows per call | At most the agency's own setting (decision 16); more is refused with `too-many-rows`. 10,000 is the proposed default and the figure the tests use | The agency's setting is decided; the default and the ceiling are Provisional |
 | Empty batch | 0 rows gives 0 results, no error, and a summary of zeros | Proposed |
 | Shared inputs | One set of inputs applied to every row; the row's own value wins when a name is in both | Proposed |
 
@@ -109,7 +109,7 @@ Provisional: the host's context cancel or deadline counts as the batch time limi
 
 The batch call itself still returns with no error in both cases. Only a refused call (too many rows, bad chunk size, bad workers) returns an error, and then no row is calculated and nothing partial comes back.
 
-Rows per call: Provisional: at most 10,000. The host splits a larger run into several calls. An empty batch returns 0 results and a summary of zeros.
+Rows per call: at most the agency's setting (decision 16), with 10,000 as the Provisional default. The host splits a larger run into several calls. An empty batch returns 0 results and a summary of zeros.
 
 Law 4 exemption: rows that carry `batch-limit-reached` or `batch-cancelled` are not compared with a single run, because a single run never meets a batch limit. Every other row is compared.
 
@@ -193,7 +193,7 @@ The result of the call goes back to the caller for that call. Whether and how lo
 
 The owner has not decided any of these. Each has a proposed answer.
 
-1. Are the numbers right: 10,000 rows per call, default chunk size 100, default 1 worker, at most 64 workers? Proposed: yes, as a starting point. Provisional: rows per call stays open until the limits are set.
+1. The limit is each agency's own setting (decision 16). Is 10,000 right as the default, and what ceiling may no agency go above? Also: default chunk size 100, default chunk size 100, default 1 worker, at most 64 workers? Proposed: yes, as a starting point. Provisional: rows per call stays open until the limits are set.
 2. [Laws](../4.%20qa/laws.md) uses 1 to 200 rows per batch for the random row generator and says the generator limits must equal the language's limits. Proposed: keep 200 for the random run and add fixed cases at 10,000 rows (accepted) and 10,001 rows (refused with `too-many-rows`).
 3. The hostile page describes a batch as "a list of rows, each holding a formula and its inputs", while this page runs one formula over many rows. Proposed: a row is a row of inputs, and a mix of formulas is several calls.
 4. The hostile page asks whether the time limit applies to each formula or to the whole batch. This page proposes both, as the owner decided.
