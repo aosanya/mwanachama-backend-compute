@@ -30,34 +30,29 @@ func walk(node formula.Node, visit func(formula.Node)) {
 	}
 }
 
-func callsOf(text string) (qualified bool, agencySteps bool) {
+func callsOf(text string) (agencySteps bool) {
 	tree, problems := formula.Parse(text)
 	if len(problems) != 0 {
-		return false, false
+		return false
 	}
 	walk(tree.Root, func(n formula.Node) {
 		call, isCall := n.(formula.Call)
 		if !isCall {
 			return
 		}
-		if call.Library != nil {
-			qualified = true
-		}
 		if call.Library == nil && strings.HasPrefix(call.Name, "step_") {
 			agencySteps = true
 		}
 	})
-	return qualified, agencySteps
+	return agencySteps
 }
 
 func heldReason(c Case) string {
-	qualified, steps := callsOf(c.Formula)
+	steps := callsOf(c.Formula)
 	asksResult := strings.HasPrefix(c.Expect, "result") || c.Expect == "accepted"
 	switch {
 	case strings.HasPrefix(c.Name, "rules-"):
 		return "reads text into values: Validate, ISS-26"
-	case qualified && asksResult:
-		return "calls a library function that is not built: ISS-27"
 	case steps && asksResult:
 		return "Gap 9: step_a to step_e have no definition"
 	}
@@ -125,7 +120,7 @@ func resolve(page Page, examples map[string]Case) Resolution {
 				example.Part = c.Part
 				place(example)
 			case otherPagesMention(c.Name):
-				resolution.Held = append(resolution.Held, Held{Case: c, Reason: "the case is on another QA page and needs the library registry"})
+				resolution.Held = append(resolution.Held, Held{Case: c, Reason: "the case is on another QA page with no row of formula-examples.md to read; the library versioning cases run in library/ (ISS-28)"})
 			default:
 				resolution.NoRowFor = append(resolution.NoRowFor, c.Name)
 			}
